@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Using Confidence Intervals - Computational and Inferential Thinking</title><link rel="shortcut icon" href="../../../_static/logo.png"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Why the Mean Matters" href="../../14/Why_the_Mean_Matters.html" /><link rel="prev" title="Confidence Intervals" href="../3/Confidence_Intervals.html" />
+      <link rel="canonical" href="https://ccsf-math-108.github.io/textbook/chapters/13/4/Using_Confidence_Intervals.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"light");
+  </script><link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/shibuya.css?v=10d1008b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://ccsf-math-108.github.io/textbook/chapters/13/4/Using_Confidence_Intervals.html"/>
+<meta property="og:title" content="Using Confidence Intervals"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../intro.html">
+      <img class="light-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <img class="dark-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <strong>Project name not set</strong>
+    </a>
+    <div class="sy-head-nav" id="HeadNav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="HeadNav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../01/what-is-data-science.html">Data Science</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../01/1/intro.html">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/1/computational-tools.html">Computational Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/2/statistical-techniques.html">Statistical Techniques</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/2/why-data-science.html">Why Data Science?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/3/Plotting_the_Classics.html">Plotting the Classics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/1/Literary_Characters.html">Literary Characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/2/Another_Kind_Of_Character.html">Another Kind of Character</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../02/causality-and-experiments.html">Causality and Experiments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../02/1/observation-and-visualization-john-snow-and-the-broad-street-pump.html">John Snow and the Broad Street Pump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/2/snow-s-grand-experiment.html">Snow’s “Grand Experiment”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/3/establishing-causality.html">Establishing Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/4/randomization.html">Randomization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/5/endnote.html">Endnote</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../03/programming-in-python.html">Programming in Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../03/1/Expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/2/Names.html">Names</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../03/2/1/Growth.html">Example: Growth Rates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/3/Calls.html">Call Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/4/Introduction_to_Tables.html">Introduction to Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../04/Data_Types.html">Data Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../04/1/Numbers.html">Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/2/Strings.html">Strings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../04/2/1/String_Methods.html">String Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/3/Comparison.html">Comparisons</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../05/Sequences.html">Sequences</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../05/1/Arrays.html">Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/2/Ranges.html">Ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/3/More_on_Arrays.html">More on Arrays</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../06/Tables.html">Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../06/1/Sorting_Rows.html">Sorting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/2/Selecting_Rows.html">Selecting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/3/Example_Population_Trends.html">Example: Population Trends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/4/Example_Sex_Ratios.html">Example: Sex Ratios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../07/Visualization.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../07/1/Visualizing_Categorical_Distributions.html">Categorical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/2/Visualizing_Numerical_Distributions.html">Numerical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/3/Overlaid_Graphs.html">Overlaid Graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../08/Functions_and_Tables.html">Functions and Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../08/1/Applying_a_Function_to_a_Column.html">Applying Functions to Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/2/Classifying_by_One_Variable.html">Classifying by One Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/3/Cross-Classifying_by_More_than_One_Variable.html">Cross-Classifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/4/Joining_Tables_by_Columns.html">Joining Tables by Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/5/Bike_Sharing_in_the_Bay_Area.html">Bike Sharing in the Bay Area</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../09/Randomness.html">Randomness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../09/1/Conditional_Statements.html">Conditional Statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/2/Iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/3/Simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/4/Monty_Hall_Problem.html">The Monty Hall Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/5/Finding_Probabilities.html">Finding Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../10/Sampling_and_Empirical_Distributions.html">Sampling and Empirical Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../10/1/Empirical_Distributions.html">Empirical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/2/Sampling_from_a_Population.html">Sampling from a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/3/Empirical_Distribution_of_a_Statistic.html">Empirical Distibution of a Statistic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/4/Random_Sampling_in_Python.html">Random Sampling in Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../11/Testing_Hypotheses.html">Testing Hypotheses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../11/1/Assessing_a_Model.html">Assessing a Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/2/Multiple_Categories.html">Multiple Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/3/Decisions_and_Uncertainty.html">Decisions and Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/4/Error_Probabilities.html">Error Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../12/Comparing_Two_Samples.html">Comparing Two Samples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../12/1/AB_Testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/2/Causality.html">Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/3/Deflategate.html">Deflategate</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Estimation.html">Estimation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../1/Percentiles.html">Percentiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2/Bootstrap.html">The Bootstrap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3/Confidence_Intervals.html">Confidence Intervals</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Using Confidence Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../14/Why_the_Mean_Matters.html">Why the Mean Matters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../14/1/Properties_of_the_Mean.html">Properties of the Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/2/Variability.html">Variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/3/SD_and_the_Normal_Curve.html">The SD and the Normal Curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/4/Central_Limit_Theorem.html">The Central Limit Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/5/Variability_of_the_Sample_Mean.html">The Variability of the Sample Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/6/Choosing_a_Sample_Size.html">Choosing a Sample Size</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../15/Prediction.html">Prediction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../15/1/Correlation.html">Correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/2/Regression_Line.html">The Regression Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/3/Method_of_Least_Squares.html">The Method of Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/4/Least_Squares_Regression.html">Least Squares Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/5/Visual_Diagnostics.html">Visual Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/6/Numerical_Diagnostics.html">Numerical Diagnostics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../16/Inference_for_Regression.html">Inference for Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../16/1/Regression_Model.html">A Regression Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/2/Inference_for_the_True_Slope.html">Inference for the True Slope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/3/Prediction_Intervals.html">Prediction Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../17/Classification.html">Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../17/1/Nearest_Neighbors.html">Nearest Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/2/Training_and_Testing.html">Training and Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/3/Rows_of_Tables.html">Rows of Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/4/Implementing_the_Classifier.html">Implementing the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/5/Accuracy_of_the_Classifier.html">The Accuracy of the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/6/Multiple_Regression.html">Multiple Regression</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../18/Updating_Predictions.html">Updating Predictions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../18/1/More_Likely_than_Not_Binary_Classifier.html">A &quot;More Likely Than Not&quot; Binary Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../18/2/Making_Decisions.html">Making Decisions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#using-a-confidence-interval-to-test-hypotheses">Using a Confidence Interval to Test Hypotheses</a></li>
+<li><a class="reference internal" href="#comparing-baseline-and-post-treatment-scores">Comparing Baseline and Post-Treatment Scores</a></li>
+<li><a class="reference internal" href="#endnote">Endnote</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6"><div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../intro.html"><span itemprop="name">Project name not set</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../Estimation.html"><span itemprop="name">Estimation</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Using Confidence Intervals</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <div class="cell tag_remove-input docutils container">
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="using-confidence-intervals">
+<h1>Using Confidence Intervals<a class="headerlink" href="#using-confidence-intervals" title="Link to this heading">¶</a></h1>
+<p>A confidence interval has a single purpose – to estimate an unknown parameter based on data in a random sample. In the last section, we said that the interval (36%, 42%) was an approximate 95% confidence interval for the percent of smokers among mothers in the population. That was a formal way of saying that by our estimate, the percent of smokers among the mothers in the population was somewhere between 36% and 42%, and that our process of estimation is correct about 95% of the time.</p>
+<p>It is important to resist the impulse to use confidence intervals for other purposes. For example, recall that we calculated the interval (26.9 years, 27.6 years) as an approximate 95% confidence interval for the average age of mothers in the population. A dismayingly common misuse of the interval is to conclude that about 95% of the women were between 26.9 years and 27.6 years old. You don’t need to know much about confidence intervals to see that this can’t be right – you wouldn’t expect 95% of mothers to all be within a few months of each other in age. Indeed, the histogram of the sampled ages shows quite a bit of variation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">births</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">path_data</span> <span class="o">+</span> <span class="s1">&#39;baby.csv&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">births</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Maternal Age&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/bea02413b8cab26cc7bc7d2dd046ae0beb5262f1375a2f6d651d198408a62292.png" src="../../../_images/bea02413b8cab26cc7bc7d2dd046ae0beb5262f1375a2f6d651d198408a62292.png" />
+</div>
+</div>
+<p>A small percent of the sampled ages are in the (26.9, 27.6) interval, and you would expect a similar small percent in the population. The interval just estimates one number: the <em>average</em> of all the ages in the population.</p>
+<p>However, estimating a parameter by confidence intervals does have an important use besides just telling us roughly how big the parameter is.</p>
+<section id="using-a-confidence-interval-to-test-hypotheses">
+<h2>Using a Confidence Interval to Test Hypotheses<a class="headerlink" href="#using-a-confidence-interval-to-test-hypotheses" title="Link to this heading">¶</a></h2>
+<p>Our approximate 95% confidence interval for the average age in the population goes from 26.9 years to 27.6 years. Suppose someone wants to test the following hypotheses:</p>
+<p><strong>Null hypothesis:</strong> The average age in the population is 30 years.</p>
+<p><strong>Alternative hypothesis:</strong> The average age in the population is not 30 years.</p>
+<p>Then, if you were using the 5% cutoff for the p-value, you would reject the null hypothesis. This is because 30 is not in the 95% confidence interval for the population average. At the 5% level of significance, 30 is not a plausible value for the population average.</p>
+<p>This use of confidence intervals is the result of a <em>duality</em> between confidence intervals and tests: if you are testing whether or not the population mean is a particular value <em>x</em>, and you use the 5% cutoff for the p-value, then you will reject the null hypothesis if <em>x</em> is not in your 95% confidence interval for the mean.</p>
+<p>This can be established by statistical theory. In practice, it just boils down to checking whether or not the value specified in the null hypothesis lies in the confidence interval.</p>
+<p>If you were using the 1% cutoff for the P-value, you would have to check if the value specified in the null hypothesis lies in a 99% confidence interval for the population mean.</p>
+<p>To a rough approximation, these statements are also true for population proportions, provided the sample is large.</p>
+<p>While we now have a way of using confidence intervals to test a particular kind of hypothesis, you might wonder about the value of testing whether or not the average age in a population is equal to 30. Indeed, the value isn’t clear. But there are some situations in which a test of this kind of hypothesis is both natural and useful.</p>
+</section>
+<section id="comparing-baseline-and-post-treatment-scores">
+<h2>Comparing Baseline and Post-Treatment Scores<a class="headerlink" href="#comparing-baseline-and-post-treatment-scores" title="Link to this heading">¶</a></h2>
+<p>We will study this in the context of data that are a subset of the information gathered in a randomized controlled trial about treatments for Hodgkin’s disease. Hodgkin’s disease is a cancer that typically affects young people. The disease is curable but the treatment can be very harsh. The purpose of the trial was to come up with dosage that would cure the cancer but minimize the adverse effects on the patients.</p>
+<p>This table <code class="docutils literal notranslate"><span class="pre">hodgkins</span></code> contains data on the effect that the treatment had on the lungs of 22 patients. The columns are:</p>
+<ul class="simple">
+<li><p>Height in cm</p></li>
+<li><p>A measure of radiation to the mantle (neck, chest, under arms)</p></li>
+<li><p>A measure of chemotherapy</p></li>
+<li><p>A score of the health of the lungs at baseline, that is, at the start of the treatment; higher scores correspond to more healthy lungs</p></li>
+<li><p>The same score of the health of the lungs, 15 months after treatment</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">hodgkins</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">path_data</span> <span class="o">+</span> <span class="s1">&#39;hodgkins.csv&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">hodgkins</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>height</th> <th>rad</th> <th>chemo</th> <th>base</th> <th>month15</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>164   </td> <td>679 </td> <td>180  </td> <td>160.57</td> <td>87.77  </td>
+        </tr>
+        <tr>
+            <td>168   </td> <td>311 </td> <td>180  </td> <td>98.24 </td> <td>67.62  </td>
+        </tr>
+        <tr>
+            <td>173   </td> <td>388 </td> <td>239  </td> <td>129.04</td> <td>133.33 </td>
+        </tr>
+    </tbody>
+</table>
+<p>... (19 rows omitted)</p></div></div>
+</div>
+<p>We will compare the baseline and 15-month scores. As each row corresponds to one patient, we say that the sample of baseline scores and the sample of 15-month scores are <em>paired</em> - they are not just two sets of 22 values each, but 22 pairs of values, one for each patient.</p>
+<p>At a glance, you can see that the 15-month scores tend to be lower than the baseline scores – the sampled patients’ lungs seem to be doing worse 15 months after the treatment. This is confirmed by the mostly positive values in the column <code class="docutils literal notranslate"><span class="pre">drop</span></code>, the amount by which the score dropped from baseline to 15 months.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">hodgkins</span> <span class="o">=</span> <span class="n">hodgkins</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+</span><span data-line="2">    <span class="s1">&#39;drop&#39;</span><span class="p">,</span> <span class="n">hodgkins</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">hodgkins</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;month15&#39;</span><span class="p">)</span>
+</span><span data-line="3"><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">hodgkins</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>height</th> <th>rad</th> <th>chemo</th> <th>base</th> <th>month15</th> <th>drop</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>164   </td> <td>679 </td> <td>180  </td> <td>160.57</td> <td>87.77  </td> <td>72.8  </td>
+        </tr>
+        <tr>
+            <td>168   </td> <td>311 </td> <td>180  </td> <td>98.24 </td> <td>67.62  </td> <td>30.62 </td>
+        </tr>
+        <tr>
+            <td>173   </td> <td>388 </td> <td>239  </td> <td>129.04</td> <td>133.33 </td> <td>-4.29 </td>
+        </tr>
+        <tr>
+            <td>157   </td> <td>370 </td> <td>168  </td> <td>85.41 </td> <td>81.28  </td> <td>4.13  </td>
+        </tr>
+        <tr>
+            <td>160   </td> <td>468 </td> <td>151  </td> <td>67.94 </td> <td>79.26  </td> <td>-11.32</td>
+        </tr>
+        <tr>
+            <td>170   </td> <td>341 </td> <td>96   </td> <td>150.51</td> <td>80.97  </td> <td>69.54 </td>
+        </tr>
+        <tr>
+            <td>163   </td> <td>453 </td> <td>134  </td> <td>129.88</td> <td>69.24  </td> <td>60.64 </td>
+        </tr>
+        <tr>
+            <td>175   </td> <td>529 </td> <td>264  </td> <td>87.45 </td> <td>56.48  </td> <td>30.97 </td>
+        </tr>
+        <tr>
+            <td>185   </td> <td>392 </td> <td>240  </td> <td>149.84</td> <td>106.99 </td> <td>42.85 </td>
+        </tr>
+        <tr>
+            <td>178   </td> <td>479 </td> <td>216  </td> <td>92.24 </td> <td>73.43  </td> <td>18.81 </td>
+        </tr>
+    </tbody>
+</table>
+<p>... (12 rows omitted)</p></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">hodgkins</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;drop&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">81</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/6024e2503d345e4cd30ac471c6848ac2697d7e6e91c825d1cd7af87006a62ce1.png" src="../../../_images/6024e2503d345e4cd30ac471c6848ac2697d7e6e91c825d1cd7af87006a62ce1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">hodgkins</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;drop&#39;</span><span class="p">))</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">28.615909090909096
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>In the sample, the average drop is about 28.6. But could this be the result of chance variation? The data are from a random sample. Could it be that in the entire population of patients, the average drop is just 0?</p>
+<p>To answer this, we can set up two hypotheses:</p>
+<p><strong>Null hypothesis:</strong> In the population, the average drop is 0.</p>
+<p><strong>Alternative hypothesis:</strong> In the population, the average drop is not 0.</p>
+<p>To test this hypothesis with a 1% cutoff for the p-value, let’s construct an approximate 99% confidence interval for the average drop in the population.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">one_bootstrap_mean</span><span class="p">():</span>
+</span><span data-line="2">    <span class="n">resample</span> <span class="o">=</span> <span class="n">hodgkins</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+</span><span data-line="3">    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">resample</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;drop&#39;</span><span class="p">))</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Generate 10,000 bootstrap means</span>
+</span><span data-line="2"><span class="n">num_repetitions</span> <span class="o">=</span> <span class="mi">10000</span>
+</span><span data-line="3"><span class="n">bstrap_means</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">()</span>
+</span><span data-line="4"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_repetitions</span><span class="p">):</span>
+</span><span data-line="5">    <span class="n">bstrap_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bstrap_means</span><span class="p">,</span> <span class="n">one_bootstrap_mean</span><span class="p">())</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Get the endpoints of the 99% confidence interval</span>
+</span><span data-line="2"><span class="n">left</span> <span class="o">=</span> <span class="n">percentile</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">bstrap_means</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">right</span> <span class="o">=</span> <span class="n">percentile</span><span class="p">(</span><span class="mf">99.5</span><span class="p">,</span> <span class="n">bstrap_means</span><span class="p">)</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="n">make_array</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">array([17.46863636, 40.97681818])
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">resampled_means</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+</span><span data-line="2">    <span class="s1">&#39;Bootstrap Sample Mean&#39;</span><span class="p">,</span> <span class="n">bstrap_means</span>
+</span><span data-line="3"><span class="p">)</span>
+</span><span data-line="4"><span class="n">resampled_means</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</span><span data-line="5"><span class="n">plots</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">8</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/ac9598483cfd9287348b4753ae280dece8a4d44115aabd7319a675e386173eda.png" src="../../../_images/ac9598483cfd9287348b4753ae280dece8a4d44115aabd7319a675e386173eda.png" />
+</div>
+</div>
+<p>The 99% confidence interval for the average drop in the population goes from about 17 to about 40. The interval doesn’t contain 0. So we reject the null hypothesis.</p>
+<p>But notice that we have done better than simply concluding that the average drop in the population isn’t 0. We have estimated how big the average drop is. That’s a more useful result than just saying, “It’s not 0.”</p>
+<p><strong>A note on accuracy:</strong> Our confidence interval is quite wide, for two main reasons:</p>
+<ul class="simple">
+<li><p>The confidence level is high (99%).</p></li>
+<li><p>The sample size is relatively small compared to those in our earlier examples.</p></li>
+</ul>
+<p>In the next chapter, we will examine how the sample size affects accuracy. We will also examine how the empirical distributions of sample means so often come out bell shaped even though the distributions of the underlying data are not bell shaped at all.</p>
+</section>
+<section id="endnote">
+<h2>Endnote<a class="headerlink" href="#endnote" title="Link to this heading">¶</a></h2>
+<p>The terminology of a field usually comes from the leading researchers in that field. <a class="reference external" href="https://en.wikipedia.org/wiki/Bradley_Efron">Brad Efron</a>, who first proposed the bootstrap technique, used a term that has <a class="reference external" href="https://en.wikipedia.org/wiki/Bootstrapping">American origins</a>. Not to be outdone, Chinese statisticians have <a class="reference external" href="http://econpapers.repec.org/article/eeestapro/v_3a37_3ay_3a1998_3ai_3a4_3ap_3a321-329.htm">proposed their own method</a>.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters/13/4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../3/Confidence_Intervals.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Confidence Intervals</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../../14/Why_the_Mean_Matters.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Why the Mean Matters</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2023</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../_static/shibuya.js?v=55e26b35"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script></body>
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>The Variability of the Sample Mean - Computational and Inferential Thinking</title><link rel="shortcut icon" href="../../../_static/logo.png"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Choosing a Sample Size" href="../6/Choosing_a_Sample_Size.html" /><link rel="prev" title="The Central Limit Theorem" href="../4/Central_Limit_Theorem.html" />
+      <link rel="canonical" href="https://ccsf-math-108.github.io/textbook/chapters/14/5/Variability_of_the_Sample_Mean.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"light");
+  </script><link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/shibuya.css?v=10d1008b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://ccsf-math-108.github.io/textbook/chapters/14/5/Variability_of_the_Sample_Mean.html"/>
+<meta property="og:title" content="The Variability of the Sample Mean"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../intro.html">
+      <img class="light-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <img class="dark-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <strong>Project name not set</strong>
+    </a>
+    <div class="sy-head-nav" id="HeadNav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="HeadNav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../01/what-is-data-science.html">Data Science</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../01/1/intro.html">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/1/computational-tools.html">Computational Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/2/statistical-techniques.html">Statistical Techniques</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/2/why-data-science.html">Why Data Science?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/3/Plotting_the_Classics.html">Plotting the Classics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/1/Literary_Characters.html">Literary Characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/2/Another_Kind_Of_Character.html">Another Kind of Character</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../02/causality-and-experiments.html">Causality and Experiments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../02/1/observation-and-visualization-john-snow-and-the-broad-street-pump.html">John Snow and the Broad Street Pump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/2/snow-s-grand-experiment.html">Snow’s “Grand Experiment”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/3/establishing-causality.html">Establishing Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/4/randomization.html">Randomization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/5/endnote.html">Endnote</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../03/programming-in-python.html">Programming in Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../03/1/Expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/2/Names.html">Names</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../03/2/1/Growth.html">Example: Growth Rates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/3/Calls.html">Call Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/4/Introduction_to_Tables.html">Introduction to Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../04/Data_Types.html">Data Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../04/1/Numbers.html">Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/2/Strings.html">Strings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../04/2/1/String_Methods.html">String Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/3/Comparison.html">Comparisons</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../05/Sequences.html">Sequences</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../05/1/Arrays.html">Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/2/Ranges.html">Ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/3/More_on_Arrays.html">More on Arrays</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../06/Tables.html">Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../06/1/Sorting_Rows.html">Sorting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/2/Selecting_Rows.html">Selecting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/3/Example_Population_Trends.html">Example: Population Trends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/4/Example_Sex_Ratios.html">Example: Sex Ratios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../07/Visualization.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../07/1/Visualizing_Categorical_Distributions.html">Categorical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/2/Visualizing_Numerical_Distributions.html">Numerical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/3/Overlaid_Graphs.html">Overlaid Graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../08/Functions_and_Tables.html">Functions and Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../08/1/Applying_a_Function_to_a_Column.html">Applying Functions to Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/2/Classifying_by_One_Variable.html">Classifying by One Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/3/Cross-Classifying_by_More_than_One_Variable.html">Cross-Classifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/4/Joining_Tables_by_Columns.html">Joining Tables by Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/5/Bike_Sharing_in_the_Bay_Area.html">Bike Sharing in the Bay Area</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../09/Randomness.html">Randomness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../09/1/Conditional_Statements.html">Conditional Statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/2/Iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/3/Simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/4/Monty_Hall_Problem.html">The Monty Hall Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/5/Finding_Probabilities.html">Finding Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../10/Sampling_and_Empirical_Distributions.html">Sampling and Empirical Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../10/1/Empirical_Distributions.html">Empirical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/2/Sampling_from_a_Population.html">Sampling from a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/3/Empirical_Distribution_of_a_Statistic.html">Empirical Distibution of a Statistic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/4/Random_Sampling_in_Python.html">Random Sampling in Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../11/Testing_Hypotheses.html">Testing Hypotheses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../11/1/Assessing_a_Model.html">Assessing a Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/2/Multiple_Categories.html">Multiple Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/3/Decisions_and_Uncertainty.html">Decisions and Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/4/Error_Probabilities.html">Error Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../12/Comparing_Two_Samples.html">Comparing Two Samples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../12/1/AB_Testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/2/Causality.html">Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/3/Deflategate.html">Deflategate</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../13/Estimation.html">Estimation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../13/1/Percentiles.html">Percentiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/2/Bootstrap.html">The Bootstrap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/3/Confidence_Intervals.html">Confidence Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/4/Using_Confidence_Intervals.html">Using Confidence Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Why_the_Mean_Matters.html">Why the Mean Matters</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../1/Properties_of_the_Mean.html">Properties of the Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2/Variability.html">Variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3/SD_and_the_Normal_Curve.html">The SD and the Normal Curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4/Central_Limit_Theorem.html">The Central Limit Theorem</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The Variability of the Sample Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../6/Choosing_a_Sample_Size.html">Choosing a Sample Size</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../15/Prediction.html">Prediction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../15/1/Correlation.html">Correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/2/Regression_Line.html">The Regression Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/3/Method_of_Least_Squares.html">The Method of Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/4/Least_Squares_Regression.html">Least Squares Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/5/Visual_Diagnostics.html">Visual Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/6/Numerical_Diagnostics.html">Numerical Diagnostics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../16/Inference_for_Regression.html">Inference for Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../16/1/Regression_Model.html">A Regression Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/2/Inference_for_the_True_Slope.html">Inference for the True Slope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/3/Prediction_Intervals.html">Prediction Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../17/Classification.html">Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../17/1/Nearest_Neighbors.html">Nearest Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/2/Training_and_Testing.html">Training and Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/3/Rows_of_Tables.html">Rows of Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/4/Implementing_the_Classifier.html">Implementing the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/5/Accuracy_of_the_Classifier.html">The Accuracy of the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/6/Multiple_Regression.html">Multiple Regression</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../18/Updating_Predictions.html">Updating Predictions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../18/1/More_Likely_than_Not_Binary_Classifier.html">A &quot;More Likely Than Not&quot; Binary Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../18/2/Making_Decisions.html">Making Decisions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#the-sd-of-all-the-sample-means">The SD of All the Sample Means</a></li>
+<li><a class="reference internal" href="#the-central-limit-theorem-for-the-sample-mean">The Central Limit Theorem for the Sample Mean</a></li>
+<li><a class="reference internal" href="#the-accuracy-of-the-sample-mean">The Accuracy of the Sample Mean</a></li>
+<li><a class="reference internal" href="#the-square-root-law">The Square Root Law</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6"><div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../intro.html"><span itemprop="name">Project name not set</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../Why_the_Mean_Matters.html"><span itemprop="name">Why the Mean Matters</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">The Variability of the Sample Mean</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <div class="cell tag_remove-input docutils container">
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="the-variability-of-the-sample-mean">
+<h1>The Variability of the Sample Mean<a class="headerlink" href="#the-variability-of-the-sample-mean" title="Link to this heading">¶</a></h1>
+<p>By the Central Limit Theorem, the probability distribution of the mean of a large random sample is roughly normal. The bell curve is centered at the population mean. Some of the sample means are higher, and some lower, but the deviations from the population mean are roughly symmetric on either side, as we have seen repeatedly. Formally, probability theory shows that the sample mean is an <em>unbiased</em> estimate of the population mean.</p>
+<p>In our simulations, we also noticed that the means of larger samples tend to be more tightly clustered around the population mean than means of smaller samples. In this section, we will quantify the variability of the sample mean and develop a relation between the variability and the sample size.</p>
+<p>Let’s start with our table of flight delays. The mean delay is about 16.7 minutes, and the distribution of delays is skewed to the right.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">united</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">path_data</span> <span class="o">+</span> <span class="s1">&#39;united_summer2015.csv&#39;</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">delay</span> <span class="o">=</span> <span class="n">united</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">pop_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">delay</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">))</span>
+</span><span data-line="2"><span class="n">pop_mean</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">16.658155515370705
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../../../_images/d6666a7055b97241dcfa30f9016c86f7a3116e5726275b2ed7786fbc1073387c.png" src="../../../_images/d6666a7055b97241dcfa30f9016c86f7a3116e5726275b2ed7786fbc1073387c.png" />
+</div>
+</div>
+<p>Now let’s take random samples and look at the probability distribution of the sample mean. As usual, we will use simulation to get an empirical approximation to this distribution.</p>
+<p>We will define a function <code class="docutils literal notranslate"><span class="pre">simulate_sample_mean</span></code> to do this, because we are going to vary the sample size later. The arguments are the name of the table, the label of the column containing the variable, the sample size, and the number of simulations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="sd">&quot;&quot;&quot;Empirical distribution of random sample means&quot;&quot;&quot;</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">def</span><span class="w"> </span><span class="nf">simulate_sample_mean</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">):</span>
+</span><span data-line="4">    
+</span><span data-line="5">    <span class="n">means</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">()</span>
+</span><span data-line="6">
+</span><span data-line="7">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">repetitions</span><span class="p">):</span>
+</span><span data-line="8">        <span class="n">new_sample</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+</span><span data-line="9">        <span class="n">new_sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">new_sample</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
+</span><span data-line="10">        <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">new_sample_mean</span><span class="p">)</span>
+</span><span data-line="11">
+</span><span data-line="12">    <span class="n">sample_means</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span><span class="s1">&#39;Sample Means&#39;</span><span class="p">,</span> <span class="n">means</span><span class="p">)</span>
+</span><span data-line="13">    
+</span><span data-line="14">    <span class="c1"># Display empirical histogram and print all relevant quantities</span>
+</span><span data-line="15">    <span class="n">sample_means</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span><span data-line="16">    <span class="n">plots</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Sample Means&#39;</span><span class="p">)</span>
+</span><span data-line="17">    <span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Sample Size &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sample_size</span><span class="p">))</span>
+</span><span data-line="18">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample size: &quot;</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
+</span><span data-line="19">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Population mean:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">label</span><span class="p">)))</span>
+</span><span data-line="20">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average of sample means: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">means</span><span class="p">))</span>
+</span><span data-line="21">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Population SD:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">label</span><span class="p">)))</span>
+</span><span data-line="22">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SD of sample means:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">means</span><span class="p">))</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>Let us simulate the mean of a random sample of 100 delays, then of 400 delays, and finally of 625 delays. We will perform 10,000 repetitions of each of these process. The <code class="docutils literal notranslate"><span class="pre">xlim</span></code> and <code class="docutils literal notranslate"><span class="pre">ylim</span></code> lines set the axes consistently in all the plots for ease of comparison. You can just ignore those two lines of code in each cell.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">simulate_sample_mean</span><span class="p">(</span><span class="n">delay</span><span class="p">,</span> <span class="s1">&#39;Delay&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">plots</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">plots</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">Sample size:  100
+</span><span data-line="2">Population mean: 16.658155515370705
+</span><span data-line="3">Average of sample means:  16.672836
+</span><span data-line="4">Population SD: 39.480199851609314
+</span><span data-line="5">SD of sample means: 3.92467202924066
+</span></pre></div>
+</div>
+<img alt="../../../_images/51b6b28e79f269f89383edc53675528152dce515812fe6d60a89a7a678935118.png" src="../../../_images/51b6b28e79f269f89383edc53675528152dce515812fe6d60a89a7a678935118.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">simulate_sample_mean</span><span class="p">(</span><span class="n">delay</span><span class="p">,</span> <span class="s1">&#39;Delay&#39;</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">plots</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">plots</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">Sample size:  400
+</span><span data-line="2">Population mean: 16.658155515370705
+</span><span data-line="3">Average of sample means:  16.678091499999997
+</span><span data-line="4">Population SD: 39.480199851609314
+</span><span data-line="5">SD of sample means: 1.9474592014668113
+</span></pre></div>
+</div>
+<img alt="../../../_images/0b099b9cd0a4564b5a19f1ce41f94023de48a85f88d2c3fa95a4410e3b1bd8cf.png" src="../../../_images/0b099b9cd0a4564b5a19f1ce41f94023de48a85f88d2c3fa95a4410e3b1bd8cf.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">simulate_sample_mean</span><span class="p">(</span><span class="n">delay</span><span class="p">,</span> <span class="s1">&#39;Delay&#39;</span><span class="p">,</span> <span class="mi">625</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">plots</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">plots</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">Sample size:  625
+</span><span data-line="2">Population mean: 16.658155515370705
+</span><span data-line="3">Average of sample means:  16.649224
+</span><span data-line="4">Population SD: 39.480199851609314
+</span><span data-line="5">SD of sample means: 1.5883338034053167
+</span></pre></div>
+</div>
+<img alt="../../../_images/012e9e5d92f89fe50f351b999d7ad9081e5add470ad3e80b8e5cdf39e56f7089.png" src="../../../_images/012e9e5d92f89fe50f351b999d7ad9081e5add470ad3e80b8e5cdf39e56f7089.png" />
+</div>
+</div>
+<p>You can see the Central Limit Theorem in action – the histograms of the sample means are roughly normal, even though the histogram of the delays themselves is far from normal.</p>
+<p>You can also see that each of the three histograms of the sample means is centered very close to the population mean. In each case, the “average of sample means” is very close to 16.66 minutes, the population mean. Both values are provided in the printout above each histogram. As expected, the sample mean is an unbiased estimate of the population mean.</p>
+<section id="the-sd-of-all-the-sample-means">
+<h2>The SD of All the Sample Means<a class="headerlink" href="#the-sd-of-all-the-sample-means" title="Link to this heading">¶</a></h2>
+<p>You can also see that the histograms get narrower, and hence taller, as the sample size increases. We have seen that before, but now we will pay closer attention to the measure of spread.</p>
+<p>The SD of the population of all delays is about 40 minutes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">pop_sd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">delay</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">))</span>
+</span><span data-line="2"><span class="n">pop_sd</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">39.480199851609314
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>Take a look at the SDs in the sample mean histograms above. In all three of them, the SD of the population of delays is about 40 minutes, because all the samples were taken from the same population.</p>
+<p>Now look at the SD of all 10,000 sample means, when the sample size is 100. That SD is about one-tenth of the population SD. When the sample size is 400, the SD of all the sample means is about one-twentieth of the population SD. When the sample size is 625, the SD of the sample means is about one-twentyfifth of the population SD.</p>
+<p>It seems like a good idea to compare the SD of the empirical distribution of the sample means to the quantity “population SD divided by the square root of the sample size.”</p>
+<p>Here are the numerical values. For each sample size in the first column, 10,000 random samples of that size were drawn, and the 10,000 sample means were calculated. The second column contains the SD of those 10,000 sample means. The third column contains the result of the calculation “population SD divided by the square root of the sample size.”</p>
+<p>The cell takes a while to run, as it’s a large simulation. But you’ll soon see that it’s worth the wait.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">repetitions</span> <span class="o">=</span> <span class="mi">10000</span>
+</span><span data-line="2"><span class="n">sample_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">626</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="n">sd_means</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">()</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sample_sizes</span><span class="p">:</span>
+</span><span data-line="7">    <span class="n">means</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">()</span>
+</span><span data-line="8">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">repetitions</span><span class="p">):</span>
+</span><span data-line="9">        <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">delay</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">)))</span>
+</span><span data-line="10">    <span class="n">sd_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sd_means</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">means</span><span class="p">))</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="n">sd_comparison</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+</span><span data-line="13">    <span class="s1">&#39;Sample Size n&#39;</span><span class="p">,</span> <span class="n">sample_sizes</span><span class="p">,</span>
+</span><span data-line="14">    <span class="s1">&#39;SD of 10,000 Sample Means&#39;</span><span class="p">,</span> <span class="n">sd_means</span><span class="p">,</span>
+</span><span data-line="15">    <span class="s1">&#39;pop_sd/sqrt(n)&#39;</span><span class="p">,</span> <span class="n">pop_sd</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sample_sizes</span><span class="p">)</span>
+</span><span data-line="16"><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">sd_comparison</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Sample Size n</th> <th>SD of 10,000 Sample Means</th> <th>pop_sd/sqrt(n)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>25           </td> <td>7.94482                  </td> <td>7.89604       </td>
+        </tr>
+        <tr>
+            <td>50           </td> <td>5.6131                   </td> <td>5.58334       </td>
+        </tr>
+        <tr>
+            <td>75           </td> <td>4.57417                  </td> <td>4.55878       </td>
+        </tr>
+        <tr>
+            <td>100          </td> <td>3.98687                  </td> <td>3.94802       </td>
+        </tr>
+        <tr>
+            <td>125          </td> <td>3.49769                  </td> <td>3.53122       </td>
+        </tr>
+        <tr>
+            <td>150          </td> <td>3.22776                  </td> <td>3.22354       </td>
+        </tr>
+        <tr>
+            <td>175          </td> <td>3.00675                  </td> <td>2.98442       </td>
+        </tr>
+        <tr>
+            <td>200          </td> <td>2.77764                  </td> <td>2.79167       </td>
+        </tr>
+        <tr>
+            <td>225          </td> <td>2.64268                  </td> <td>2.63201       </td>
+        </tr>
+        <tr>
+            <td>250          </td> <td>2.49447                  </td> <td>2.49695       </td>
+        </tr>
+    </tbody>
+</table>
+<p>... (15 rows omitted)</p></div></div>
+</div>
+<p>The values in the second and third columns are very close. If we plot each of those columns with the sample size on the horizontal axis, the two graphs are essentially indistinguishable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">sd_comparison</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;Sample Size n&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/f14a4d504dbf6c8c965f6f9b2ae37c28f09583a45512e90b92b3568ace0eda6f.png" src="../../../_images/f14a4d504dbf6c8c965f6f9b2ae37c28f09583a45512e90b92b3568ace0eda6f.png" />
+</div>
+</div>
+<p>There really are two curves there. But they are so close to each other that it looks as though there is just one.</p>
+<p>What we are seeing is an instance of a general result. Remember that the graph above is based on 10,000 replications for each sample size. But there are many more than 10,000 samples of each size. The probability distribution of the sample mean is based on the means of <em>all possible samples</em> of a fixed size.</p>
+<p><strong>Fix a sample size.</strong> If the samples are drawn at random with replacement from the population, then</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[
+{\mbox{SD of all possible sample means}} ~=~
+\frac{\mbox{Population SD}}{\sqrt{\mbox{sample size}}}
+\]</div>
+</div>
+<p>This is the standard deviation of the averages of all the possible samples that could be drawn. <strong>It measures roughly how far off the sample means are from the population mean.</strong></p>
+</section>
+<section id="the-central-limit-theorem-for-the-sample-mean">
+<h2>The Central Limit Theorem for the Sample Mean<a class="headerlink" href="#the-central-limit-theorem-for-the-sample-mean" title="Link to this heading">¶</a></h2>
+<p>If you draw a large random sample with replacement from a population, then, regardless of the distribution of the population, the probability distribution of the sample mean is roughly normal, centered at the population mean, with an SD equal to the population SD divided by the square root of the sample size.</p>
+</section>
+<section id="the-accuracy-of-the-sample-mean">
+<h2>The Accuracy of the Sample Mean<a class="headerlink" href="#the-accuracy-of-the-sample-mean" title="Link to this heading">¶</a></h2>
+<p>The SD of all possible sample means measures how variable the sample mean can be. As such, it is taken as a measure of the accuracy of the sample mean as an estimate of the population mean. The smaller the SD, the more accurate the estimate.</p>
+<p>The formula shows that:</p>
+<ul class="simple">
+<li><p>The population size doesn’t affect the accuracy of the sample mean. The population size doesn’t appear anywhere in the formula.</p></li>
+<li><p>The population SD is a constant; it’s the same for every sample drawn from the population. The sample size can be varied. Because the sample size appears in the denominator, the variability of the sample mean <em>decreases</em> as the sample size increases, and hence the accuracy increases.</p></li>
+</ul>
+</section>
+<section id="the-square-root-law">
+<h2>The Square Root Law<a class="headerlink" href="#the-square-root-law" title="Link to this heading">¶</a></h2>
+<p>From the table of SD comparisons, you can see that the SD of the means of random samples of 25 flight delays is about 8 minutes. If you multiply the sample size by 4, you’ll get samples of size 100. The SD of the means of all of those samples is about 4 minutes. That’s smaller than 8 minutes, but it’s not 4 times as small; it’s only 2 times as small. That’s because the sample size in the denominator has a square root over it. The sample size increased by a factor of 4, but the SD went down by a factor of <span class="math notranslate nohighlight">\(2 = \sqrt{4}\)</span>. In other words, the accuracy went up by a factor of <span class="math notranslate nohighlight">\(2 = \sqrt{4}\)</span>.</p>
+<p>In general, when you multiply the sample size by a factor, the accuracy of the sample mean goes up by the square root of that factor.</p>
+<p>So to increase accuracy by a factor of 10, you have to multiply sample size by a factor of 100. Accuracy doesn’t come cheap!</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters/14/5"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../4/Central_Limit_Theorem.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">The Central Limit Theorem</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../6/Choosing_a_Sample_Size.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Choosing a Sample Size</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2023</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../_static/shibuya.js?v=55e26b35"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></body>
+</html>

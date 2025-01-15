@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Classifying by One Variable - Computational and Inferential Thinking</title><link rel="shortcut icon" href="../../../_static/logo.png"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Cross-Classifying by More than One Variable" href="../3/Cross-Classifying_by_More_than_One_Variable.html" /><link rel="prev" title="Applying a Function to a Column" href="../1/Applying_a_Function_to_a_Column.html" />
+      <link rel="canonical" href="https://ccsf-math-108.github.io/textbook/chapters/08/2/Classifying_by_One_Variable.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"light");
+  </script><link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/shibuya.css?v=10d1008b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://ccsf-math-108.github.io/textbook/chapters/08/2/Classifying_by_One_Variable.html"/>
+<meta property="og:title" content="Classifying by One Variable"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../intro.html">
+      <img class="light-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <img class="dark-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <strong>Project name not set</strong>
+    </a>
+    <div class="sy-head-nav" id="HeadNav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="HeadNav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../01/what-is-data-science.html">Data Science</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../01/1/intro.html">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/1/computational-tools.html">Computational Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/2/statistical-techniques.html">Statistical Techniques</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/2/why-data-science.html">Why Data Science?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/3/Plotting_the_Classics.html">Plotting the Classics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/1/Literary_Characters.html">Literary Characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/2/Another_Kind_Of_Character.html">Another Kind of Character</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../02/causality-and-experiments.html">Causality and Experiments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../02/1/observation-and-visualization-john-snow-and-the-broad-street-pump.html">John Snow and the Broad Street Pump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/2/snow-s-grand-experiment.html">Snow’s “Grand Experiment”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/3/establishing-causality.html">Establishing Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/4/randomization.html">Randomization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/5/endnote.html">Endnote</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../03/programming-in-python.html">Programming in Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../03/1/Expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/2/Names.html">Names</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../03/2/1/Growth.html">Example: Growth Rates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/3/Calls.html">Call Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/4/Introduction_to_Tables.html">Introduction to Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../04/Data_Types.html">Data Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../04/1/Numbers.html">Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/2/Strings.html">Strings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../04/2/1/String_Methods.html">String Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/3/Comparison.html">Comparisons</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../05/Sequences.html">Sequences</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../05/1/Arrays.html">Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/2/Ranges.html">Ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/3/More_on_Arrays.html">More on Arrays</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../06/Tables.html">Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../06/1/Sorting_Rows.html">Sorting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/2/Selecting_Rows.html">Selecting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/3/Example_Population_Trends.html">Example: Population Trends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/4/Example_Sex_Ratios.html">Example: Sex Ratios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../07/Visualization.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../07/1/Visualizing_Categorical_Distributions.html">Categorical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/2/Visualizing_Numerical_Distributions.html">Numerical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/3/Overlaid_Graphs.html">Overlaid Graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Functions_and_Tables.html">Functions and Tables</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../1/Applying_a_Function_to_a_Column.html">Applying Functions to Columns</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Classifying by One Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3/Cross-Classifying_by_More_than_One_Variable.html">Cross-Classifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4/Joining_Tables_by_Columns.html">Joining Tables by Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5/Bike_Sharing_in_the_Bay_Area.html">Bike Sharing in the Bay Area</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../09/Randomness.html">Randomness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../09/1/Conditional_Statements.html">Conditional Statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/2/Iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/3/Simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/4/Monty_Hall_Problem.html">The Monty Hall Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/5/Finding_Probabilities.html">Finding Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../10/Sampling_and_Empirical_Distributions.html">Sampling and Empirical Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../10/1/Empirical_Distributions.html">Empirical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/2/Sampling_from_a_Population.html">Sampling from a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/3/Empirical_Distribution_of_a_Statistic.html">Empirical Distibution of a Statistic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/4/Random_Sampling_in_Python.html">Random Sampling in Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../11/Testing_Hypotheses.html">Testing Hypotheses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../11/1/Assessing_a_Model.html">Assessing a Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/2/Multiple_Categories.html">Multiple Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/3/Decisions_and_Uncertainty.html">Decisions and Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/4/Error_Probabilities.html">Error Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../12/Comparing_Two_Samples.html">Comparing Two Samples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../12/1/AB_Testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/2/Causality.html">Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/3/Deflategate.html">Deflategate</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../13/Estimation.html">Estimation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../13/1/Percentiles.html">Percentiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/2/Bootstrap.html">The Bootstrap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/3/Confidence_Intervals.html">Confidence Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/4/Using_Confidence_Intervals.html">Using Confidence Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../14/Why_the_Mean_Matters.html">Why the Mean Matters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../14/1/Properties_of_the_Mean.html">Properties of the Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/2/Variability.html">Variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/3/SD_and_the_Normal_Curve.html">The SD and the Normal Curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/4/Central_Limit_Theorem.html">The Central Limit Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/5/Variability_of_the_Sample_Mean.html">The Variability of the Sample Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/6/Choosing_a_Sample_Size.html">Choosing a Sample Size</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../15/Prediction.html">Prediction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../15/1/Correlation.html">Correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/2/Regression_Line.html">The Regression Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/3/Method_of_Least_Squares.html">The Method of Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/4/Least_Squares_Regression.html">Least Squares Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/5/Visual_Diagnostics.html">Visual Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/6/Numerical_Diagnostics.html">Numerical Diagnostics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../16/Inference_for_Regression.html">Inference for Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../16/1/Regression_Model.html">A Regression Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/2/Inference_for_the_True_Slope.html">Inference for the True Slope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/3/Prediction_Intervals.html">Prediction Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../17/Classification.html">Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../17/1/Nearest_Neighbors.html">Nearest Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/2/Training_and_Testing.html">Training and Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/3/Rows_of_Tables.html">Rows of Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/4/Implementing_the_Classifier.html">Implementing the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/5/Accuracy_of_the_Classifier.html">The Accuracy of the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/6/Multiple_Regression.html">Multiple Regression</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../18/Updating_Predictions.html">Updating Predictions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../18/1/More_Likely_than_Not_Binary_Classifier.html">A &quot;More Likely Than Not&quot; Binary Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../18/2/Making_Decisions.html">Making Decisions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#counting-the-number-in-each-category">Counting the Number in Each Category</a></li>
+<li><a class="reference internal" href="#finding-a-characteristic-of-each-category">Finding a Characteristic of Each Category</a></li>
+<li><a class="reference internal" href="#example-nba-salaries">Example: NBA Salaries</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6"><div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../intro.html"><span itemprop="name">Project name not set</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../Functions_and_Tables.html"><span itemprop="name">Functions and Tables</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Classifying by One Variable</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <div class="cell tag_remove-input docutils container">
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="classifying-by-one-variable">
+<h1>Classifying by One Variable<a class="headerlink" href="#classifying-by-one-variable" title="Link to this heading">¶</a></h1>
+<p>Data scientists often need to classify individuals into groups according to shared features, and then identify some characteristics of the groups. For example, in the example using Galton’s data on heights, we saw that it was useful to classify families according to the parents’ midparent heights, and then find the average height of the children in each group.</p>
+<p>This section is about classifying individuals into categories that are not numerical. We begin by recalling the basic use of <code class="docutils literal notranslate"><span class="pre">group</span></code>.</p>
+<section id="counting-the-number-in-each-category">
+<h2>Counting the Number in Each Category<a class="headerlink" href="#counting-the-number-in-each-category" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">group</span></code> method with a single argument counts the number of rows for each category in a column. The result contains one row per unique value in the grouped column.</p>
+<p>Here is a small table of data on ice cream cones. The <code class="docutils literal notranslate"><span class="pre">group</span></code> method can be used to list the distinct flavors and provide the counts of each flavor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">cones</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+</span><span data-line="2">    <span class="s1">&#39;Flavor&#39;</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="s1">&#39;strawberry&#39;</span><span class="p">,</span> <span class="s1">&#39;chocolate&#39;</span><span class="p">,</span> <span class="s1">&#39;chocolate&#39;</span><span class="p">,</span> <span class="s1">&#39;strawberry&#39;</span><span class="p">,</span> <span class="s1">&#39;chocolate&#39;</span><span class="p">),</span>
+</span><span data-line="3">    <span class="s1">&#39;Price&#39;</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="mf">3.55</span><span class="p">,</span> <span class="mf">4.75</span><span class="p">,</span> <span class="mf">6.55</span><span class="p">,</span> <span class="mf">5.25</span><span class="p">,</span> <span class="mf">5.25</span><span class="p">)</span>
+</span><span data-line="4"><span class="p">)</span>
+</span><span data-line="5"><span class="n">cones</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Flavor</th> <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>strawberry</td> <td>3.55 </td>
+        </tr>
+        <tr>
+            <td>chocolate </td> <td>4.75 </td>
+        </tr>
+        <tr>
+            <td>chocolate </td> <td>6.55 </td>
+        </tr>
+        <tr>
+            <td>strawberry</td> <td>5.25 </td>
+        </tr>
+        <tr>
+            <td>chocolate </td> <td>5.25 </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">cones</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;Flavor&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Flavor</th> <th>count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>chocolate </td> <td>3    </td>
+        </tr>
+        <tr>
+            <td>strawberry</td> <td>2    </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>There are two distinct categories, chocolate and strawberry. The call to <code class="docutils literal notranslate"><span class="pre">group</span></code> creates a table of counts in each category. The column is called <code class="docutils literal notranslate"><span class="pre">count</span></code> by default, and contains the number of rows in each category.</p>
+<p>Notice that this can all be worked out from just the <code class="docutils literal notranslate"><span class="pre">Flavor</span></code> column. The <code class="docutils literal notranslate"><span class="pre">Price</span></code> column has not been used.</p>
+<p>But what if we wanted the total price of the cones of each different flavor? That’s where the second argument of <code class="docutils literal notranslate"><span class="pre">group</span></code> comes in.</p>
+</section>
+<section id="finding-a-characteristic-of-each-category">
+<h2>Finding a Characteristic of Each Category<a class="headerlink" href="#finding-a-characteristic-of-each-category" title="Link to this heading">¶</a></h2>
+<p>The optional second argument of <code class="docutils literal notranslate"><span class="pre">group</span></code> names the function that will be used to aggregate values in other columns for all of those rows. For instance, <code class="docutils literal notranslate"><span class="pre">sum</span></code> will sum up the prices in all rows that match each category. This result also contains one row per unique value in the grouped column, but it has the same number of columns as the original table.</p>
+<p>To find the total price of each flavor, we call <code class="docutils literal notranslate"><span class="pre">group</span></code> again, with <code class="docutils literal notranslate"><span class="pre">Flavor</span></code> as its first argument as before. But this time there is a second argument: the function name <code class="docutils literal notranslate"><span class="pre">sum</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">cones</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;Flavor&#39;</span><span class="p">,</span> <span class="nb">sum</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Flavor</th> <th>Price sum</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>chocolate </td> <td>16.55    </td>
+        </tr>
+        <tr>
+            <td>strawberry</td> <td>8.8      </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>To create this new table, <code class="docutils literal notranslate"><span class="pre">group</span></code> has calculated the sum of the <code class="docutils literal notranslate"><span class="pre">Price</span></code> entries in all the rows corresponding to each distinct flavor. The prices in the three <code class="docutils literal notranslate"><span class="pre">chocolate</span></code> rows add up to <span class="math notranslate nohighlight">\(\$16.55\)</span> (you can assume that price is being measured in dollars). The prices in the two <code class="docutils literal notranslate"><span class="pre">strawberry</span></code> rows have a total of <span class="math notranslate nohighlight">\(\$8.80\)</span>.</p>
+<p>The label of the newly created “sum” column is <code class="docutils literal notranslate"><span class="pre">Price</span> <span class="pre">sum</span></code>, which is created by taking the label of the column being summed, and appending the word <code class="docutils literal notranslate"><span class="pre">sum</span></code>.</p>
+<p>Because <code class="docutils literal notranslate"><span class="pre">group</span></code> finds the <code class="docutils literal notranslate"><span class="pre">sum</span></code> of all columns other than the one with the categories, there is no need to specify that it has to <code class="docutils literal notranslate"><span class="pre">sum</span></code> the prices.</p>
+<p>To see in more detail what <code class="docutils literal notranslate"><span class="pre">group</span></code> is doing, notice that you could have figured out the total prices yourself, not only by mental arithmetic but also using code. For example, to find the total price of all the chocolate cones, you could start by creating a new table consisting of only the chocolate cones, and then accessing the column of prices:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">cones</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;Flavor&#39;</span><span class="p">,</span> <span class="n">are</span><span class="o">.</span><span class="n">equal_to</span><span class="p">(</span><span class="s1">&#39;chocolate&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Price&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">array([4.75, 6.55, 5.25])
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">sum</span><span class="p">(</span><span class="n">cones</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;Flavor&#39;</span><span class="p">,</span> <span class="n">are</span><span class="o">.</span><span class="n">equal_to</span><span class="p">(</span><span class="s1">&#39;chocolate&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Price&#39;</span><span class="p">))</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">16.55
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>This is what <code class="docutils literal notranslate"><span class="pre">group</span></code> is doing for each distinct value in <code class="docutils literal notranslate"><span class="pre">Flavor</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># For each distinct value in `Flavor, access all the rows</span>
+</span><span data-line="2"><span class="c1"># and create an array of `Price`</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="n">cones_choc</span> <span class="o">=</span> <span class="n">cones</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;Flavor&#39;</span><span class="p">,</span> <span class="n">are</span><span class="o">.</span><span class="n">equal_to</span><span class="p">(</span><span class="s1">&#39;chocolate&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Price&#39;</span><span class="p">)</span>
+</span><span data-line="5"><span class="n">cones_strawb</span> <span class="o">=</span> <span class="n">cones</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;Flavor&#39;</span><span class="p">,</span> <span class="n">are</span><span class="o">.</span><span class="n">equal_to</span><span class="p">(</span><span class="s1">&#39;strawberry&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Price&#39;</span><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Display the arrays in a table</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="n">grouped_cones</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+</span><span data-line="10">    <span class="s1">&#39;Flavor&#39;</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="s1">&#39;chocolate&#39;</span><span class="p">,</span> <span class="s1">&#39;strawberry&#39;</span><span class="p">),</span>
+</span><span data-line="11">    <span class="s1">&#39;Array of All the Prices&#39;</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="n">cones_choc</span><span class="p">,</span> <span class="n">cones_strawb</span><span class="p">)</span>
+</span><span data-line="12"><span class="p">)</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="c1"># Append a column with the sum of the `Price` values in each array</span>
+</span><span data-line="15">
+</span><span data-line="16"><span class="n">price_totals</span> <span class="o">=</span> <span class="n">grouped_cones</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+</span><span data-line="17">    <span class="s1">&#39;Sum of the Array&#39;</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">cones_choc</span><span class="p">),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">cones_strawb</span><span class="p">))</span>
+</span><span data-line="18"><span class="p">)</span>
+</span><span data-line="19"><span class="n">price_totals</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Flavor</th> <th>Array of All the Prices</th> <th>Sum of the Array</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>chocolate </td> <td>[4.75 6.55 5.25]       </td> <td>16.55           </td>
+        </tr>
+        <tr>
+            <td>strawberry</td> <td>[3.55 5.25]            </td> <td>8.8             </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>You can replace <code class="docutils literal notranslate"><span class="pre">sum</span></code> by any other functions that work on arrays. For example, you could use <code class="docutils literal notranslate"><span class="pre">max</span></code> to find the largest price in each category:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">cones</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;Flavor&#39;</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Flavor</th> <th>Price max</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>chocolate </td> <td>6.55     </td>
+        </tr>
+        <tr>
+            <td>strawberry</td> <td>5.25     </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>Once again, <code class="docutils literal notranslate"><span class="pre">group</span></code> creates arrays of the prices in each <code class="docutils literal notranslate"><span class="pre">Flavor</span></code> category. But now it finds the <code class="docutils literal notranslate"><span class="pre">max</span></code> of each array:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">price_maxes</span> <span class="o">=</span> <span class="n">grouped_cones</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+</span><span data-line="2">    <span class="s1">&#39;Max of the Array&#39;</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">cones_choc</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">cones_strawb</span><span class="p">))</span>
+</span><span data-line="3"><span class="p">)</span>
+</span><span data-line="4"><span class="n">price_maxes</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Flavor</th> <th>Array of All the Prices</th> <th>Max of the Array</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>chocolate </td> <td>[4.75 6.55 5.25]       </td> <td>6.55            </td>
+        </tr>
+        <tr>
+            <td>strawberry</td> <td>[3.55 5.25]            </td> <td>5.25            </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>Indeed, the original call to <code class="docutils literal notranslate"><span class="pre">group</span></code> with just one argument has the same effect as using <code class="docutils literal notranslate"><span class="pre">len</span></code> as the function and then cleaning up the table.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">lengths</span> <span class="o">=</span> <span class="n">grouped_cones</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+</span><span data-line="2">    <span class="s1">&#39;Length of the Array&#39;</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cones_choc</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">cones_strawb</span><span class="p">))</span>
+</span><span data-line="3"><span class="p">)</span>
+</span><span data-line="4"><span class="n">lengths</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Flavor</th> <th>Array of All the Prices</th> <th>Length of the Array</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>chocolate </td> <td>[4.75 6.55 5.25]       </td> <td>3                  </td>
+        </tr>
+        <tr>
+            <td>strawberry</td> <td>[3.55 5.25]            </td> <td>2                  </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="example-nba-salaries">
+<h2>Example: NBA Salaries<a class="headerlink" href="#example-nba-salaries" title="Link to this heading">¶</a></h2>
+<p>The table <code class="docutils literal notranslate"><span class="pre">nba</span></code> contains data on the 2015-2016 players in the National Basketball Association. We have examined these data earlier. Recall that salaries are measured in millions of dollars.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">nba1</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">path_data</span> <span class="o">+</span> <span class="s1">&#39;nba_salaries.csv&#39;</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">nba</span> <span class="o">=</span> <span class="n">nba1</span><span class="o">.</span><span class="n">relabeled</span><span class="p">(</span><span class="s2">&quot;&#39;15-&#39;16 SALARY&quot;</span><span class="p">,</span> <span class="s1">&#39;SALARY&#39;</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">nba</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>PLAYER</th> <th>POSITION</th> <th>TEAM</th> <th>SALARY</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Paul Millsap    </td> <td>PF      </td> <td>Atlanta Hawks</td> <td>18.6717</td>
+        </tr>
+        <tr>
+            <td>Al Horford      </td> <td>C       </td> <td>Atlanta Hawks</td> <td>12     </td>
+        </tr>
+        <tr>
+            <td>Tiago Splitter  </td> <td>C       </td> <td>Atlanta Hawks</td> <td>9.75625</td>
+        </tr>
+        <tr>
+            <td>Jeff Teague     </td> <td>PG      </td> <td>Atlanta Hawks</td> <td>8      </td>
+        </tr>
+        <tr>
+            <td>Kyle Korver     </td> <td>SG      </td> <td>Atlanta Hawks</td> <td>5.74648</td>
+        </tr>
+        <tr>
+            <td>Thabo Sefolosha </td> <td>SF      </td> <td>Atlanta Hawks</td> <td>4      </td>
+        </tr>
+        <tr>
+            <td>Mike Scott      </td> <td>PF      </td> <td>Atlanta Hawks</td> <td>3.33333</td>
+        </tr>
+        <tr>
+            <td>Kent Bazemore   </td> <td>SF      </td> <td>Atlanta Hawks</td> <td>2      </td>
+        </tr>
+        <tr>
+            <td>Dennis Schroder </td> <td>PG      </td> <td>Atlanta Hawks</td> <td>1.7634 </td>
+        </tr>
+        <tr>
+            <td>Tim Hardaway Jr.</td> <td>SG      </td> <td>Atlanta Hawks</td> <td>1.30452</td>
+        </tr>
+    </tbody>
+</table>
+<p>... (407 rows omitted)</p></div></div>
+</div>
+<p><strong>1.</strong> How much money did each team pay for its players’ salaries?</p>
+<p>The only columns involved are <code class="docutils literal notranslate"><span class="pre">TEAM</span></code> and <code class="docutils literal notranslate"><span class="pre">SALARY</span></code>. We have to <code class="docutils literal notranslate"><span class="pre">group</span></code> the rows by <code class="docutils literal notranslate"><span class="pre">TEAM</span></code> and then <code class="docutils literal notranslate"><span class="pre">sum</span></code> the salaries of the groups.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">teams_and_money</span> <span class="o">=</span> <span class="n">nba</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;TEAM&#39;</span><span class="p">,</span> <span class="s1">&#39;SALARY&#39;</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">teams_and_money</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;TEAM&#39;</span><span class="p">,</span> <span class="nb">sum</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>TEAM</th> <th>SALARY sum</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Atlanta Hawks        </td> <td>69.5731   </td>
+        </tr>
+        <tr>
+            <td>Boston Celtics       </td> <td>50.2855   </td>
+        </tr>
+        <tr>
+            <td>Brooklyn Nets        </td> <td>57.307    </td>
+        </tr>
+        <tr>
+            <td>Charlotte Hornets    </td> <td>84.1024   </td>
+        </tr>
+        <tr>
+            <td>Chicago Bulls        </td> <td>78.8209   </td>
+        </tr>
+        <tr>
+            <td>Cleveland Cavaliers  </td> <td>102.312   </td>
+        </tr>
+        <tr>
+            <td>Dallas Mavericks     </td> <td>65.7626   </td>
+        </tr>
+        <tr>
+            <td>Denver Nuggets       </td> <td>62.4294   </td>
+        </tr>
+        <tr>
+            <td>Detroit Pistons      </td> <td>42.2118   </td>
+        </tr>
+        <tr>
+            <td>Golden State Warriors</td> <td>94.0851   </td>
+        </tr>
+    </tbody>
+</table>
+<p>... (20 rows omitted)</p></div></div>
+</div>
+<p><strong>2.</strong> How many NBA players were there in each of the five positions?</p>
+<p>We have to classify by <code class="docutils literal notranslate"><span class="pre">POSITION</span></code>, and count. This can be done with just one argument to group:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">nba</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;POSITION&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>POSITION</th> <th>count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>C       </td> <td>69   </td>
+        </tr>
+        <tr>
+            <td>PF      </td> <td>85   </td>
+        </tr>
+        <tr>
+            <td>PG      </td> <td>85   </td>
+        </tr>
+        <tr>
+            <td>SF      </td> <td>82   </td>
+        </tr>
+        <tr>
+            <td>SG      </td> <td>96   </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p><strong>3.</strong> What was the average salary of the players at each of the five positions?</p>
+<p>This time, we have to group by <code class="docutils literal notranslate"><span class="pre">POSITION</span></code> and take the mean of the salaries. For clarity, we will work with a table of just the positions and the salaries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">positions_and_money</span> <span class="o">=</span> <span class="n">nba</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;POSITION&#39;</span><span class="p">,</span> <span class="s1">&#39;SALARY&#39;</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">positions_and_money</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;POSITION&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>POSITION</th> <th>SALARY mean</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>C       </td> <td>6.08291    </td>
+        </tr>
+        <tr>
+            <td>PF      </td> <td>4.95134    </td>
+        </tr>
+        <tr>
+            <td>PG      </td> <td>5.16549    </td>
+        </tr>
+        <tr>
+            <td>SF      </td> <td>5.53267    </td>
+        </tr>
+        <tr>
+            <td>SG      </td> <td>3.9882     </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>Center was the most highly paid position, at an average of over 6 million dollars.</p>
+<p>If we had not selected the two columns as our first step, <code class="docutils literal notranslate"><span class="pre">group</span></code> would not attempt to “average” the categorical columns in <code class="docutils literal notranslate"><span class="pre">nba</span></code>. (It is impossible to average two strings like “Atlanta Hawks” and “Boston Celtics”.) It performs arithmetic only on numerical columns and leaves the rest blank.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">nba</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;POSITION&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>POSITION</th> <th>PLAYER mean</th> <th>TEAM mean</th> <th>SALARY mean</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>C       </td> <td>           </td> <td>         </td> <td>6.08291    </td>
+        </tr>
+        <tr>
+            <td>PF      </td> <td>           </td> <td>         </td> <td>4.95134    </td>
+        </tr>
+        <tr>
+            <td>PG      </td> <td>           </td> <td>         </td> <td>5.16549    </td>
+        </tr>
+        <tr>
+            <td>SF      </td> <td>           </td> <td>         </td> <td>5.53267    </td>
+        </tr>
+        <tr>
+            <td>SG      </td> <td>           </td> <td>         </td> <td>3.9882     </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters/08/2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../1/Applying_a_Function_to_a_Column.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Applying a Function to a Column</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../3/Cross-Classifying_by_More_than_One_Variable.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Cross-Classifying by More than One Variable</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2023</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../_static/shibuya.js?v=55e26b35"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></body>
+</html>

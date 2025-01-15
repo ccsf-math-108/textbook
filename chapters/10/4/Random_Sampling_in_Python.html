@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Random Sampling in Python - Computational and Inferential Thinking</title><link rel="shortcut icon" href="../../../_static/logo.png"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Testing Hypotheses" href="../../11/Testing_Hypotheses.html" /><link rel="prev" title="Empirical Distribution of a Statistic" href="../3/Empirical_Distribution_of_a_Statistic.html" />
+      <link rel="canonical" href="https://ccsf-math-108.github.io/textbook/chapters/10/4/Random_Sampling_in_Python.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"light");
+  </script><link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/shibuya.css?v=10d1008b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://ccsf-math-108.github.io/textbook/chapters/10/4/Random_Sampling_in_Python.html"/>
+<meta property="og:title" content="Random Sampling in Python"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../intro.html">
+      <img class="light-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <img class="dark-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <strong>Project name not set</strong>
+    </a>
+    <div class="sy-head-nav" id="HeadNav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="HeadNav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../01/what-is-data-science.html">Data Science</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../01/1/intro.html">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/1/computational-tools.html">Computational Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/2/statistical-techniques.html">Statistical Techniques</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/2/why-data-science.html">Why Data Science?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/3/Plotting_the_Classics.html">Plotting the Classics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/1/Literary_Characters.html">Literary Characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/2/Another_Kind_Of_Character.html">Another Kind of Character</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../02/causality-and-experiments.html">Causality and Experiments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../02/1/observation-and-visualization-john-snow-and-the-broad-street-pump.html">John Snow and the Broad Street Pump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/2/snow-s-grand-experiment.html">Snow’s “Grand Experiment”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/3/establishing-causality.html">Establishing Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/4/randomization.html">Randomization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/5/endnote.html">Endnote</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../03/programming-in-python.html">Programming in Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../03/1/Expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/2/Names.html">Names</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../03/2/1/Growth.html">Example: Growth Rates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/3/Calls.html">Call Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/4/Introduction_to_Tables.html">Introduction to Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../04/Data_Types.html">Data Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../04/1/Numbers.html">Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/2/Strings.html">Strings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../04/2/1/String_Methods.html">String Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/3/Comparison.html">Comparisons</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../05/Sequences.html">Sequences</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../05/1/Arrays.html">Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/2/Ranges.html">Ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/3/More_on_Arrays.html">More on Arrays</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../06/Tables.html">Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../06/1/Sorting_Rows.html">Sorting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/2/Selecting_Rows.html">Selecting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/3/Example_Population_Trends.html">Example: Population Trends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/4/Example_Sex_Ratios.html">Example: Sex Ratios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../07/Visualization.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../07/1/Visualizing_Categorical_Distributions.html">Categorical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/2/Visualizing_Numerical_Distributions.html">Numerical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/3/Overlaid_Graphs.html">Overlaid Graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../08/Functions_and_Tables.html">Functions and Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../08/1/Applying_a_Function_to_a_Column.html">Applying Functions to Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/2/Classifying_by_One_Variable.html">Classifying by One Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/3/Cross-Classifying_by_More_than_One_Variable.html">Cross-Classifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/4/Joining_Tables_by_Columns.html">Joining Tables by Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/5/Bike_Sharing_in_the_Bay_Area.html">Bike Sharing in the Bay Area</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../09/Randomness.html">Randomness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../09/1/Conditional_Statements.html">Conditional Statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/2/Iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/3/Simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/4/Monty_Hall_Problem.html">The Monty Hall Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/5/Finding_Probabilities.html">Finding Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Sampling_and_Empirical_Distributions.html">Sampling and Empirical Distributions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../1/Empirical_Distributions.html">Empirical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2/Sampling_from_a_Population.html">Sampling from a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3/Empirical_Distribution_of_a_Statistic.html">Empirical Distibution of a Statistic</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Random Sampling in Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../11/Testing_Hypotheses.html">Testing Hypotheses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../11/1/Assessing_a_Model.html">Assessing a Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/2/Multiple_Categories.html">Multiple Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/3/Decisions_and_Uncertainty.html">Decisions and Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/4/Error_Probabilities.html">Error Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../12/Comparing_Two_Samples.html">Comparing Two Samples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../12/1/AB_Testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/2/Causality.html">Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/3/Deflategate.html">Deflategate</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../13/Estimation.html">Estimation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../13/1/Percentiles.html">Percentiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/2/Bootstrap.html">The Bootstrap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/3/Confidence_Intervals.html">Confidence Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/4/Using_Confidence_Intervals.html">Using Confidence Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../14/Why_the_Mean_Matters.html">Why the Mean Matters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../14/1/Properties_of_the_Mean.html">Properties of the Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/2/Variability.html">Variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/3/SD_and_the_Normal_Curve.html">The SD and the Normal Curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/4/Central_Limit_Theorem.html">The Central Limit Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/5/Variability_of_the_Sample_Mean.html">The Variability of the Sample Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/6/Choosing_a_Sample_Size.html">Choosing a Sample Size</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../15/Prediction.html">Prediction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../15/1/Correlation.html">Correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/2/Regression_Line.html">The Regression Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/3/Method_of_Least_Squares.html">The Method of Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/4/Least_Squares_Regression.html">Least Squares Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/5/Visual_Diagnostics.html">Visual Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/6/Numerical_Diagnostics.html">Numerical Diagnostics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../16/Inference_for_Regression.html">Inference for Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../16/1/Regression_Model.html">A Regression Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/2/Inference_for_the_True_Slope.html">Inference for the True Slope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/3/Prediction_Intervals.html">Prediction Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../17/Classification.html">Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../17/1/Nearest_Neighbors.html">Nearest Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/2/Training_and_Testing.html">Training and Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/3/Rows_of_Tables.html">Rows of Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/4/Implementing_the_Classifier.html">Implementing the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/5/Accuracy_of_the_Classifier.html">The Accuracy of the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/6/Multiple_Regression.html">Multiple Regression</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../18/Updating_Predictions.html">Updating Predictions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../18/1/More_Likely_than_Not_Binary_Classifier.html">A &quot;More Likely Than Not&quot; Binary Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../18/2/Making_Decisions.html">Making Decisions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#review-sampling-from-a-population-in-a-table">Review: Sampling from a Population in a Table</a></li>
+<li><a class="reference internal" href="#review-sampling-from-a-population-in-an-array">Review: Sampling from a Population in an Array</a></li>
+<li><a class="reference internal" href="#sampling-from-a-categorical-distribution">Sampling from a Categorical Distribution</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6"><div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../intro.html"><span itemprop="name">Project name not set</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../Sampling_and_Empirical_Distributions.html"><span itemprop="name">Sampling and Empirical Distributions</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Random Sampling in Python</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <div class="cell tag_remove-input docutils container">
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="random-sampling-in-python">
+<h1>Random Sampling in Python<a class="headerlink" href="#random-sampling-in-python" title="Link to this heading">¶</a></h1>
+<p>This section summarizes the ways you have learned to sample at random using Python, and introduces a new way.</p>
+<section id="review-sampling-from-a-population-in-a-table">
+<h2>Review: Sampling from a Population in a Table<a class="headerlink" href="#review-sampling-from-a-population-in-a-table" title="Link to this heading">¶</a></h2>
+<p>If you are sampling from a population of individuals whose data are represented in the rows of a table, then you can use the Table method <code class="docutils literal notranslate"><span class="pre">sample</span></code> to <a class="reference external" href="https://inferentialthinking.com/chapters/10/1/Empirical_Distributions.html#id1">randomly select rows</a> of the table. That is, you can use <code class="docutils literal notranslate"><span class="pre">sample</span></code> to select a random sample of individuals.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">sample</span></code> draws uniformly at random with replacement. This is a natural model for chance experiments such as rolling a die.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">faces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">die</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="s1">&#39;Face&#39;</span><span class="p">,</span> <span class="n">faces</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">die</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Face</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1   </td>
+        </tr>
+        <tr>
+            <td>2   </td>
+        </tr>
+        <tr>
+            <td>3   </td>
+        </tr>
+        <tr>
+            <td>4   </td>
+        </tr>
+        <tr>
+            <td>5   </td>
+        </tr>
+        <tr>
+            <td>6   </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>Run the cell below to simulate 7 rolls of a die.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">die</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Face</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>5   </td>
+        </tr>
+        <tr>
+            <td>3   </td>
+        </tr>
+        <tr>
+            <td>3   </td>
+        </tr>
+        <tr>
+            <td>5   </td>
+        </tr>
+        <tr>
+            <td>5   </td>
+        </tr>
+        <tr>
+            <td>1   </td>
+        </tr>
+        <tr>
+            <td>6   </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>Sometimes it is more natural to sample individuals at random without replacement. This is called a simple random sample. The argument <code class="docutils literal notranslate"><span class="pre">with_replacement=False</span></code> allows you to do this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">actors</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">path_data</span> <span class="o">+</span> <span class="s1">&#39;actors.csv&#39;</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">actors</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Actor</th> <th>Total Gross</th> <th>Number of Movies</th> <th>Average per Movie</th> <th>#1 Movie</th> <th>Gross</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Harrison Ford     </td> <td>4871.7     </td> <td>41              </td> <td>118.8            </td> <td>Star Wars: The Force Awakens</td> <td>936.7</td>
+        </tr>
+        <tr>
+            <td>Samuel L. Jackson </td> <td>4772.8     </td> <td>69              </td> <td>69.2             </td> <td>The Avengers                </td> <td>623.4</td>
+        </tr>
+        <tr>
+            <td>Morgan Freeman    </td> <td>4468.3     </td> <td>61              </td> <td>73.3             </td> <td>The Dark Knight             </td> <td>534.9</td>
+        </tr>
+        <tr>
+            <td>Tom Hanks         </td> <td>4340.8     </td> <td>44              </td> <td>98.7             </td> <td>Toy Story 3                 </td> <td>415  </td>
+        </tr>
+        <tr>
+            <td>Robert Downey, Jr.</td> <td>3947.3     </td> <td>53              </td> <td>74.5             </td> <td>The Avengers                </td> <td>623.4</td>
+        </tr>
+        <tr>
+            <td>Eddie Murphy      </td> <td>3810.4     </td> <td>38              </td> <td>100.3            </td> <td>Shrek 2                     </td> <td>441.2</td>
+        </tr>
+        <tr>
+            <td>Tom Cruise        </td> <td>3587.2     </td> <td>36              </td> <td>99.6             </td> <td>War of the Worlds           </td> <td>234.3</td>
+        </tr>
+        <tr>
+            <td>Johnny Depp       </td> <td>3368.6     </td> <td>45              </td> <td>74.9             </td> <td>Dead Man's Chest            </td> <td>423.3</td>
+        </tr>
+        <tr>
+            <td>Michael Caine     </td> <td>3351.5     </td> <td>58              </td> <td>57.8             </td> <td>The Dark Knight             </td> <td>534.9</td>
+        </tr>
+        <tr>
+            <td>Scarlett Johansson</td> <td>3341.2     </td> <td>37              </td> <td>90.3             </td> <td>The Avengers                </td> <td>623.4</td>
+        </tr>
+    </tbody>
+</table>
+<p>... (40 rows omitted)</p></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Simple random sample of 5 rows</span>
+</span><span data-line="2"><span class="n">actors</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">with_replacement</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Actor</th> <th>Total Gross</th> <th>Number of Movies</th> <th>Average per Movie</th> <th>#1 Movie</th> <th>Gross</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Morgan Freeman   </td> <td>4468.3     </td> <td>61              </td> <td>73.3             </td> <td>The Dark Knight </td> <td>534.9</td>
+        </tr>
+        <tr>
+            <td>Orlando Bloom    </td> <td>2815.8     </td> <td>17              </td> <td>165.6            </td> <td>Dead Man's Chest</td> <td>423.3</td>
+        </tr>
+        <tr>
+            <td>Cameron Diaz     </td> <td>3031.7     </td> <td>34              </td> <td>89.2             </td> <td>Shrek 2         </td> <td>441.2</td>
+        </tr>
+        <tr>
+            <td>Michael Caine    </td> <td>3351.5     </td> <td>58              </td> <td>57.8             </td> <td>The Dark Knight </td> <td>534.9</td>
+        </tr>
+        <tr>
+            <td>Leonardo DiCaprio</td> <td>2518.3     </td> <td>25              </td> <td>100.7            </td> <td>Titanic         </td> <td>658.7</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>Since <code class="docutils literal notranslate"><span class="pre">sample</span></code> gives you the entire sample in the order in which the rows were selected, you can use Table methods on the sampled table to answer many questions about the sample. For example, you can find the number of times the die showed six spots, or the average number of movies in which the sampled actors appeared, or whether one two specified actors appeared in the sample. You might need multiple lines of code to get some of this information.</p>
+</section>
+<section id="review-sampling-from-a-population-in-an-array">
+<h2>Review: Sampling from a Population in an Array<a class="headerlink" href="#review-sampling-from-a-population-in-an-array" title="Link to this heading">¶</a></h2>
+<p>If you are sampling from a population of individuals whose data are represented as an array, you can use the NumPy function <code class="docutils literal notranslate"><span class="pre">np.random.choice</span></code> to <a class="reference external" href="https://inferentialthinking.com/chapters/09/3/Simulation.html#example-number-of-heads-in-100-tosses">randomly select elements of the array</a>.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">np.random.choice</span></code> samples at random with replacement.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># The faces of a die, as an array</span>
+</span><span data-line="2"><span class="n">faces</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">array([1, 2, 3, 4, 5, 6])
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># 7 rolls of the die</span>
+</span><span data-line="2"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">faces</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">array([4, 1, 6, 3, 5, 4, 6])
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>The argument <code class="docutils literal notranslate"><span class="pre">replace=False</span></code> allows you to get a simple random sample, that is, a sample drawn at random without replacement.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Array of actor names</span>
+</span><span data-line="2"><span class="n">actor_names</span> <span class="o">=</span> <span class="n">actors</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Actor&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Simple random sample of 5 actor names</span>
+</span><span data-line="2"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">actor_names</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">array([&#39;Jonah Hill&#39;, &#39;Julia Roberts&#39;, &#39;Bruce Willis&#39;, &#39;Eddie Murphy&#39;,
+</span><span data-line="2">       &#39;Matt Damon&#39;], dtype=&#39;&lt;U22&#39;)
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>Just as <code class="docutils literal notranslate"><span class="pre">sample</span></code> did, so also <code class="docutils literal notranslate"><span class="pre">np.random.choice</span></code> gives you the entire sequence of sampled elements. You can use array operations to answer many questions about the sample. For example, you can find which actor was the second one to be drawn, or the number of faces of the die that appeared more than once. Some answers might need multiple lines of code.</p>
+</section>
+<section id="sampling-from-a-categorical-distribution">
+<h2>Sampling from a Categorical Distribution<a class="headerlink" href="#sampling-from-a-categorical-distribution" title="Link to this heading">¶</a></h2>
+<p>Sometimes we are interested in a categorical attribute of our sampled individuals. For example, we might be looking at whether a coin lands Heads or Tails. Or we might be interested in the political parties of randomly selected voters.</p>
+<p>In such cases, we frequently need the proportions of sampled voters in the different categories. If we have the entire sample, we can calculate these proportions. The function <code class="docutils literal notranslate"><span class="pre">sample_proportions</span></code> in the <code class="docutils literal notranslate"><span class="pre">datascience</span></code> library does that work for us. It is tailored for sampling at random with replacement from a categorical distribution and returns the proportions of sampled elements in each category.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">sample_proportions</span></code> function takes two arguments:</p>
+<ul class="simple">
+<li><p>the sample size</p></li>
+<li><p>the distribution of the categories in the population, as a list or array of proportions that add up to 1</p></li>
+</ul>
+<p>It returns an array containing the distribution of the categories in a random sample of the given size taken from the population. That’s an array consisting of the sample proportions in all the different categories, in the same order in which they appeared in the population distribution.</p>
+<p>For example, suppose each plant of a species is red-flowering with chance 25%, pink-flowering with chance 50%, and white-flowering with chance 25%, regardless of the flower colors of all other plants. You can use <code class="docutils literal notranslate"><span class="pre">sample_proportions</span></code> to see the proportions of the different colors among 300 plants of the species.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Species distribution of flower colors:</span>
+</span><span data-line="2"><span class="c1"># Proportions are in the order Red, Pink, White</span>
+</span><span data-line="3"><span class="n">species_proportions</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">.25</span><span class="p">]</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="n">sample_size</span> <span class="o">=</span> <span class="mi">300</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Distribution of sample</span>
+</span><span data-line="8"><span class="n">sample_distribution</span> <span class="o">=</span> <span class="n">sample_proportions</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">species_proportions</span><span class="p">)</span>
+</span><span data-line="9"><span class="n">sample_distribution</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">array([0.24333333, 0.50333333, 0.25333333])
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>As you expect, the proportions in the sample sum to 1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">sum</span><span class="p">(</span><span class="n">sample_distribution</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">1.0
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>The categories in <code class="docutils literal notranslate"><span class="pre">species_proportions</span></code> are in the order Red, Pink, White. That order is preserved by <code class="docutils literal notranslate"><span class="pre">sample_proportions</span></code>. If you just want the proportion of pink-flowering plants in the sample, you can use <code class="docutils literal notranslate"><span class="pre">item</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Sample proportion of Heads</span>
+</span><span data-line="2"><span class="n">sample_distribution</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">0.5033333333333333
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">sample_proportions</span></code> and array operations to answer questions based only on the proportions of sampled individuals in the different categories. You will not be able to answer questions that require more detailed information about the sample, such as which of the sampled plants had each of the different colors.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters/10/4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../3/Empirical_Distribution_of_a_Statistic.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Empirical Distribution of a Statistic</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../../11/Testing_Hypotheses.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Testing Hypotheses</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2023</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../_static/shibuya.js?v=55e26b35"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script></body>
+</html>

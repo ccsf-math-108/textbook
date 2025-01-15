@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Visual Diagnostics - Computational and Inferential Thinking</title><link rel="shortcut icon" href="../../../_static/logo.png"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Numerical Diagnostics" href="../6/Numerical_Diagnostics.html" /><link rel="prev" title="Least Squares Regression" href="../4/Least_Squares_Regression.html" />
+      <link rel="canonical" href="https://ccsf-math-108.github.io/textbook/chapters/15/5/Visual_Diagnostics.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"light");
+  </script><link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/shibuya.css?v=10d1008b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://ccsf-math-108.github.io/textbook/chapters/15/5/Visual_Diagnostics.html"/>
+<meta property="og:title" content="Visual Diagnostics"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../intro.html">
+      <img class="light-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <img class="dark-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <strong>Project name not set</strong>
+    </a>
+    <div class="sy-head-nav" id="HeadNav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="HeadNav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../01/what-is-data-science.html">Data Science</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../01/1/intro.html">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/1/computational-tools.html">Computational Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/2/statistical-techniques.html">Statistical Techniques</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/2/why-data-science.html">Why Data Science?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/3/Plotting_the_Classics.html">Plotting the Classics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/1/Literary_Characters.html">Literary Characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/2/Another_Kind_Of_Character.html">Another Kind of Character</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../02/causality-and-experiments.html">Causality and Experiments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../02/1/observation-and-visualization-john-snow-and-the-broad-street-pump.html">John Snow and the Broad Street Pump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/2/snow-s-grand-experiment.html">Snow’s “Grand Experiment”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/3/establishing-causality.html">Establishing Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/4/randomization.html">Randomization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/5/endnote.html">Endnote</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../03/programming-in-python.html">Programming in Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../03/1/Expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/2/Names.html">Names</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../03/2/1/Growth.html">Example: Growth Rates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/3/Calls.html">Call Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/4/Introduction_to_Tables.html">Introduction to Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../04/Data_Types.html">Data Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../04/1/Numbers.html">Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/2/Strings.html">Strings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../04/2/1/String_Methods.html">String Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/3/Comparison.html">Comparisons</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../05/Sequences.html">Sequences</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../05/1/Arrays.html">Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/2/Ranges.html">Ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/3/More_on_Arrays.html">More on Arrays</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../06/Tables.html">Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../06/1/Sorting_Rows.html">Sorting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/2/Selecting_Rows.html">Selecting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/3/Example_Population_Trends.html">Example: Population Trends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/4/Example_Sex_Ratios.html">Example: Sex Ratios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../07/Visualization.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../07/1/Visualizing_Categorical_Distributions.html">Categorical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/2/Visualizing_Numerical_Distributions.html">Numerical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/3/Overlaid_Graphs.html">Overlaid Graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../08/Functions_and_Tables.html">Functions and Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../08/1/Applying_a_Function_to_a_Column.html">Applying Functions to Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/2/Classifying_by_One_Variable.html">Classifying by One Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/3/Cross-Classifying_by_More_than_One_Variable.html">Cross-Classifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/4/Joining_Tables_by_Columns.html">Joining Tables by Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/5/Bike_Sharing_in_the_Bay_Area.html">Bike Sharing in the Bay Area</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../09/Randomness.html">Randomness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../09/1/Conditional_Statements.html">Conditional Statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/2/Iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/3/Simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/4/Monty_Hall_Problem.html">The Monty Hall Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/5/Finding_Probabilities.html">Finding Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../10/Sampling_and_Empirical_Distributions.html">Sampling and Empirical Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../10/1/Empirical_Distributions.html">Empirical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/2/Sampling_from_a_Population.html">Sampling from a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/3/Empirical_Distribution_of_a_Statistic.html">Empirical Distibution of a Statistic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/4/Random_Sampling_in_Python.html">Random Sampling in Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../11/Testing_Hypotheses.html">Testing Hypotheses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../11/1/Assessing_a_Model.html">Assessing a Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/2/Multiple_Categories.html">Multiple Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/3/Decisions_and_Uncertainty.html">Decisions and Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/4/Error_Probabilities.html">Error Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../12/Comparing_Two_Samples.html">Comparing Two Samples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../12/1/AB_Testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/2/Causality.html">Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/3/Deflategate.html">Deflategate</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../13/Estimation.html">Estimation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../13/1/Percentiles.html">Percentiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/2/Bootstrap.html">The Bootstrap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/3/Confidence_Intervals.html">Confidence Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/4/Using_Confidence_Intervals.html">Using Confidence Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../14/Why_the_Mean_Matters.html">Why the Mean Matters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../14/1/Properties_of_the_Mean.html">Properties of the Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/2/Variability.html">Variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/3/SD_and_the_Normal_Curve.html">The SD and the Normal Curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/4/Central_Limit_Theorem.html">The Central Limit Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/5/Variability_of_the_Sample_Mean.html">The Variability of the Sample Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/6/Choosing_a_Sample_Size.html">Choosing a Sample Size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Prediction.html">Prediction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../1/Correlation.html">Correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2/Regression_Line.html">The Regression Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3/Method_of_Least_Squares.html">The Method of Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4/Least_Squares_Regression.html">Least Squares Regression</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Visual Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../6/Numerical_Diagnostics.html">Numerical Diagnostics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../16/Inference_for_Regression.html">Inference for Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../16/1/Regression_Model.html">A Regression Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/2/Inference_for_the_True_Slope.html">Inference for the True Slope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/3/Prediction_Intervals.html">Prediction Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../17/Classification.html">Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../17/1/Nearest_Neighbors.html">Nearest Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/2/Training_and_Testing.html">Training and Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/3/Rows_of_Tables.html">Rows of Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/4/Implementing_the_Classifier.html">Implementing the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/5/Accuracy_of_the_Classifier.html">The Accuracy of the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/6/Multiple_Regression.html">Multiple Regression</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../18/Updating_Predictions.html">Updating Predictions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../18/1/More_Likely_than_Not_Binary_Classifier.html">A &quot;More Likely Than Not&quot; Binary Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../18/2/Making_Decisions.html">Making Decisions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#regression-diagnostics">Regression Diagnostics</a></li>
+<li><a class="reference internal" href="#detecting-nonlinearity">Detecting Nonlinearity</a></li>
+<li><a class="reference internal" href="#detecting-heteroscedasticity">Detecting Heteroscedasticity</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6"><div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../intro.html"><span itemprop="name">Project name not set</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../Prediction.html"><span itemprop="name">Prediction</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Visual Diagnostics</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <div class="cell tag_remove-input docutils container">
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="visual-diagnostics">
+<h1>Visual Diagnostics<a class="headerlink" href="#visual-diagnostics" title="Link to this heading">¶</a></h1>
+<p>Suppose a data scientist has decided to use linear regression to estimate values of one variable (called the response variable) based on another variable (called the predictor). To see how well this method of estimation performs, the data scientist must measure how far off the estimates are from the actual values. These differences are called <em>residuals</em>.</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[
+\mbox{residual} ~=~ \mbox{observed value} ~-~ \mbox{regression estimate}
+\]</div>
+</div>
+<p>A residual is what’s left over – the residue – after estimation.</p>
+<p>Residuals are the vertical distances of the points from the regression line. There is one residual for each point in the scatter plot. The residual is the difference between the observed value of <span class="math notranslate nohighlight">\(y\)</span> and the fitted value of <span class="math notranslate nohighlight">\(y\)</span>, so for the point <span class="math notranslate nohighlight">\((x, y)\)</span>,</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[
+\mbox{residual} ~~ = ~~ y ~-~
+\mbox{fitted value of }y
+~~ = ~~ y ~-~
+\mbox{height of regression line at }x
+\]</div>
+</div>
+<p>The function <code class="docutils literal notranslate"><span class="pre">residual</span></code> calculates the residuals. The calculation assumes all the relevant functions we have already defined: <code class="docutils literal notranslate"><span class="pre">standard_units</span></code>, <code class="docutils literal notranslate"><span class="pre">correlation</span></code>, <code class="docutils literal notranslate"><span class="pre">slope</span></code>, <code class="docutils literal notranslate"><span class="pre">intercept</span></code>, and <code class="docutils literal notranslate"><span class="pre">fit</span></code>.</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">residual</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span><span data-line="2">    <span class="k">return</span> <span class="n">table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">fit</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>Continuing our example of estimating the heights of adult children (the response) based on the midparent height (the predictor), let us calculate the fitted values and the residuals.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">heights</span> <span class="o">=</span> <span class="n">heights</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+</span><span data-line="2">        <span class="s1">&#39;Fitted Value&#39;</span><span class="p">,</span> <span class="n">fit</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="s1">&#39;MidParent&#39;</span><span class="p">,</span> <span class="s1">&#39;Child&#39;</span><span class="p">),</span>
+</span><span data-line="3">        <span class="s1">&#39;Residual&#39;</span><span class="p">,</span> <span class="n">residual</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="s1">&#39;MidParent&#39;</span><span class="p">,</span> <span class="s1">&#39;Child&#39;</span><span class="p">)</span>
+</span><span data-line="4">    <span class="p">)</span>
+</span><span data-line="5"><span class="n">heights</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>MidParent</th> <th>Child</th> <th>Fitted Value</th> <th>Residual</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>75.43    </td> <td>73.2 </td> <td>70.7124     </td> <td>2.48763  </td>
+        </tr>
+        <tr>
+            <td>75.43    </td> <td>69.2 </td> <td>70.7124     </td> <td>-1.51237 </td>
+        </tr>
+        <tr>
+            <td>75.43    </td> <td>69   </td> <td>70.7124     </td> <td>-1.71237 </td>
+        </tr>
+        <tr>
+            <td>75.43    </td> <td>69   </td> <td>70.7124     </td> <td>-1.71237 </td>
+        </tr>
+        <tr>
+            <td>73.66    </td> <td>73.5 </td> <td>69.5842     </td> <td>3.91576  </td>
+        </tr>
+        <tr>
+            <td>73.66    </td> <td>72.5 </td> <td>69.5842     </td> <td>2.91576  </td>
+        </tr>
+        <tr>
+            <td>73.66    </td> <td>65.5 </td> <td>69.5842     </td> <td>-4.08424 </td>
+        </tr>
+        <tr>
+            <td>73.66    </td> <td>65.5 </td> <td>69.5842     </td> <td>-4.08424 </td>
+        </tr>
+        <tr>
+            <td>72.06    </td> <td>71   </td> <td>68.5645     </td> <td>2.43553  </td>
+        </tr>
+        <tr>
+            <td>72.06    </td> <td>68   </td> <td>68.5645     </td> <td>-0.564467</td>
+        </tr>
+    </tbody>
+</table>
+<p>... (924 rows omitted)</p></div></div>
+</div>
+<p>When there are so many variables to work with, it is always helpful to start with visualization. The function <code class="docutils literal notranslate"><span class="pre">scatter_fit</span></code> draws the scatter plot of the data, as well as the regression line.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">scatter_fit</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span><span data-line="2">    <span class="n">table</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span><span data-line="3">    <span class="n">plots</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">fit</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gold&#39;</span><span class="p">)</span>
+</span><span data-line="4">    <span class="n">plots</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span data-line="5">    <span class="n">plots</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">scatter_fit</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="s1">&#39;MidParent&#39;</span><span class="p">,</span> <span class="s1">&#39;Child&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/9aa77fc7aae5a5f1e7941b65d7a86f1150050b48d641a76622d3be7623d5426b.png" src="../../../_images/9aa77fc7aae5a5f1e7941b65d7a86f1150050b48d641a76622d3be7623d5426b.png" />
+</div>
+</div>
+<p>A <em>residual plot</em> can be drawn by plotting the residuals against the predictor variable. The function <code class="docutils literal notranslate"><span class="pre">residual_plot</span></code> does just that.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">residual_plot</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span><span data-line="2">    <span class="n">x_array</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span data-line="3">    <span class="n">t</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+</span><span data-line="4">            <span class="n">x</span><span class="p">,</span> <span class="n">x_array</span><span class="p">,</span>
+</span><span data-line="5">            <span class="s1">&#39;residuals&#39;</span><span class="p">,</span> <span class="n">residual</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span data-line="6">        <span class="p">)</span>
+</span><span data-line="7">    <span class="n">t</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;residuals&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</span><span data-line="8">    <span class="n">xlims</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">x_array</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">x_array</span><span class="p">))</span>
+</span><span data-line="9">    <span class="n">plots</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xlims</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkblue&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</span><span data-line="10">    <span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Residual Plot&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">residual_plot</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="s1">&#39;MidParent&#39;</span><span class="p">,</span> <span class="s1">&#39;Child&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/9316a6dae219301f5d716ddbc44ac5411e1b89a66e62110f338e92b495859df9.png" src="../../../_images/9316a6dae219301f5d716ddbc44ac5411e1b89a66e62110f338e92b495859df9.png" />
+</div>
+</div>
+<p>The midparent heights are on the horizontal axis, as in the original scatter plot. But now the vertical axis shows the residuals. Notice that the plot appears to be centered around the horizontal line at the level 0 (shown in dark blue). Notice also that the plot shows no upward or downward trend. We will observe later that this lack of trend is true of all regressions.</p>
+<section id="regression-diagnostics">
+<h2>Regression Diagnostics<a class="headerlink" href="#regression-diagnostics" title="Link to this heading">¶</a></h2>
+<p>Residual plots help us make visual assessments of the quality of a linear regression analysis. Such assessments are called <em>diagnostics</em>. The function <code class="docutils literal notranslate"><span class="pre">regression_diagnostic_plots</span></code> draws the original scatter plot as well as the residual plot for ease of comparison.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">regression_diagnostic_plots</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span><span data-line="2">    <span class="n">scatter_fit</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span data-line="3">    <span class="n">residual_plot</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">regression_diagnostic_plots</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="s1">&#39;MidParent&#39;</span><span class="p">,</span> <span class="s1">&#39;Child&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/9aa77fc7aae5a5f1e7941b65d7a86f1150050b48d641a76622d3be7623d5426b.png" src="../../../_images/9aa77fc7aae5a5f1e7941b65d7a86f1150050b48d641a76622d3be7623d5426b.png" />
+<img alt="../../../_images/9316a6dae219301f5d716ddbc44ac5411e1b89a66e62110f338e92b495859df9.png" src="../../../_images/9316a6dae219301f5d716ddbc44ac5411e1b89a66e62110f338e92b495859df9.png" />
+</div>
+</div>
+<p>This residual plot indicates that linear regression was a reasonable method of estimation. Notice how the residuals are distributed fairly symmetrically above and below the horizontal line at 0, corresponding to the original scatter plot being roughly symmetrical above and below. Notice also that the vertical spread of the plot is fairly even across the most common values of the children’s heights. In other words, apart from a few outlying points, the plot isn’t narrower in some places and wider in others.</p>
+<p>In other words, the accuracy of the regression appears to be about the same across the observed range of the predictor variable.</p>
+<p><strong>The residual plot of a good regression shows no pattern. The residuals look about the same, above and below the horizontal line at 0, across the range of the predictor variable.</strong></p>
+</section>
+<section id="detecting-nonlinearity">
+<h2>Detecting Nonlinearity<a class="headerlink" href="#detecting-nonlinearity" title="Link to this heading">¶</a></h2>
+<p>Drawing the scatter plot of the data usually gives an indication of whether the relation between the two variables is non-linear. Often, however, it is easier to spot non-linearity in a residual plot than in the original scatter plot. This is usually because of the scales of the two plots: the residual plot allows us to zoom in on the errors and hence makes it easier to spot patterns.</p>
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Dugong_dugon.jpg"/>
+<p>Our data are a <a class="reference external" href="http://www.statsci.org/data/oz/dugongs.html">dataset</a>  on the age and length of dugongs, which are marine mammals related to manatees and sea cows (image from <a class="reference external" href="https://commons.wikimedia.org/wiki/File:Dugong_dugon.jpg">Wikimedia Commons</a>). The data are in a table called <code class="docutils literal notranslate"><span class="pre">dugong</span></code>. Age is measured in years and length in meters. Because dugongs tend not to keep track of their birthdays, ages are estimated based on variables such as the condition of their teeth.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">dugong</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">path_data</span> <span class="o">+</span> <span class="s1">&#39;dugongs.csv&#39;</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">dugong</span> <span class="o">=</span> <span class="n">dugong</span><span class="o">.</span><span class="n">move_to_start</span><span class="p">(</span><span class="s1">&#39;Length&#39;</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">dugong</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Length</th> <th>Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1.8   </td> <td>1   </td>
+        </tr>
+        <tr>
+            <td>1.85  </td> <td>1.5 </td>
+        </tr>
+        <tr>
+            <td>1.87  </td> <td>1.5 </td>
+        </tr>
+        <tr>
+            <td>1.77  </td> <td>1.5 </td>
+        </tr>
+        <tr>
+            <td>2.02  </td> <td>2.5 </td>
+        </tr>
+        <tr>
+            <td>2.27  </td> <td>4   </td>
+        </tr>
+        <tr>
+            <td>2.15  </td> <td>5   </td>
+        </tr>
+        <tr>
+            <td>2.26  </td> <td>5   </td>
+        </tr>
+        <tr>
+            <td>2.35  </td> <td>7   </td>
+        </tr>
+        <tr>
+            <td>2.47  </td> <td>8   </td>
+        </tr>
+    </tbody>
+</table>
+<p>... (17 rows omitted)</p></div></div>
+</div>
+<p>If we could measure the length of a dugong, what could we say about its age? Let’s examine what our data say. Here is a regression of age (the response) on length (the predictor). The correlation between the two variables is substantial, at 0.83.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">correlation</span><span class="p">(</span><span class="n">dugong</span><span class="p">,</span> <span class="s1">&#39;Length&#39;</span><span class="p">,</span> <span class="s1">&#39;Age&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">0.8296474554905714
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>High correlation notwithstanding, the plot shows a curved pattern that is much more visible in the residual plot.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">regression_diagnostic_plots</span><span class="p">(</span><span class="n">dugong</span><span class="p">,</span> <span class="s1">&#39;Length&#39;</span><span class="p">,</span> <span class="s1">&#39;Age&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/943cbd91a2b97e59d1464d090dc29912e3285ebeb5eddff2c33e87b9db1cae57.png" src="../../../_images/943cbd91a2b97e59d1464d090dc29912e3285ebeb5eddff2c33e87b9db1cae57.png" />
+<img alt="../../../_images/f7f38362505e48e2454480904f60b82b165e17e47f74c7709a8a429bb076562d.png" src="../../../_images/f7f38362505e48e2454480904f60b82b165e17e47f74c7709a8a429bb076562d.png" />
+</div>
+</div>
+<p>While you can spot the non-linearity in the original scatter, it is more clearly evident in the residual plot.</p>
+<p>At the low end of the lengths, the residuals are almost all positive; then they are almost all negative; then positive again at the high end of lengths. In other words the regression estimates have a pattern of being too high, then too low, then too high. That means it would have been better to use a curve instead of a straight line to estimate the ages.</p>
+<p><strong>When a residual plot shows a pattern, there may be a non-linear relation between the variables.</strong></p>
+</section>
+<section id="detecting-heteroscedasticity">
+<h2>Detecting Heteroscedasticity<a class="headerlink" href="#detecting-heteroscedasticity" title="Link to this heading">¶</a></h2>
+<p><em>Heteroscedasticity</em> is a word that will surely be of interest to those who are preparing for Spelling Bees. For data scientists, its interest lies in its meaning, which is “uneven spread”.</p>
+<p>Recall the table <code class="docutils literal notranslate"><span class="pre">hybrid</span></code> that contains data on hybrid cars in the U.S. Here is a regression of fuel efficiency on the rate of acceleration. The association is negative: cars that accelearate quickly tend to be less efficient.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">regression_diagnostic_plots</span><span class="p">(</span><span class="n">hybrid</span><span class="p">,</span> <span class="s1">&#39;acceleration&#39;</span><span class="p">,</span> <span class="s1">&#39;mpg&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/8ea3bf1cb37630f632301d0d787dfcb263bf770652a603722b2244dc6703fa4c.png" src="../../../_images/8ea3bf1cb37630f632301d0d787dfcb263bf770652a603722b2244dc6703fa4c.png" />
+<img alt="../../../_images/712a9e0456fa8698ca192225a939e3b9d21a2fc57c0bac206b60949d16f7e8ab.png" src="../../../_images/712a9e0456fa8698ca192225a939e3b9d21a2fc57c0bac206b60949d16f7e8ab.png" />
+</div>
+</div>
+<p>Notice how the residual plot flares out towards the low end of the accelerations. In other words, the variability in the size of the errors is greater for low values of acceleration than for high values. Uneven variation is often more easily noticed in a residual plot than in the original scatter plot.</p>
+<p><strong>If the residual plot shows uneven variation about the horizontal line at 0, the regression estimates are not equally accurate across the range of the predictor variable.</strong></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters/15/5"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../4/Least_Squares_Regression.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Least Squares Regression</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../6/Numerical_Diagnostics.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Numerical Diagnostics</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2023</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../_static/shibuya.js?v=55e26b35"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Decisions and Uncertainty - Computational and Inferential Thinking</title><link rel="shortcut icon" href="../../../_static/logo.png"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Error Probabilities" href="../4/Error_Probabilities.html" /><link rel="prev" title="Multiple Categories" href="../2/Multiple_Categories.html" />
+      <link rel="canonical" href="https://ccsf-math-108.github.io/textbook/chapters/11/3/Decisions_and_Uncertainty.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"light");
+  </script><link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/shibuya.css?v=10d1008b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://ccsf-math-108.github.io/textbook/chapters/11/3/Decisions_and_Uncertainty.html"/>
+<meta property="og:title" content="Decisions and Uncertainty"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../intro.html">
+      <img class="light-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <img class="dark-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <strong>Project name not set</strong>
+    </a>
+    <div class="sy-head-nav" id="HeadNav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="HeadNav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../01/what-is-data-science.html">Data Science</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../01/1/intro.html">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/1/computational-tools.html">Computational Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/2/statistical-techniques.html">Statistical Techniques</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/2/why-data-science.html">Why Data Science?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/3/Plotting_the_Classics.html">Plotting the Classics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/1/Literary_Characters.html">Literary Characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/2/Another_Kind_Of_Character.html">Another Kind of Character</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../02/causality-and-experiments.html">Causality and Experiments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../02/1/observation-and-visualization-john-snow-and-the-broad-street-pump.html">John Snow and the Broad Street Pump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/2/snow-s-grand-experiment.html">Snow’s “Grand Experiment”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/3/establishing-causality.html">Establishing Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/4/randomization.html">Randomization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/5/endnote.html">Endnote</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../03/programming-in-python.html">Programming in Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../03/1/Expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/2/Names.html">Names</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../03/2/1/Growth.html">Example: Growth Rates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/3/Calls.html">Call Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/4/Introduction_to_Tables.html">Introduction to Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../04/Data_Types.html">Data Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../04/1/Numbers.html">Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/2/Strings.html">Strings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../04/2/1/String_Methods.html">String Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/3/Comparison.html">Comparisons</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../05/Sequences.html">Sequences</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../05/1/Arrays.html">Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/2/Ranges.html">Ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/3/More_on_Arrays.html">More on Arrays</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../06/Tables.html">Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../06/1/Sorting_Rows.html">Sorting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/2/Selecting_Rows.html">Selecting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/3/Example_Population_Trends.html">Example: Population Trends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/4/Example_Sex_Ratios.html">Example: Sex Ratios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../07/Visualization.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../07/1/Visualizing_Categorical_Distributions.html">Categorical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/2/Visualizing_Numerical_Distributions.html">Numerical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/3/Overlaid_Graphs.html">Overlaid Graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../08/Functions_and_Tables.html">Functions and Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../08/1/Applying_a_Function_to_a_Column.html">Applying Functions to Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/2/Classifying_by_One_Variable.html">Classifying by One Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/3/Cross-Classifying_by_More_than_One_Variable.html">Cross-Classifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/4/Joining_Tables_by_Columns.html">Joining Tables by Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/5/Bike_Sharing_in_the_Bay_Area.html">Bike Sharing in the Bay Area</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../09/Randomness.html">Randomness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../09/1/Conditional_Statements.html">Conditional Statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/2/Iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/3/Simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/4/Monty_Hall_Problem.html">The Monty Hall Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/5/Finding_Probabilities.html">Finding Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../10/Sampling_and_Empirical_Distributions.html">Sampling and Empirical Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../10/1/Empirical_Distributions.html">Empirical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/2/Sampling_from_a_Population.html">Sampling from a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/3/Empirical_Distribution_of_a_Statistic.html">Empirical Distibution of a Statistic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/4/Random_Sampling_in_Python.html">Random Sampling in Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Testing_Hypotheses.html">Testing Hypotheses</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../1/Assessing_a_Model.html">Assessing a Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2/Multiple_Categories.html">Multiple Categories</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Decisions and Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4/Error_Probabilities.html">Error Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../12/Comparing_Two_Samples.html">Comparing Two Samples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../12/1/AB_Testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/2/Causality.html">Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/3/Deflategate.html">Deflategate</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../13/Estimation.html">Estimation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../13/1/Percentiles.html">Percentiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/2/Bootstrap.html">The Bootstrap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/3/Confidence_Intervals.html">Confidence Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/4/Using_Confidence_Intervals.html">Using Confidence Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../14/Why_the_Mean_Matters.html">Why the Mean Matters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../14/1/Properties_of_the_Mean.html">Properties of the Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/2/Variability.html">Variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/3/SD_and_the_Normal_Curve.html">The SD and the Normal Curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/4/Central_Limit_Theorem.html">The Central Limit Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/5/Variability_of_the_Sample_Mean.html">The Variability of the Sample Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/6/Choosing_a_Sample_Size.html">Choosing a Sample Size</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../15/Prediction.html">Prediction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../15/1/Correlation.html">Correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/2/Regression_Line.html">The Regression Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/3/Method_of_Least_Squares.html">The Method of Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/4/Least_Squares_Regression.html">Least Squares Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/5/Visual_Diagnostics.html">Visual Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/6/Numerical_Diagnostics.html">Numerical Diagnostics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../16/Inference_for_Regression.html">Inference for Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../16/1/Regression_Model.html">A Regression Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/2/Inference_for_the_True_Slope.html">Inference for the True Slope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/3/Prediction_Intervals.html">Prediction Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../17/Classification.html">Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../17/1/Nearest_Neighbors.html">Nearest Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/2/Training_and_Testing.html">Training and Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/3/Rows_of_Tables.html">Rows of Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/4/Implementing_the_Classifier.html">Implementing the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/5/Accuracy_of_the_Classifier.html">The Accuracy of the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/6/Multiple_Regression.html">Multiple Regression</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../18/Updating_Predictions.html">Updating Predictions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../18/1/More_Likely_than_Not_Binary_Classifier.html">A &quot;More Likely Than Not&quot; Binary Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../18/2/Making_Decisions.html">Making Decisions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#mendel-s-model">Mendel&#8217;s Model</a></li>
+<li><a class="reference internal" href="#step-1-the-hypotheses">Step 1: The Hypotheses</a></li>
+<li><a class="reference internal" href="#step-2-the-test-statistic">Step 2: The Test Statistic</a><ul>
+<li><a class="reference internal" href="#observed-value-of-the-test-statistic">Observed Value of the Test Statistic</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#step-3-the-distribution-of-the-test-statistic-under-the-null-hypothesis">Step 3: The Distribution of the Test Statistic, Under the Null Hypothesis</a></li>
+<li><a class="reference internal" href="#step-4-the-conclusion-of-the-test">Step 4. The Conclusion of the Test</a></li>
+<li><a class="reference internal" href="#the-meaning-of-consistent">The Meaning of &#8220;Consistent&#8221;</a></li>
+<li><a class="reference internal" href="#conventional-cut-offs-and-the-p-value">Conventional Cut-offs and the P-value</a><ul>
+<li><a class="reference internal" href="#the-p-value">The p-Value</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#historical-note-on-the-conventions">Historical Note on the Conventions</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6"><div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../intro.html"><span itemprop="name">Project name not set</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../Testing_Hypotheses.html"><span itemprop="name">Testing Hypotheses</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Decisions and Uncertainty</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <div class="cell tag_remove-input docutils container">
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="decisions-and-uncertainty">
+<h1>Decisions and Uncertainty<a class="headerlink" href="#decisions-and-uncertainty" title="Link to this heading">¶</a></h1>
+<p>The statistical and computational methodology that we developed for assessing models about jury selection fit into a general framework of decision making called <em>statistical tests of hypotheses</em>. Using statistical tests as a way of making decisions is standard in many fields and has a standard terminology.</p>
+<p>In this section we will describe the general sequence of the steps used in statistical tests, along with some terminology.</p>
+<p>Though our example is from the biological sciences, you will see that the statistical and computational steps in the process are consistent with the corresponding steps in our analyses of data from the legal system. However, the biological data are about plants, not human beings and injustice. So the context and interpretation of the calculations below are far more simple.</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Gregor_Mendel">Gregor Mendel</a> (1822-1884) was an Austrian monk who is widely recognized as the founder of the modern field of genetics. Mendel performed careful and large-scale experiments on plants to come up with fundamental laws of genetics.</p>
+<p>Many of his experiments were on varieties of pea plants. He formulated sets of assumptions about each variety; these were his models. He then tested the validity of his models by growing the plants and gathering data.</p>
+<p>For pea plants of a particular variety, Mendel proposed the following model.</p>
+<section id="mendel-s-model">
+<h2>Mendel’s Model<a class="headerlink" href="#mendel-s-model" title="Link to this heading">¶</a></h2>
+<p>For every plant, there is a 75% chance that it will have purple flowers, and a 25% chance that the flowers will be white, regardless of the colors in all the other plants.</p>
+<p>To see whether his model was valid, Mendel grew 929 pea plants of this variety. Among these 929 plants, 705 had purple flowers.</p>
+<p>We will use these data to perform a test of hypotheses and see if Mendel’s model looks good.</p>
+</section>
+<section id="step-1-the-hypotheses">
+<h2>Step 1: The Hypotheses<a class="headerlink" href="#step-1-the-hypotheses" title="Link to this heading">¶</a></h2>
+<p>All statistical tests attempt to choose between two views of the world. Specifically, the choice is between two views about how the data were generated. These two views are called <em>hypotheses</em>.</p>
+<p><strong>The null hypothesis.</strong> This is a clearly defined model about chances. It says that the data were generated at random under clearly specified assumptions about the randomness. The word “null” reinforces the idea that if the data look different from what the null hypothesis predicts, the difference is due to <em>nothing</em> but chance.</p>
+<p>From a practical perspective, <strong>the null hypothesis is a hypothesis under which you can simulate data.</strong></p>
+<p>In the example about Mendel’s model for the colors of pea plants, the null hypothesis is that the assumptions of his model are good: each plant has a 75% chance of having purple flowers, independent of all other plants.</p>
+<p>Under this hypothesis, we can simulate random samples by using <code class="docutils literal notranslate"><span class="pre">sample_proportions</span></code>.</p>
+<p><strong>The alternative hypothesis.</strong> This says that some reason other than chance made the data differ from the predictions of the model in the null hypothesis.</p>
+<p>In the example about Mendel’s plants, the alternative hypothesis is simply that his model isn’t good.</p>
+<p>Keep in mind that the alternative doesn’t say how or why the model isn’t good. It just says the model isn’t good.</p>
+</section>
+<section id="step-2-the-test-statistic">
+<h2>Step 2: The Test Statistic<a class="headerlink" href="#step-2-the-test-statistic" title="Link to this heading">¶</a></h2>
+<p>In order to decide between the two hypothesis, we must choose a statistic that we can use to make the decision. This is called the <strong>test statistic</strong>.</p>
+<p>We will be comparing two categorical distributions: the one in Mendel’s model and the one we will get in our random sample. We want to see if these two distributions are close to each other or far apart. So a natural test statistic is the total variation distance (TVD) developed in the previous section.</p>
+<p>It turns out that with just two categories, the TVD is rather simple and easy to interpret. Let’s look at an example. Mendel’s model says that the “purple, white” distribution is [0.75, 0.25]. Suppose the distribution in our sample came out to be [0.7, 0.3].</p>
+<p>Because there are only two categories, something interesting happens when we calculate the TVD. First notice that</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[
+\vert 0.7 - 0.75 \vert = 0.05 = \vert 0.3 - 0.25 \vert
+\]</div>
+</div>
+<p>So the TVD is</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{2}\big{(} \vert 0.7 - 0.75 \vert + \vert 0.3 - 0.25 \vert \big{)} = 0.05 
+= \vert 0.7 - 0.75 \vert
+\]</div>
+</div>
+<p>That’s just the distance between the two proportions of purple-flowering plants. It is also just the distance between the two proportions of white-flowering plants.</p>
+<p>By a bit of math that we won’t do here, this is true whenever there are just two categories: the TVD is equal to the distance between the two proportions in one category.</p>
+<p>So a perfectly fine test statistic would be the distance between the sample proportion of purple plants and 0.75 which is the corresponding proportion in Mendel’s model.</p>
+<p>Since percents are easier to interpret than proportions, we will work with percents instead.</p>
+<p>Our test statistic will be the distance between the sample percent of purple plants and 75% which is the corresponding percent in Mendel’s model.</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[
+\big{\vert} \text{sample percent of purple-flowering plants} - 75 \big{\vert}
+\]</div>
+</div>
+<p>This test statistic is a <em>distance</em> between the two distributions. It makes sense and is easy to use. A sample percent of around 75% will be consistent with the model, but percents much bigger or much less than 75 will make you think that the model isn’t good. Therefore, small values of the distance will make you lean towards the null hypothesis. Big values of the statistic will make you lean towards the alternative.</p>
+<p>To choose a test statistic in other situations, look at the alternative hypothesis. What values of the statistic will make you think that the alternative hypothesis is a better choice than the null?</p>
+<ul class="simple">
+<li><p>If the answer is “big values,” you have a good choice of statistic.</p></li>
+<li><p>So also if the answer is “small values.”</p></li>
+<li><p>But if the answer is “both big values and small values,” we recommend that you look again at your statistic. See if using a distance instead of a difference can change the answer to just “big values”.</p></li>
+</ul>
+<section id="observed-value-of-the-test-statistic">
+<h3>Observed Value of the Test Statistic<a class="headerlink" href="#observed-value-of-the-test-statistic" title="Link to this heading">¶</a></h3>
+<p>The <em>observed value of the test statistic</em> is the value of the statistic you get from the data in the study, not a simulated value. Among Mendel’s 929 plants, 705 had purple flowers. The observed value of the test statistic was therefore</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">observed_statistic</span> <span class="o">=</span> <span class="nb">abs</span> <span class="p">(</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="mi">705</span> <span class="o">/</span> <span class="mi">929</span><span class="p">)</span> <span class="o">-</span> <span class="mi">75</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">observed_statistic</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">0.8880516684607045
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="step-3-the-distribution-of-the-test-statistic-under-the-null-hypothesis">
+<h2>Step 3: The Distribution of the Test Statistic, Under the Null Hypothesis<a class="headerlink" href="#step-3-the-distribution-of-the-test-statistic-under-the-null-hypothesis" title="Link to this heading">¶</a></h2>
+<p>The main computational aspect of a test of hypotheses is figuring out what the model in the null hypothesis predicts. Specifically, we have to figure out <em>what the values of the test statistic might be if the null hypothesis were true</em>.</p>
+<p>The test statistic is simulated based on the assumptions of the model in the null hypothesis. That model involves chance, so the statistic comes out differently when you simulate it multiple times.</p>
+<p>By simulating the statistic repeatedly, we get a good sense of its possible values and which ones are more likely than others. In other words, we get a good approximation to the probability distribution of the statistic, as predicted by the model in the null hypothesis.</p>
+<p>As with all distributions, it is very useful to visualize this distribution by a histogram, as we have done in our previous examples. Let’s go through the entire process here.</p>
+<p>We will start by assigning some known quantities to names.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">mendel_proportions</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">mendel_proportion_purple</span> <span class="o">=</span> <span class="n">mendel_proportions</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">sample_size</span> <span class="o">=</span> <span class="mi">929</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>Next, we will define a function that returns one simulated value of the test statistic. Then we will use a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop to collect 10,000 simulated values in an array.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">one_simulated_distance</span><span class="p">():</span>
+</span><span data-line="2">    <span class="n">sample_proportion_purple</span> <span class="o">=</span> <span class="n">sample_proportions</span><span class="p">(</span><span class="mi">929</span><span class="p">,</span> <span class="n">mendel_proportions</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span data-line="3">    <span class="k">return</span> <span class="mi">100</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sample_proportion_purple</span> <span class="o">-</span> <span class="n">mendel_proportion_purple</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">repetitions</span> <span class="o">=</span> <span class="mi">10000</span>
+</span><span data-line="2"><span class="n">distances</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">()</span>
+</span><span data-line="3"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">repetitions</span><span class="p">):</span>
+</span><span data-line="4">    <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">one_simulated_distance</span><span class="p">())</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>Now we can draw the histogram of these values. This is the histogram of the <em>distribution of the test statistic predicted by the null hypothesis</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+</span><span data-line="2">    <span class="s1">&#39;Distance between Sample </span><span class="si">% a</span><span class="s1">nd 75%&#39;</span><span class="p">,</span> <span class="n">distances</span>
+</span><span data-line="3"><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</span><span data-line="4"><span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Prediction Made by the Null Hypothesis&#39;</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/dc992b57d91b433cb5c5bb84d509bcb20b3d1f450493c6acd8386f88de124333.png" src="../../../_images/dc992b57d91b433cb5c5bb84d509bcb20b3d1f450493c6acd8386f88de124333.png" />
+</div>
+</div>
+<p>Look on the horizontal axis to see the typical values of the distance, as predicted by the model. They are rather small. For example, a high proportion of the distances are in the range 0 to 1, meaning that for a high proportion of the samples, the percent of purple-flowering plants is in the range 75% <span class="math notranslate nohighlight">\(\pm\)</span> 1%. That is, the sample percent is in the range 74% to 76%.</p>
+<p>Also note that this prediction was made using Mendel’s model only, not the proportions observed by Mendel in the plants that he grew. It is time now to compare the predictions and Mendel’s observation.</p>
+</section>
+<section id="step-4-the-conclusion-of-the-test">
+<h2>Step 4. The Conclusion of the Test<a class="headerlink" href="#step-4-the-conclusion-of-the-test" title="Link to this heading">¶</a></h2>
+<p>The choice between the null and alternative hypotheses depends on the comparison between what you computed in Steps 2 and 3: the observed value of the test statistic and its distribution as predicted by the null hypothesis.</p>
+<p>If the two are not consistent with each other, then the data do not support the null hypothesis. In other words, the alternative hypothesis is better supported by the data. We say that the test <em>rejects</em> the null hypothesis.</p>
+<p>If the two are consistent with each other, then the observed test statistic is in line with what the null hypothesis predicts. In other words, the null hypothesis is better supported by the data. We say that the data are <em>consistent with</em> the null hypothesis.</p>
+<p>In our example, the observed value of the test statistic is about 0.89, as computed in Step 2 above. Just by eye, locate roughly where 0.89 is on the horizontal axis of the histogram. You will see that it is clearly in the heart of the distribution predicted by Mendel’s model.</p>
+<p>The cell below redraws the histogram with the observed value plotted on the horizontal axis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+</span><span data-line="2">    <span class="s1">&#39;Distance between Sample </span><span class="si">% a</span><span class="s1">nd 75%&#39;</span><span class="p">,</span> <span class="n">distances</span>
+</span><span data-line="3"><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</span><span data-line="4"><span class="n">plots</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+</span><span data-line="5"><span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Prediction Made by the Null Hypothesis&#39;</span><span class="p">)</span>
+</span><span data-line="6"><span class="n">plots</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">observed_statistic</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/5fddc0819951cd3b6d78582cd084a388421c0b59c33ae3ec42382c0691590a86.png" src="../../../_images/5fddc0819951cd3b6d78582cd084a388421c0b59c33ae3ec42382c0691590a86.png" />
+</div>
+</div>
+<p>The observed statistic is like a typical distance predicted by the null hypothesis. The null hypothesis is Mendel’s model. So our test concludes that the data are consistent with Mendel’s model.</p>
+<p>Based on our data, Mendel’s model looks good.</p>
+</section>
+<section id="the-meaning-of-consistent">
+<h2>The Meaning of “Consistent”<a class="headerlink" href="#the-meaning-of-consistent" title="Link to this heading">¶</a></h2>
+<p>In all of our examples of assessing models there has been no doubt about whether the data were consistent with the model’s predictions. They were either very far from what the model predicted, as in the examples about jury panels, or similar to what the model predicted, as in the example about Mendel’s model.</p>
+<p>But outcomes are not always so clear cut. How far is “far”? Exactly what should “similar” mean? While these questions don’t have universal answers, there are some guidelines and conventions that you can follow.</p>
+<p>But first, it is important to understand that whether the observed test statistic is consistent with its predicted distribution under the null hypothesis is a matter of subjective opinion and judgment. We recommend that you provide your judgment along with the value of the test statistic and a graph of its predicted distribution under the null. That will allow your readers to make their own judgment about whether the two are consistent.</p>
+<p>In the example above, the judgment is clear. But suppose someone grew another 929 plants of some related variety and wanted to see if Mendel’s model worked for plants of that variety too. What would you conclude if their observed distance came out to be 3.2 as shown below?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">different_observed_statistic</span> <span class="o">=</span> <span class="mf">3.2</span>
+</span><span data-line="2"><span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+</span><span data-line="3">    <span class="s1">&#39;Distance between Sample </span><span class="si">% a</span><span class="s1">nd 75%&#39;</span><span class="p">,</span> <span class="n">distances</span>
+</span><span data-line="4"><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</span><span data-line="5"><span class="n">plots</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+</span><span data-line="6"><span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Prediction Made by the Null Hypothesis&#39;</span><span class="p">)</span>
+</span><span data-line="7"><span class="n">plots</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">different_observed_statistic</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/4f06a2201d320e50460d304b40d2cd924bc6c62f826cbe9a8e684e41846e2e0d.png" src="../../../_images/4f06a2201d320e50460d304b40d2cd924bc6c62f826cbe9a8e684e41846e2e0d.png" />
+</div>
+</div>
+<p>Is the observation based on the new variety of plants consistent with the predictions in the histogram, or not?</p>
+<p>Now the answer is not so clear. It depends on whether you think the red dot is too far from the bulk of the predicted values to be consistent with the prediction based on Mendel’s model.</p>
+</section>
+<section id="conventional-cut-offs-and-the-p-value">
+<h2>Conventional Cut-offs and the P-value<a class="headerlink" href="#conventional-cut-offs-and-the-p-value" title="Link to this heading">¶</a></h2>
+<p>If you don’t want to use your own judgment, there are conventions that you can follow. These conventions tell us how far out into the tails is conventionally considered “too far”.</p>
+<p>The conventions are based on the area in the tail, <strong>starting at the observed statistic (the red dot) and looking in the direction that makes us lean toward the alternative.</strong> In this example that’s the right side, because big distances favor the alternative which says that the model isn’t good.</p>
+<p>If the area of the tail is small, the observed statistic is far away from the values most commonly predicted by the null hypothesis.</p>
+<p>Remember that in a histogram, area represents percent. To find the area in the tail, we have to find the percent of distances that were greater than or equal to 3.2, where the red dot is. The array <code class="docutils literal notranslate"><span class="pre">distances</span></code> contains the averages for all 10,000 repetitions of random sampling under Mendel’s model, and <code class="docutils literal notranslate"><span class="pre">different_observed_statistic</span></code> is 3.2.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">distances</span> <span class="o">&gt;=</span> <span class="n">different_observed_statistic</span><span class="p">)</span> <span class="o">/</span> <span class="n">repetitions</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">0.0243
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>About 2.4% of the distances simulated under Mendel’s model were 3.2 or greater. By the law of averages, we can conclude that if Mendel’s model were correct for these new plants, then there is about a 2.4% chance that the test statistic would be 3.2 or more.</p>
+<p>That doesn’t seem like a big chance. If Mendel’s model is true for these plants, something quite unlikely has happened. This idea gives rise to the conventions.</p>
+<section id="the-p-value">
+<h3>The p-Value<a class="headerlink" href="#the-p-value" title="Link to this heading">¶</a></h3>
+<p>This chance has an impressive name. It is called the <em>observed significance level</em> of the test. That’s a mouthful, and so it is commonly called the <em>p-value</em> of the test.</p>
+<p><strong>Definition:</strong> The p-value of a test is the chance, based on the model in the null hypothesis, that the test statistic will be equal to the observed value in the sample or even further in the direction that supports the alternative.</p>
+<p>If a p-value is small, that means the tail beyond the observed statistic is small and so the observed statistic is far away from what the null predicts. This implies that the data support the alternative hypothesis more than they support the null.</p>
+<p>How small is “small”? According to the conventions:</p>
+<ul class="simple">
+<li><p>If the p-value is less than 5%, it is considered small and the result is called “statistically significant.”</p></li>
+<li><p>If the p-value is even smaller – less than 1% – the result is called “highly statistically significant.”</p></li>
+</ul>
+<p>By this convention, our p-value of 2.4% is considered small. So the conventional conclusion would be to reject the null hypothesis and say that Mendel’s model does not look good for the new plants. Formally, the result of the test is statistically significant.</p>
+<p>When you make a conclusion in this way, we recommend that you don’t just say whether or not the result is statistically significant. Along with your conclusion, provide the observed statistic and the p-value as well, so that readers can use their own judgment.</p>
+</section>
+</section>
+<section id="historical-note-on-the-conventions">
+<h2>Historical Note on the Conventions<a class="headerlink" href="#historical-note-on-the-conventions" title="Link to this heading">¶</a></h2>
+<p>The determination of statistical significance, as defined above, has become standard in statistical analyses in all fields of application. When a convention is so universally followed, it is interesting to examine how it arose.</p>
+<p>The method of statistical testing – choosing between hypotheses based on data in random samples – was developed by Sir Ronald Fisher in the early 20th century. Sir Ronald might have set the convention for statistical significance somewhat unwittingly, in the following statement in his 1925 book <em>Statistical Methods for Research Workers</em>. About the 5% level, he wrote, “It is convenient to take this point as a limit in judging whether a deviation is to be considered significant or not.”</p>
+<p>What was “convenient” for Sir Ronald became a cutoff that has acquired the status of a universal constant. No matter that Sir Ronald himself made the point that the value was his personal choice from among many: in an article in 1926, he wrote, “If one in twenty does not seem high enough odds, we may, if we prefer it draw the line at one in fifty (the 2 percent point), or one in a hundred (the 1 percent point). Personally, the author prefers to set a low standard of significance at the 5 percent point …”</p>
+<p>Fisher knew that “low” is a matter of judgment and has no unique definition. We suggest that you too keep this in mind. Provide your data, make your judgment, and explain why you made it.</p>
+<p>Whether you use a conventional cutoff or your own judgment, it is important to keep the following points in mind.</p>
+<ul class="simple">
+<li><p>Always provide the observed value of the test statistic and the p-value, so that readers can decide whether or not they think the p-value is small.</p></li>
+<li><p>Don’t look to defy convention only when the conventionally derived result is not to your liking.</p></li>
+<li><p>Even if a test concludes that the data don’t support the chance model in the null hypothesis, it typically doesn’t explain <em>why</em> the model doesn’t work. Don’t make causal conclusions without further analysis, unless you are running a randomized controlled trial. We will analyze those in a later section.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters/11/3"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../2/Multiple_Categories.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Multiple Categories</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../4/Error_Probabilities.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Error Probabilities</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2023</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../_static/shibuya.js?v=55e26b35"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></body>
+</html>

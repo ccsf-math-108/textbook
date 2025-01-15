@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="red" data-content_root="../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>A/B Testing - Computational and Inferential Thinking</title><link rel="shortcut icon" href="../../../_static/logo.png"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Causality" href="../2/Causality.html" /><link rel="prev" title="Comparing Two Samples" href="../Comparing_Two_Samples.html" />
+      <link rel="canonical" href="https://ccsf-math-108.github.io/textbook/chapters/12/1/AB_Testing.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"light");
+  </script><link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/shibuya.css?v=10d1008b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/>
+<meta property="og:url" content="https://ccsf-math-108.github.io/textbook/chapters/12/1/AB_Testing.html"/>
+<meta property="og:title" content="A/B Testing"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../intro.html">
+      <img class="light-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <img class="dark-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
+      <strong>Project name not set</strong>
+    </a>
+    <div class="sy-head-nav" id="HeadNav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="HeadNav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../01/what-is-data-science.html">Data Science</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../01/1/intro.html">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/1/computational-tools.html">Computational Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/2/statistical-techniques.html">Statistical Techniques</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/2/why-data-science.html">Why Data Science?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/3/Plotting_the_Classics.html">Plotting the Classics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/1/Literary_Characters.html">Literary Characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/2/Another_Kind_Of_Character.html">Another Kind of Character</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../02/causality-and-experiments.html">Causality and Experiments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../02/1/observation-and-visualization-john-snow-and-the-broad-street-pump.html">John Snow and the Broad Street Pump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/2/snow-s-grand-experiment.html">Snow’s “Grand Experiment”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/3/establishing-causality.html">Establishing Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/4/randomization.html">Randomization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/5/endnote.html">Endnote</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../03/programming-in-python.html">Programming in Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../03/1/Expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/2/Names.html">Names</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../03/2/1/Growth.html">Example: Growth Rates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/3/Calls.html">Call Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/4/Introduction_to_Tables.html">Introduction to Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../04/Data_Types.html">Data Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../04/1/Numbers.html">Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/2/Strings.html">Strings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../04/2/1/String_Methods.html">String Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/3/Comparison.html">Comparisons</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../05/Sequences.html">Sequences</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../05/1/Arrays.html">Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/2/Ranges.html">Ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/3/More_on_Arrays.html">More on Arrays</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../06/Tables.html">Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../06/1/Sorting_Rows.html">Sorting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/2/Selecting_Rows.html">Selecting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/3/Example_Population_Trends.html">Example: Population Trends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/4/Example_Sex_Ratios.html">Example: Sex Ratios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../07/Visualization.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../07/1/Visualizing_Categorical_Distributions.html">Categorical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/2/Visualizing_Numerical_Distributions.html">Numerical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/3/Overlaid_Graphs.html">Overlaid Graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../08/Functions_and_Tables.html">Functions and Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../08/1/Applying_a_Function_to_a_Column.html">Applying Functions to Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/2/Classifying_by_One_Variable.html">Classifying by One Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/3/Cross-Classifying_by_More_than_One_Variable.html">Cross-Classifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/4/Joining_Tables_by_Columns.html">Joining Tables by Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../08/5/Bike_Sharing_in_the_Bay_Area.html">Bike Sharing in the Bay Area</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../09/Randomness.html">Randomness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../09/1/Conditional_Statements.html">Conditional Statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/2/Iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/3/Simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/4/Monty_Hall_Problem.html">The Monty Hall Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/5/Finding_Probabilities.html">Finding Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../10/Sampling_and_Empirical_Distributions.html">Sampling and Empirical Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../10/1/Empirical_Distributions.html">Empirical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/2/Sampling_from_a_Population.html">Sampling from a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/3/Empirical_Distribution_of_a_Statistic.html">Empirical Distibution of a Statistic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/4/Random_Sampling_in_Python.html">Random Sampling in Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../11/Testing_Hypotheses.html">Testing Hypotheses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../11/1/Assessing_a_Model.html">Assessing a Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/2/Multiple_Categories.html">Multiple Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/3/Decisions_and_Uncertainty.html">Decisions and Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/4/Error_Probabilities.html">Error Probabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Comparing_Two_Samples.html">Comparing Two Samples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2/Causality.html">Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3/Deflategate.html">Deflategate</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../13/Estimation.html">Estimation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../13/1/Percentiles.html">Percentiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/2/Bootstrap.html">The Bootstrap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/3/Confidence_Intervals.html">Confidence Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/4/Using_Confidence_Intervals.html">Using Confidence Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../14/Why_the_Mean_Matters.html">Why the Mean Matters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../14/1/Properties_of_the_Mean.html">Properties of the Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/2/Variability.html">Variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/3/SD_and_the_Normal_Curve.html">The SD and the Normal Curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/4/Central_Limit_Theorem.html">The Central Limit Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/5/Variability_of_the_Sample_Mean.html">The Variability of the Sample Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/6/Choosing_a_Sample_Size.html">Choosing a Sample Size</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../15/Prediction.html">Prediction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../15/1/Correlation.html">Correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/2/Regression_Line.html">The Regression Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/3/Method_of_Least_Squares.html">The Method of Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/4/Least_Squares_Regression.html">Least Squares Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/5/Visual_Diagnostics.html">Visual Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/6/Numerical_Diagnostics.html">Numerical Diagnostics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../16/Inference_for_Regression.html">Inference for Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../16/1/Regression_Model.html">A Regression Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/2/Inference_for_the_True_Slope.html">Inference for the True Slope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/3/Prediction_Intervals.html">Prediction Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../17/Classification.html">Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../17/1/Nearest_Neighbors.html">Nearest Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/2/Training_and_Testing.html">Training and Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/3/Rows_of_Tables.html">Rows of Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/4/Implementing_the_Classifier.html">Implementing the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/5/Accuracy_of_the_Classifier.html">The Accuracy of the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/6/Multiple_Regression.html">Multiple Regression</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../18/Updating_Predictions.html">Updating Predictions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../18/1/More_Likely_than_Not_Binary_Classifier.html">A &quot;More Likely Than Not&quot; Binary Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../18/2/Making_Decisions.html">Making Decisions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#smokers-and-nonsmokers">Smokers and Nonsmokers</a></li>
+<li><a class="reference internal" href="#the-hypotheses">The Hypotheses</a></li>
+<li><a class="reference internal" href="#test-statistic">Test Statistic</a></li>
+<li><a class="reference internal" href="#predicting-the-statistic-under-the-null-hypothesis">Predicting the Statistic Under the Null Hypothesis</a></li>
+<li><a class="reference internal" href="#permutation-test">Permutation Test</a></li>
+<li><a class="reference internal" href="#conclusion-of-the-test">Conclusion of the Test</a></li>
+<li><a class="reference internal" href="#another-permutation-test">Another Permutation Test</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6"><div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../intro.html"><span itemprop="name">Project name not set</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../Comparing_Two_Samples.html"><span itemprop="name">Comparing Two Samples</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">A/B Testing</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <div class="cell tag_remove-input docutils container">
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="a-b-testing">
+<h1>A/B Testing<a class="headerlink" href="#a-b-testing" title="Link to this heading">¶</a></h1>
+<p>In modern data analytics, deciding whether two numerical samples come from the same underlying distribution is called <em>A/B testing</em>. The name refers to the labels of the two samples, A and B.</p>
+<p>We will develop the method in the context of an example. The data come from a sample of newborns in a large hospital system. We will treat it as if it were a simple random sample though the sampling was done in multiple stages. <a class="reference external" href="https://www.stat.berkeley.edu/~statlabs/">Stat Labs</a> by Deborah Nolan and Terry Speed has details about a larger dataset from which this set is drawn.</p>
+<section id="smokers-and-nonsmokers">
+<h2>Smokers and Nonsmokers<a class="headerlink" href="#smokers-and-nonsmokers" title="Link to this heading">¶</a></h2>
+<p>The table <code class="docutils literal notranslate"><span class="pre">births</span></code> contains the following variables for 1,174 mother-baby pairs: the baby’s birth weight in ounces, the number of gestational days, the mother’s age in completed years, the mother’s height in inches, pregnancy weight in pounds, and whether or not the mother smoked during pregnancy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">births</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">path_data</span> <span class="o">+</span> <span class="s1">&#39;baby.csv&#39;</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">births</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Birth Weight</th> <th>Gestational Days</th> <th>Maternal Age</th> <th>Maternal Height</th> <th>Maternal Pregnancy Weight</th> <th>Maternal Smoker</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>120         </td> <td>284             </td> <td>27          </td> <td>62             </td> <td>100                      </td> <td>False          </td>
+        </tr>
+        <tr>
+            <td>113         </td> <td>282             </td> <td>33          </td> <td>64             </td> <td>135                      </td> <td>False          </td>
+        </tr>
+        <tr>
+            <td>128         </td> <td>279             </td> <td>28          </td> <td>64             </td> <td>115                      </td> <td>True           </td>
+        </tr>
+        <tr>
+            <td>108         </td> <td>282             </td> <td>23          </td> <td>67             </td> <td>125                      </td> <td>True           </td>
+        </tr>
+        <tr>
+            <td>136         </td> <td>286             </td> <td>25          </td> <td>62             </td> <td>93                       </td> <td>False          </td>
+        </tr>
+        <tr>
+            <td>138         </td> <td>244             </td> <td>33          </td> <td>62             </td> <td>178                      </td> <td>False          </td>
+        </tr>
+        <tr>
+            <td>132         </td> <td>245             </td> <td>23          </td> <td>65             </td> <td>140                      </td> <td>False          </td>
+        </tr>
+        <tr>
+            <td>120         </td> <td>289             </td> <td>25          </td> <td>62             </td> <td>125                      </td> <td>False          </td>
+        </tr>
+        <tr>
+            <td>143         </td> <td>299             </td> <td>30          </td> <td>66             </td> <td>136                      </td> <td>True           </td>
+        </tr>
+        <tr>
+            <td>140         </td> <td>351             </td> <td>27          </td> <td>68             </td> <td>120                      </td> <td>False          </td>
+        </tr>
+    </tbody>
+</table>
+<p>... (1164 rows omitted)</p></div></div>
+</div>
+<p>One of the aims of the study was to see whether maternal smoking was associated with birth weight. Let’s see what we can say about the two variables.</p>
+<p>We’ll start by selecting just <code class="docutils literal notranslate"><span class="pre">Birth</span> <span class="pre">Weight</span></code> and <code class="docutils literal notranslate"><span class="pre">Maternal</span> <span class="pre">Smoker</span></code>. There are 715 non-smokers among the women in the sample, and 459 smokers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">smoking_and_birthweight</span> <span class="o">=</span> <span class="n">births</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Maternal Smoker&#39;</span><span class="p">,</span> <span class="s1">&#39;Birth Weight&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">smoking_and_birthweight</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;Maternal Smoker&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Maternal Smoker</th> <th>count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>False          </td> <td>715  </td>
+        </tr>
+        <tr>
+            <td>True           </td> <td>459  </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>Let’s look at the distribution of the birth weights of the babies of the non-smoking mothers compared to those of the smoking mothers. To generate two overlaid histograms, we will use <code class="docutils literal notranslate"><span class="pre">hist</span></code> with the optional <code class="docutils literal notranslate"><span class="pre">group</span></code> argument which is a column label or index. The rows of the table are first grouped by this column and then a histogram is drawn for each one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">smoking_and_birthweight</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="s1">&#39;Birth Weight&#39;</span><span class="p">,</span> <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;Maternal Smoker&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/0921e27f5818bfd69d7c4df3d83533cd15f60267126f4f87d15d082f404a6604.png" src="../../../_images/0921e27f5818bfd69d7c4df3d83533cd15f60267126f4f87d15d082f404a6604.png" />
+</div>
+</div>
+<p>The distribution of the weights of the babies born to mothers who smoked appears to be based slightly to the left of the distribution corresponding to non-smoking mothers. The weights of the babies of the mothers who smoked seem lower on average than the weights of the babies of the non-smokers.</p>
+<p>This raises the question of whether the difference reflects just chance variation or a difference in the distributions in the larger population. Could it be that there is no difference between the two distributions in the population, but we are seeing a difference in the samples just because of the mothers who happened to be selected?</p>
+</section>
+<section id="the-hypotheses">
+<h2>The Hypotheses<a class="headerlink" href="#the-hypotheses" title="Link to this heading">¶</a></h2>
+<p>We can try to answer this question by a test of hypotheses. The chance model that we will test says that there is no underlying difference in the populations; the distributions in the samples are different just due to chance.</p>
+<p>Formally, this is the null hypothesis. We are going to have to figure out how to simulate a useful statistic under this hypothesis. But as a start, let’s just state the two natural hypotheses.</p>
+<p><strong>Null hypothesis:</strong> In the population, the distribution of birth weights of babies is the same for mothers who don’t smoke as for mothers who do. The difference in the sample is due to chance.</p>
+<p><strong>Alternative hypothesis:</strong> In the population, the babies of the mothers who smoke have a lower birth weight, on average, than the babies of the non-smokers.</p>
+</section>
+<section id="test-statistic">
+<h2>Test Statistic<a class="headerlink" href="#test-statistic" title="Link to this heading">¶</a></h2>
+<p>The alternative hypothesis compares the average birth weights of the two groups and says that the average for the mothers who smoke is smaller. Therefore it is reasonable for us to use the difference between the two group means as our statistic.</p>
+<p>We will do the subtraction in the order “average weight of the smoking group <span class="math notranslate nohighlight">\(-\)</span> average weight of the non-smoking group”. Small values (that is, large negative values) of this statistic will favor the alternative hypothesis.</p>
+<p>The observed value of the test statistic is about <span class="math notranslate nohighlight">\(-9.27\)</span> ounces.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">means_table</span> <span class="o">=</span> <span class="n">smoking_and_birthweight</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;Maternal Smoker&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">means_table</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Maternal Smoker</th> <th>Birth Weight average</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>False          </td> <td>123.085             </td>
+        </tr>
+        <tr>
+            <td>True           </td> <td>113.819             </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">means</span> <span class="o">=</span> <span class="n">means_table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">observed_difference</span> <span class="o">=</span> <span class="n">means</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">means</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">observed_difference</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">-9.266142572024918
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>We are going compute such differences repeatedly in our simulations below, so we will define a function to do the job. The function takes two arguments:</p>
+<ul class="simple">
+<li><p>the name of the table of data</p></li>
+<li><p>the label of the column that contains the Boolean variable for grouping</p></li>
+</ul>
+<p>It returns the difference between the means of the <code class="docutils literal notranslate"><span class="pre">True</span></code> group and the <code class="docutils literal notranslate"><span class="pre">False</span></code> group.</p>
+<p>You will soon see why we are specifying the two arguments. For now, just check that the function returns what it should.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">difference_of_means</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">group_label</span><span class="p">):</span>
+</span><span data-line="2"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes: name of table,</span>
+</span><span data-line="3"><span class="sd">    column label that indicates the group to which the row belongs</span>
+</span><span data-line="4"><span class="sd">    Returns: Difference of mean birth weights of the two groups&quot;&quot;&quot;</span>
+</span><span data-line="5">    <span class="n">reduced</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Birth Weight&#39;</span><span class="p">,</span> <span class="n">group_label</span><span class="p">)</span>
+</span><span data-line="6">    <span class="n">means_table</span> <span class="o">=</span> <span class="n">reduced</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="n">group_label</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">)</span>
+</span><span data-line="7">    <span class="n">means</span> <span class="o">=</span> <span class="n">means_table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span data-line="8">    <span class="k">return</span> <span class="n">means</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">means</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>To check that the function is working, let’s use it to calculate the observed difference between the mean birth weights of the two groups in the sample.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">difference_of_means</span><span class="p">(</span><span class="n">births</span><span class="p">,</span> <span class="s1">&#39;Maternal Smoker&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">-9.266142572024918
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>That’s the same as the value of <code class="docutils literal notranslate"><span class="pre">observed_difference</span></code> calculated earlier.</p>
+</section>
+<section id="predicting-the-statistic-under-the-null-hypothesis">
+<h2>Predicting the Statistic Under the Null Hypothesis<a class="headerlink" href="#predicting-the-statistic-under-the-null-hypothesis" title="Link to this heading">¶</a></h2>
+<p>To see how the statistic should vary under the null hypothesis, we have to figure out how to simulate the statistic under that hypothesis. A clever method based on <em>random permutations</em> does just that.</p>
+<p>If there were no difference between the two distributions in the underlying population, then whether a birth weight has the label <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> with respect to maternal smoking should make no difference to the average. The idea, then, is to shuffle all the labels randomly among the mothers. This is called <em>random permutation</em>.</p>
+<p>Shuffling ensures that the count of <code class="docutils literal notranslate"><span class="pre">True</span></code> labels does not change, and nor does the count of <code class="docutils literal notranslate"><span class="pre">False</span></code> labels. This is important for the comparability of the simulated differences of means and the original difference of means. We will see later in the course that the sample size affects the variability of a sample mean.</p>
+<p>Take the difference of the two new group means: the mean weight of the babies whose mothers have been randomly labeled smokers and the mean weight of the babies of the remaining mothers who have all been randomly labeled non-smokers. This is a simulated value of the test statistic under the null hypothesis.</p>
+<p>Let’s see how to do this. It’s always a good idea to start with the data. We have reduced the table to have just the columns that we need.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">smoking_and_birthweight</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Maternal Smoker</th> <th>Birth Weight</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>False          </td> <td>120         </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>113         </td>
+        </tr>
+        <tr>
+            <td>True           </td> <td>128         </td>
+        </tr>
+        <tr>
+            <td>True           </td> <td>108         </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>136         </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>138         </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>132         </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>120         </td>
+        </tr>
+        <tr>
+            <td>True           </td> <td>143         </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>140         </td>
+        </tr>
+    </tbody>
+</table>
+<p>... (1164 rows omitted)</p></div></div>
+</div>
+<p>There are 1,174 rows in the table. To shuffle all the labels, we will draw a random sample of 1,174 rows without replacement. Then the sample will include all the rows of the table, in random order.</p>
+<p>We can use the Table method <code class="docutils literal notranslate"><span class="pre">sample</span></code> with the optional <code class="docutils literal notranslate"><span class="pre">with_replacement=False</span></code> argument. We don’t have to specify a sample size, because by default, <code class="docutils literal notranslate"><span class="pre">sample</span></code> draws as many times as there are rows in the table.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">shuffled_labels</span> <span class="o">=</span> <span class="n">smoking_and_birthweight</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">with_replacement</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">original_and_shuffled</span> <span class="o">=</span> <span class="n">smoking_and_birthweight</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span><span class="s1">&#39;Shuffled Label&#39;</span><span class="p">,</span> <span class="n">shuffled_labels</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">original_and_shuffled</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Maternal Smoker</th> <th>Birth Weight</th> <th>Shuffled Label</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>False          </td> <td>120         </td> <td>True          </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>113         </td> <td>False         </td>
+        </tr>
+        <tr>
+            <td>True           </td> <td>128         </td> <td>False         </td>
+        </tr>
+        <tr>
+            <td>True           </td> <td>108         </td> <td>True          </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>136         </td> <td>False         </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>138         </td> <td>False         </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>132         </td> <td>True          </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>120         </td> <td>False         </td>
+        </tr>
+        <tr>
+            <td>True           </td> <td>143         </td> <td>True          </td>
+        </tr>
+        <tr>
+            <td>False          </td> <td>140         </td> <td>False         </td>
+        </tr>
+    </tbody>
+</table>
+<p>... (1164 rows omitted)</p></div></div>
+</div>
+<p>Each baby’s mother now has a random smoker/non-smoker label in the column <code class="docutils literal notranslate"><span class="pre">Shuffled</span> <span class="pre">Label</span></code>, while her original label is in <code class="docutils literal notranslate"><span class="pre">Maternal</span> <span class="pre">Smoker</span></code>. If the null hypothesis is true, all the random re-arrangements of the labels should be equally likely.</p>
+<p>Let’s see how different the average weights are in the two randomly labeled groups.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">shuffled_only</span> <span class="o">=</span> <span class="n">original_and_shuffled</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Birth Weight&#39;</span><span class="p">,</span><span class="s1">&#39;Shuffled Label&#39;</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">shuffled_group_means</span> <span class="o">=</span> <span class="n">shuffled_only</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;Shuffled Label&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">shuffled_group_means</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+    <thead>
+        <tr>
+            <th>Shuffled Label</th> <th>Birth Weight average</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>False         </td> <td>119.277             </td>
+        </tr>
+        <tr>
+            <td>True          </td> <td>119.752             </td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>The averages of the two randomly selected groups are quite a bit closer than the averages of the two original groups. We can use our function <code class="docutils literal notranslate"><span class="pre">difference_of_means</span></code> to find the two differences.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">difference_of_means</span><span class="p">(</span><span class="n">original_and_shuffled</span><span class="p">,</span> <span class="s1">&#39;Shuffled Label&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">0.4747109100050153
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">difference_of_means</span><span class="p">(</span><span class="n">original_and_shuffled</span><span class="p">,</span> <span class="s1">&#39;Maternal Smoker&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">-9.266142572024918
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>But could a different shuffle have resulted in a larger difference between the group averages? To get a sense of the variability, we must simulate the difference many times.</p>
+<p>As always, we will start by defining a function that simulates one value of the test statistic under the null hypothesis. This is just a matter of collecting the code that we wrote above.</p>
+<p>The function is called <code class="docutils literal notranslate"><span class="pre">one_simulated_difference_of_means</span></code>. It takes no arguments, and returns the difference between the mean birth weights of two groups formed by randomly shuffling all the labels.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">one_simulated_difference_of_means</span><span class="p">():</span>
+</span><span data-line="2"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns: Difference between mean birthweights</span>
+</span><span data-line="3"><span class="sd">    of babies of smokers and non-smokers after shuffling labels&quot;&quot;&quot;</span>
+</span><span data-line="4">    
+</span><span data-line="5">    <span class="c1"># array of shuffled labels</span>
+</span><span data-line="6">    <span class="n">shuffled_labels</span> <span class="o">=</span> <span class="n">births</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">with_replacement</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Maternal Smoker&#39;</span><span class="p">)</span>
+</span><span data-line="7">    
+</span><span data-line="8">    <span class="c1"># table of birth weights and shuffled labels</span>
+</span><span data-line="9">    <span class="n">shuffled_table</span> <span class="o">=</span> <span class="n">births</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Birth Weight&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+</span><span data-line="10">        <span class="s1">&#39;Shuffled Label&#39;</span><span class="p">,</span> <span class="n">shuffled_labels</span><span class="p">)</span>
+</span><span data-line="11">    
+</span><span data-line="12">    <span class="k">return</span> <span class="n">difference_of_means</span><span class="p">(</span><span class="n">shuffled_table</span><span class="p">,</span> <span class="s1">&#39;Shuffled Label&#39;</span><span class="p">)</span>   
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>Run the cell below a few times to see how the output changes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">one_simulated_difference_of_means</span><span class="p">()</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">-0.058299434770034964
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="permutation-test">
+<h2>Permutation Test<a class="headerlink" href="#permutation-test" title="Link to this heading">¶</a></h2>
+<p>Tests based on random permutations of the data are called <em>permutation tests</em>. We are performing one in this example. In the cell below, we will simulate our test statistic – the difference between the average birth weight of the two randomly formed groups – many times and collect the differences in an array.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">differences</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">()</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">repetitions</span> <span class="o">=</span> <span class="mi">5000</span>
+</span><span data-line="4"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">repetitions</span><span class="p">):</span>
+</span><span data-line="5">    <span class="n">new_difference</span> <span class="o">=</span> <span class="n">one_simulated_difference_of_means</span><span class="p">()</span>
+</span><span data-line="6">    <span class="n">differences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">differences</span><span class="p">,</span> <span class="n">new_difference</span><span class="p">)</span>                               
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>The array <code class="docutils literal notranslate"><span class="pre">differences</span></code> contains 5,000 simulated values of our test statistic: the difference between the mean weight in the smoking group and the mean weight in the non-smoking group, when the labels have been assigned at random.</p>
+</section>
+<section id="conclusion-of-the-test">
+<h2>Conclusion of the Test<a class="headerlink" href="#conclusion-of-the-test" title="Link to this heading">¶</a></h2>
+<p>The histogram below shows the distribution of these 5,000 values. It is the empirical distribution of the test statistic simulated under the null hypothesis. This is a prediction about the test statistic, based on the null hypothesis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span><span class="s1">&#39;Difference Between Group Means&#39;</span><span class="p">,</span> <span class="n">differences</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</span><span data-line="2"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Observed Difference:&#39;</span><span class="p">,</span> <span class="n">observed_difference</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Prediction Under the Null Hypothesis&#39;</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">Observed Difference: -9.266142572024918
+</span></pre></div>
+</div>
+<img alt="../../../_images/3ef8ccb2cf1428cfeecadee516fe5bcc1b98cccf2e9cc3dc79d07d33b27eda46.png" src="../../../_images/3ef8ccb2cf1428cfeecadee516fe5bcc1b98cccf2e9cc3dc79d07d33b27eda46.png" />
+</div>
+</div>
+<p>Notice how the distribution is centered roughly around 0. This makes sense, because under the null hypothesis the two groups should have roughly the same average. Therefore the difference between the group averages should be around 0.</p>
+<p>The observed difference in the original sample is about <span class="math notranslate nohighlight">\(-9.27\)</span> ounces, which doesn’t even appear on the horizontal scale of the histogram. The observed value of the statistic and the predicted behavior of the statistic under the null hypothesis are inconsistent.</p>
+<p>The conclusion of the test is that the data favor the alternative over the null. It supports the hypothesis that the average birth weight of babies born to mothers who smoke is less than the average birth weight of babies born to non-smokers.</p>
+<p>If you want to compute an empirical p-value, remember that low values of the statistic favor the alternative hypothesis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">empirical_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">differences</span> <span class="o">&lt;=</span> <span class="n">observed_difference</span><span class="p">)</span> <span class="o">/</span> <span class="n">repetitions</span>
+</span><span data-line="2"><span class="n">empirical_p</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">0.0
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>The empirical p-value is 0, meaning that none of the 5,000 permuted samples resulted in a difference of -9.27 or lower. This is only an approximation. The exact chance of getting a difference in that range is not 0. But it is vanishingly small, according to our simulation, and therefore we can reject the null hypothesis.</p>
+</section>
+<section id="another-permutation-test">
+<h2>Another Permutation Test<a class="headerlink" href="#another-permutation-test" title="Link to this heading">¶</a></h2>
+<p>We can use the same method to compare other attributes of the smokers and the non-smokers, such as their ages. Histograms of the ages of the two groups show that in the sample, the mothers who smoked tended to be younger.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">smoking_and_age</span> <span class="o">=</span> <span class="n">births</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Maternal Smoker&#39;</span><span class="p">,</span> <span class="s1">&#39;Maternal Age&#39;</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">smoking_and_age</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="s1">&#39;Maternal Age&#39;</span><span class="p">,</span> <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;Maternal Smoker&#39;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/196e5e941d45a7d3d8a0e976872af801075b9fff148848795f70baba5dccd93a.png" src="../../../_images/196e5e941d45a7d3d8a0e976872af801075b9fff148848795f70baba5dccd93a.png" />
+</div>
+</div>
+<p>The observed difference between the average ages is about <span class="math notranslate nohighlight">\(-0.8\)</span> years.</p>
+<p>Let’s rewrite the code that compared the birth weights so that it now compares the ages of the smokers and non-smokers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">difference_of_means</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">group_label</span><span class="p">):</span>
+</span><span data-line="2"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes: name of table,</span>
+</span><span data-line="3"><span class="sd">    column label that indicates the group to which the row belongs</span>
+</span><span data-line="4"><span class="sd">    Returns: Difference of mean ages of the two groups&quot;&quot;&quot;</span>
+</span><span data-line="5">    <span class="n">reduced</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Maternal Age&#39;</span><span class="p">,</span> <span class="n">group_label</span><span class="p">)</span>
+</span><span data-line="6">    <span class="n">means_table</span> <span class="o">=</span> <span class="n">reduced</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="n">group_label</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">)</span>
+</span><span data-line="7">    <span class="n">means</span> <span class="o">=</span> <span class="n">means_table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span data-line="8">    <span class="k">return</span> <span class="n">means</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">means</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">observed_age_difference</span> <span class="o">=</span> <span class="n">difference_of_means</span><span class="p">(</span><span class="n">births</span><span class="p">,</span> <span class="s1">&#39;Maternal Smoker&#39;</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">observed_age_difference</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">-0.8076725017901509
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>Remember that the difference is calculated as the mean age of the smokers minus the mean age of the non-smokers. The negative sign shows that the smokers are younger on average.</p>
+<p>Is this difference due to chance, or does it reflect an underlying difference in the population?</p>
+<p>As before, we can use a permutation test to answer this question. If the underlying distributions of ages in the two groups are the same, then the empirical distribution of the difference based on permuted samples will predict how the statistic should vary due to chance.</p>
+<p>We will follow the same process as in any simulation. We will start by writing a function that returns one simulated value of the difference between means, and then write a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop to simulate numerous such values and collect them in an array.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">one_simulated_difference_of_means</span><span class="p">():</span>
+</span><span data-line="2"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns: Difference between mean ages</span>
+</span><span data-line="3"><span class="sd">    of smokers and non-smokers after shuffling labels&quot;&quot;&quot;</span>
+</span><span data-line="4">    
+</span><span data-line="5">    <span class="c1"># array of shuffled labels</span>
+</span><span data-line="6">    <span class="n">shuffled_labels</span> <span class="o">=</span> <span class="n">births</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">with_replacement</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Maternal Smoker&#39;</span><span class="p">)</span>
+</span><span data-line="7">    
+</span><span data-line="8">    <span class="c1"># table of ages and shuffled labels</span>
+</span><span data-line="9">    <span class="n">shuffled_table</span> <span class="o">=</span> <span class="n">births</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Maternal Age&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+</span><span data-line="10">        <span class="s1">&#39;Shuffled Label&#39;</span><span class="p">,</span> <span class="n">shuffled_labels</span><span class="p">)</span>
+</span><span data-line="11">    
+</span><span data-line="12">    <span class="k">return</span> <span class="n">difference_of_means</span><span class="p">(</span><span class="n">shuffled_table</span><span class="p">,</span> <span class="s1">&#39;Shuffled Label&#39;</span><span class="p">)</span>   
+</span></pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">age_differences</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">()</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">repetitions</span> <span class="o">=</span> <span class="mi">5000</span>
+</span><span data-line="4"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">repetitions</span><span class="p">):</span>
+</span><span data-line="5">    <span class="n">new_difference</span> <span class="o">=</span> <span class="n">one_simulated_difference_of_means</span><span class="p">()</span>
+</span><span data-line="6">    <span class="n">age_differences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">age_differences</span><span class="p">,</span> <span class="n">new_difference</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>The observed difference is in the tail of the empirical distribution of the differences simulated under the null hypothesis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+</span><span data-line="2">    <span class="s1">&#39;Difference Between Group Means&#39;</span><span class="p">,</span> <span class="n">age_differences</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">right_end</span> <span class="o">=</span> <span class="n">observed_age_difference</span><span class="p">)</span>
+</span><span data-line="4"><span class="c1"># Plotting parameters; you can ignore the code below</span>
+</span><span data-line="5"><span class="n">plots</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+</span><span data-line="6"><span class="n">plots</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">observed_age_difference</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span data-line="7"><span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Prediction Under the Null Hypothesis&#39;</span><span class="p">)</span>
+</span><span data-line="8"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Observed Difference:&#39;</span><span class="p">,</span> <span class="n">observed_age_difference</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">Observed Difference: -0.8076725017901509
+</span></pre></div>
+</div>
+<img alt="../../../_images/695d4a6733be74e52c02248d95a5065954fec08d0976dcf4a29463d09fc9c0dc.png" src="../../../_images/695d4a6733be74e52c02248d95a5065954fec08d0976dcf4a29463d09fc9c0dc.png" />
+</div>
+</div>
+<p>Once again, the empirical distribution of the simulated differences is centered roughly around 0, because the simulation is under the null hypothesis that there is no difference between the distributions of the two groups.</p>
+<p>The empirical p-value of the test is the proportion of simulated differences that were equal to or less than the observed difference. This is because low values of the difference favor the alternative hypothesis that the smokers were younger on average.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">empirical_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">age_differences</span> <span class="o">&lt;=</span> <span class="n">observed_age_difference</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5000</span>
+</span><span data-line="2"><span class="n">empirical_p</span>
+</span></pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">0.0108
+</span></pre></div>
+</div>
+</div>
+</div>
+<p>The empirical p-value is around 1% and therefore the result is statistically significant. The test supports the hypothesis that the smokers were younger on average.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters/12/1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../Comparing_Two_Samples.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Comparing Two Samples</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../2/Causality.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Causality</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2023</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../_static/shibuya.js?v=55e26b35"></script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></body>
+</html>
