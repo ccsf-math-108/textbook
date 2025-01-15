@@ -1,0 +1,44 @@
+#######################################################################################
+# Book settings
+title: Computational and Inferential Thinking
+author: Ani Adhikari and John DeNero and David Wagner
+email: ''
+logo: "images/logo.png"  # A path to the book logo
+exclude_patterns: ["README.md"]  # Patterns to skip when building the book. Can be glob-style (e.g. "*skip.ipynb")
+
+#######################################################################################
+# Execution settings
+execute:
+  execute_notebooks         : 'off'  # Whether to execute notebooks at build time. Must be one of ("auto", "force", "cache", "off")
+  timeout                   : 600    # The maximum time (in seconds) each notebook cell is allowed to run.
+
+#######################################################################################
+# HTML-specific settings
+html:
+  favicon                   : "images/logo.png"  # A path to a favicon image
+  navbar_number_sections    : false  # Add a number to each section in your left navbar
+  home_page_in_navbar       : true # Whether to include your home page in the left Navigation Bar
+  baseurl                   : "https://ccsf-math-108.github.io/textbook"  # The base URL where your book will be hosted. Used for creating image previews and social links. e.g.: https://mypage.com/mybook/
+
+#######################################################################################
+# Launch button settings
+launch_buttons:
+  jupyterhub_url            : https://datahub.berkeley.edu
+  notebook_interface        : jupyterlab
+
+#repository:
+  url                       : https://github.com/ccsf-math-108/textbook  # The URL to your book's repository
+  branch                    : gh-pages  # Which branch of the repository should be used when creating links
+
+sphinx:
+  config:
+    html_extra_path: ['assets']
+    html_theme: "shibuya"
+    html_theme_options:
+      color_mode: "light"
+      accent_color: "red"
+  extra_extensions:
+    # - "nbsphinx"
+    # - "sphinx_design"
+    - "sphinx_copybutton"
+    # - "jupyter_sphinx"
