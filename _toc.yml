@@ -2,7 +2,7 @@ format: jb-article
 root: chapters/intro
 title: Introduction
 options:
-  numbered: false
+  numbered: true
 sections:
 - file: chapters/01/what-is-data-science
   title: Data Science
@@ -211,8 +211,8 @@ sections:
     title: Implementing the Classifier
   - file: chapters/17/5/Accuracy_of_the_Classifier
     title: The Accuracy of the Classifier
-  - file: chapters/17/6/Multiple_Regression
-    title: Multiple Regression
+#  - file: chapters/17/6/Multiple_Regression
+#    title: Multiple Regression
 - file: chapters/18/Updating_Predictions
   title: Updating Predictions
   sections:
