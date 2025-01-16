@@ -1,304 +1,560 @@
+
 <!DOCTYPE html>
-<html lang="en" data-accent-color="red" data-content_root="../../../">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Applying a Function to a Column - Computational and Inferential Thinking</title><link rel="shortcut icon" href="../../../_static/logo.png"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Classifying by One Variable" href="../2/Classifying_by_One_Variable.html" /><link rel="prev" title="Functions and Tables" href="../Functions_and_Tables.html" />
-      <link rel="canonical" href="https://ccsf-math-108.github.io/textbook/chapters/08/1/Applying_a_Function_to_a_Column.html" /><script>
-    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
-    setColorMode(localStorage._theme||"light");
-  </script><link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=397bb51e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/shibuya.css?v=10d1008b" />
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>8.1. Applying a Function to a Column &#8212; Computational and Inferential Thinking</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link media="print" rel="stylesheet" type="text/css" href="../../../_static/print.css?v=20ff2c19" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
-  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
-}
-</style>
-    <meta property="og:type" content="website"/>
-<meta property="og:url" content="https://ccsf-math-108.github.io/textbook/chapters/08/1/Applying_a_Function_to_a_Column.html"/>
-<meta property="og:title" content="Applying a Function to a Column"/>
-<meta name="twitter:card" content="summary"/>
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/08/1/Applying_a_Function_to_a_Column';</script>
+    <link rel="canonical" href="https://ccsf-math-108.github.io/textbook/chapters/08/1/Applying_a_Function_to_a_Column.html" />
+    <link rel="icon" href="../../../_static/logo.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="8.2. Classifying by One Variable" href="../2/Classifying_by_One_Variable.html" />
+    <link rel="prev" title="8. Functions and Tables" href="../Functions_and_Tables.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
-<body><div class="sy-head">
-  <div class="sy-head-blur"></div>
-  <div class="sy-head-inner sy-container mx-auto">
-    <a class="sy-head-brand" href="../../intro.html">
-      <img class="light-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
-      <img class="dark-logo" src="../../../_static/logo.png" alt="Project name not set" height="28" loading="lazy" />
-      <strong>Project name not set</strong>
-    </a>
-    <div class="sy-head-nav" id="HeadNav">
-      <nav class="sy-head-links"></nav>
-      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../search.html" method="get">
-  <input type="text" name="q" placeholder="Search" />
-  <kbd>/</kbd>
-</form><div class="sy-head-socials"></div></div>
-    </div>
-    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
-data-aria-auto="Switch to light color mode"
-data-aria-light="Switch to dark color mode"
-data-aria-dark="Switch to auto color mode">
-<i class="i-lucide theme-icon"></i>
-</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="HeadNav" aria-expanded="false">
-        <div class="hamburger">
-          <span class="hamburger_1"></span>
-          <span class="hamburger_2 -translate-x-2"></span>
-          <span class="hamburger_3 -translate-x-1"></span>
-        </div>
-      </button>
-    </div>
-  </div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-<div class="sy-page sy-container flex mx-auto">
-  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
-    <div class="sy-lside-inner md:sticky">
-      <div class="sy-scrollbar p-6">
-        <div class="globaltoc" data-expand-depth="0"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../01/what-is-data-science.html">Data Science</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../01/1/intro.html">Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../01/1/1/computational-tools.html">Computational Tools</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../01/1/2/statistical-techniques.html">Statistical Techniques</a></li>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="Computational and Inferential Thinking - Home"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Computational and Inferential Thinking - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../01/what-is-data-science.html">1. Data Science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../01/1/intro.html">1.1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/1/computational-tools.html">1.1.1. Computational Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/1/2/statistical-techniques.html">1.1.2. Statistical Techniques</a></li>
 </ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../01/2/why-data-science.html">Why Data Science?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../01/3/Plotting_the_Classics.html">Plotting the Classics</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../01/3/1/Literary_Characters.html">Literary Characters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../01/3/2/Another_Kind_Of_Character.html">Another Kind of Character</a></li>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../01/2/why-data-science.html">1.2. Why Data Science?</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../01/3/Plotting_the_Classics.html">1.3. Plotting the Classics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/1/Literary_Characters.html">1.3.1. Literary Characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../01/3/2/Another_Kind_Of_Character.html">1.3.2. Another Kind of Character</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../02/causality-and-experiments.html">Causality and Experiments</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../02/1/observation-and-visualization-john-snow-and-the-broad-street-pump.html">John Snow and the Broad Street Pump</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../02/2/snow-s-grand-experiment.html">Snow’s “Grand Experiment”</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../02/3/establishing-causality.html">Establishing Causality</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../02/4/randomization.html">Randomization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../02/5/endnote.html">Endnote</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../02/causality-and-experiments.html">2. Causality and Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../02/1/observation-and-visualization-john-snow-and-the-broad-street-pump.html">2.1. John Snow and the Broad Street Pump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/2/snow-s-grand-experiment.html">2.2. Snow’s “Grand Experiment”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/3/establishing-causality.html">2.3. Establishing Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/4/randomization.html">2.4. Randomization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../02/5/endnote.html">2.5. Endnote</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../03/programming-in-python.html">Programming in Python</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../03/1/Expressions.html">Expressions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../03/2/Names.html">Names</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../03/2/1/Growth.html">Example: Growth Rates</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../03/programming-in-python.html">3. Programming in Python</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../03/1/Expressions.html">3.1. Expressions</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../03/2/Names.html">3.2. Names</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../03/2/1/Growth.html">3.2.1. Example: Growth Rates</a></li>
 </ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../03/3/Calls.html">Call Expressions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../03/4/Introduction_to_Tables.html">Introduction to Tables</a></li>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/3/Calls.html">3.3. Call Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03/4/Introduction_to_Tables.html">3.4. Introduction to Tables</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../04/Data_Types.html">Data Types</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../04/1/Numbers.html">Numbers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../04/2/Strings.html">Strings</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../04/2/1/String_Methods.html">String Methods</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../04/Data_Types.html">4. Data Types</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../04/1/Numbers.html">4.1. Numbers</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../04/2/Strings.html">4.2. Strings</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../04/2/1/String_Methods.html">4.2.1. String Methods</a></li>
 </ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../04/3/Comparison.html">Comparisons</a></li>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../04/3/Comparison.html">4.3. Comparisons</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../05/Sequences.html">Sequences</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../05/1/Arrays.html">Arrays</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../05/2/Ranges.html">Ranges</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../05/3/More_on_Arrays.html">More on Arrays</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../05/Sequences.html">5. Sequences</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../05/1/Arrays.html">5.1. Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/2/Ranges.html">5.2. Ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../05/3/More_on_Arrays.html">5.3. More on Arrays</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../06/Tables.html">Tables</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../06/1/Sorting_Rows.html">Sorting Rows</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../06/2/Selecting_Rows.html">Selecting Rows</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../06/3/Example_Population_Trends.html">Example: Population Trends</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../06/4/Example_Sex_Ratios.html">Example: Sex Ratios</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../06/Tables.html">6. Tables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../06/1/Sorting_Rows.html">6.1. Sorting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/2/Selecting_Rows.html">6.2. Selecting Rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/3/Example_Population_Trends.html">6.3. Example: Population Trends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../06/4/Example_Sex_Ratios.html">6.4. Example: Sex Ratios</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../07/Visualization.html">Visualization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../07/1/Visualizing_Categorical_Distributions.html">Categorical Distributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../07/2/Visualizing_Numerical_Distributions.html">Numerical Distributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../07/3/Overlaid_Graphs.html">Overlaid Graphs</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../07/Visualization.html">7. Visualization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../07/1/Visualizing_Categorical_Distributions.html">7.1. Categorical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/2/Visualizing_Numerical_Distributions.html">7.2. Numerical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../07/3/Overlaid_Graphs.html">7.3. Overlaid Graphs</a></li>
 </ul>
-</li>
-<li class="toctree-l1 current"><a class="reference internal" href="../Functions_and_Tables.html">Functions and Tables</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Applying Functions to Columns</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../2/Classifying_by_One_Variable.html">Classifying by One Variable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../3/Cross-Classifying_by_More_than_One_Variable.html">Cross-Classifying</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../4/Joining_Tables_by_Columns.html">Joining Tables by Columns</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../5/Bike_Sharing_in_the_Bay_Area.html">Bike Sharing in the Bay Area</a></li>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../Functions_and_Tables.html">8. Functions and Tables</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.1. Applying Functions to Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2/Classifying_by_One_Variable.html">8.2. Classifying by One Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3/Cross-Classifying_by_More_than_One_Variable.html">8.3. Cross-Classifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4/Joining_Tables_by_Columns.html">8.4. Joining Tables by Columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5/Bike_Sharing_in_the_Bay_Area.html">8.5. Bike Sharing in the Bay Area</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../09/Randomness.html">Randomness</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../09/1/Conditional_Statements.html">Conditional Statements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../09/2/Iteration.html">Iteration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../09/3/Simulation.html">Simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../09/4/Monty_Hall_Problem.html">The Monty Hall Problem</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../09/5/Finding_Probabilities.html">Finding Probabilities</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../09/Randomness.html">9. Randomness</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../09/1/Conditional_Statements.html">9.1. Conditional Statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/2/Iteration.html">9.2. Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/3/Simulation.html">9.3. Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/4/Monty_Hall_Problem.html">9.4. The Monty Hall Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../09/5/Finding_Probabilities.html">9.5. Finding Probabilities</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../10/Sampling_and_Empirical_Distributions.html">Sampling and Empirical Distributions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../10/1/Empirical_Distributions.html">Empirical Distributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../10/2/Sampling_from_a_Population.html">Sampling from a Population</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../10/3/Empirical_Distribution_of_a_Statistic.html">Empirical Distibution of a Statistic</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../10/4/Random_Sampling_in_Python.html">Random Sampling in Python</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../10/Sampling_and_Empirical_Distributions.html">10. Sampling and Empirical Distributions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../10/1/Empirical_Distributions.html">10.1. Empirical Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/2/Sampling_from_a_Population.html">10.2. Sampling from a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/3/Empirical_Distribution_of_a_Statistic.html">10.3. Empirical Distibution of a Statistic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../10/4/Random_Sampling_in_Python.html">10.4. Random Sampling in Python</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../11/Testing_Hypotheses.html">Testing Hypotheses</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../11/1/Assessing_a_Model.html">Assessing a Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../11/2/Multiple_Categories.html">Multiple Categories</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../11/3/Decisions_and_Uncertainty.html">Decisions and Uncertainty</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../11/4/Error_Probabilities.html">Error Probabilities</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../11/Testing_Hypotheses.html">11. Testing Hypotheses</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../11/1/Assessing_a_Model.html">11.1. Assessing a Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/2/Multiple_Categories.html">11.2. Multiple Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/3/Decisions_and_Uncertainty.html">11.3. Decisions and Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../11/4/Error_Probabilities.html">11.4. Error Probabilities</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../12/Comparing_Two_Samples.html">Comparing Two Samples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../12/1/AB_Testing.html">A/B Testing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../12/2/Causality.html">Causality</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../12/3/Deflategate.html">Deflategate</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../12/Comparing_Two_Samples.html">12. Comparing Two Samples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../12/1/AB_Testing.html">12.1. A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/2/Causality.html">12.2. Causality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../12/3/Deflategate.html">12.3. Deflategate</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../13/Estimation.html">Estimation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../13/1/Percentiles.html">Percentiles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../13/2/Bootstrap.html">The Bootstrap</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../13/3/Confidence_Intervals.html">Confidence Intervals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../13/4/Using_Confidence_Intervals.html">Using Confidence Intervals</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../13/Estimation.html">13. Estimation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../13/1/Percentiles.html">13.1. Percentiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/2/Bootstrap.html">13.2. The Bootstrap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/3/Confidence_Intervals.html">13.3. Confidence Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../13/4/Using_Confidence_Intervals.html">13.4. Using Confidence Intervals</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../14/Why_the_Mean_Matters.html">Why the Mean Matters</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../14/1/Properties_of_the_Mean.html">Properties of the Mean</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../14/2/Variability.html">Variability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../14/3/SD_and_the_Normal_Curve.html">The SD and the Normal Curve</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../14/4/Central_Limit_Theorem.html">The Central Limit Theorem</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../14/5/Variability_of_the_Sample_Mean.html">The Variability of the Sample Mean</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../14/6/Choosing_a_Sample_Size.html">Choosing a Sample Size</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../14/Why_the_Mean_Matters.html">14. Why the Mean Matters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../14/1/Properties_of_the_Mean.html">14.1. Properties of the Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/2/Variability.html">14.2. Variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/3/SD_and_the_Normal_Curve.html">14.3. The SD and the Normal Curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/4/Central_Limit_Theorem.html">14.4. The Central Limit Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/5/Variability_of_the_Sample_Mean.html">14.5. The Variability of the Sample Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../14/6/Choosing_a_Sample_Size.html">14.6. Choosing a Sample Size</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../15/Prediction.html">Prediction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../15/1/Correlation.html">Correlation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../15/2/Regression_Line.html">The Regression Line</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../15/3/Method_of_Least_Squares.html">The Method of Least Squares</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../15/4/Least_Squares_Regression.html">Least Squares Regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../15/5/Visual_Diagnostics.html">Visual Diagnostics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../15/6/Numerical_Diagnostics.html">Numerical Diagnostics</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../15/Prediction.html">15. Prediction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../15/1/Correlation.html">15.1. Correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/2/Regression_Line.html">15.2. The Regression Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/3/Method_of_Least_Squares.html">15.3. The Method of Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/4/Least_Squares_Regression.html">15.4. Least Squares Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/5/Visual_Diagnostics.html">15.5. Visual Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../15/6/Numerical_Diagnostics.html">15.6. Numerical Diagnostics</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../16/Inference_for_Regression.html">Inference for Regression</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../16/1/Regression_Model.html">A Regression Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../16/2/Inference_for_the_True_Slope.html">Inference for the True Slope</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../16/3/Prediction_Intervals.html">Prediction Intervals</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../16/Inference_for_Regression.html">16. Inference for Regression</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../16/1/Regression_Model.html">16.1. A Regression Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/2/Inference_for_the_True_Slope.html">16.2. Inference for the True Slope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../16/3/Prediction_Intervals.html">16.3. Prediction Intervals</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../17/Classification.html">Classification</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../17/1/Nearest_Neighbors.html">Nearest Neighbors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../17/2/Training_and_Testing.html">Training and Testing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../17/3/Rows_of_Tables.html">Rows of Tables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../17/4/Implementing_the_Classifier.html">Implementing the Classifier</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../17/5/Accuracy_of_the_Classifier.html">The Accuracy of the Classifier</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../17/6/Multiple_Regression.html">Multiple Regression</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../17/Classification.html">17. Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../17/1/Nearest_Neighbors.html">17.1. Nearest Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/2/Training_and_Testing.html">17.2. Training and Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/3/Rows_of_Tables.html">17.3. Rows of Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/4/Implementing_the_Classifier.html">17.4. Implementing the Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../17/5/Accuracy_of_the_Classifier.html">17.5. The Accuracy of the Classifier</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../18/Updating_Predictions.html">Updating Predictions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../18/1/More_Likely_than_Not_Binary_Classifier.html">A &quot;More Likely Than Not&quot; Binary Classifier</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../18/2/Making_Decisions.html">Making Decisions</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../18/Updating_Predictions.html">18. Updating Predictions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../18/1/More_Likely_than_Not_Binary_Classifier.html">18.1. A "More Likely Than Not" Binary Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../18/2/Making_Decisions.html">18.2. Making Decisions</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 
-        </div>
-      </div>
     </div>
-  </aside>
-  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
-  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
-    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
-      <i class="i-lucide close"></i>
-    </button>
-    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
-<li><a class="reference internal" href="#apply"><code class="docutils literal notranslate"><span class="pre">apply</span></code></a></li>
-<li><a class="reference internal" href="#functions-as-values">Functions as Values</a></li>
-<li><a class="reference internal" href="#example-prediction">Example: Prediction</a></li>
-</ul>
-</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
-  </aside>
-  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
-  <main class="sy-main w-full max-sm:max-w-full print:pt-6"><div class="sy-breadcrumbs" role="navigation">
-  <div class="sy-breadcrumbs-inner flex items-center">
-    <div class="md:hidden mr-3">
-      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
-        <i class="i-lucide menu"></i>
-      </button>
+</nav></div>
     </div>
-    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="../../intro.html"><span itemprop="name">Project name not set</span></a>
-        <span>/</span>
-        <meta itemprop="position" content="1" />
-      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="../Functions_and_Tables.html"><span itemprop="name">Functions and Tables</span></a>
-        <span>/</span>
-        <meta itemprop="position" content="2" />
-      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <strong itemprop="name">Applying a Function to a Column</strong>
-        <meta itemprop="position" content="3" />
-      </li></ol>
-    <div class="xl:hidden ml-1">
-      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
-        aria-expanded="false">
-        <i class="i-lucide outdent"></i>
-      </button>
-    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-</div><div class="flex flex-col break-words justify-between">
-      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
-        <article class="yue" role="main">
-          <div class="cell tag_remove-input docutils container">
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://ccsf.cloudbank.2i2c.cloud/hub/user-redirect/git-pull?repo=https%3A//github.com/ccsf-math-108/textbook&urlpath=lab/tree/textbook/chapters/08/1/Applying_a_Function_to_a_Column.ipynb&branch=main" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on JupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="JupyterHub logo" src="../../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+<a href="https://github.com/ccsf-math-108/textbook/issues/new?title=Issue%20on%20page%20%2Fchapters/08/1/Applying_a_Function_to_a_Column.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button"
+   title="Open an issue"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/chapters/08/1/Applying_a_Function_to_a_Column.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Applying a Function to a Column</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apply">8.1.1. <code class="docutils literal notranslate"><span class="pre">apply</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-as-values">8.1.2. Functions as Values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-prediction">8.1.3. Example: Prediction</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell tag_remove-input docutils container">
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="applying-a-function-to-a-column">
-<h1>Applying a Function to a Column<a class="headerlink" href="#applying-a-function-to-a-column" title="Link to this heading">¶</a></h1>
+<h1><span class="section-number">8.1. </span>Applying a Function to a Column<a class="headerlink" href="#applying-a-function-to-a-column" title="Link to this heading">#</a></h1>
 <p>We have seen many examples of creating new columns of tables by applying functions to existing columns or to other arrays. All of those functions took arrays as their arguments. But frequently we will want to convert the entries in a column by a function that doesn’t take an array as its argument. For example, it might take just one number as its argument, as in the function <code class="docutils literal notranslate"><span class="pre">cut_off_at_100</span></code> defined below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">cut_off_at_100</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-</span><span data-line="2"><span class="w">    </span><span class="sd">&quot;&quot;&quot;The smaller of x and 100&quot;&quot;&quot;</span>
-</span><span data-line="3">    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">cut_off_at_100</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The smaller of x and 100&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">cut_off_at_100</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cut_off_at_100</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">17
-</span></pre></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>17
+</pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">cut_off_at_100</span><span class="p">(</span><span class="mi">117</span><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cut_off_at_100</span><span class="p">(</span><span class="mi">117</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">100
-</span></pre></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100
+</pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">cut_off_at_100</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cut_off_at_100</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">100
-</span></pre></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100
+</pre></div>
 </div>
 </div>
 </div>
@@ -308,12 +564,12 @@ data-aria-dark="Switch to auto color mode">
 <p>First, we create the table <code class="docutils literal notranslate"><span class="pre">ages</span></code> with a column for people and one for their ages. For example, person <code class="docutils literal notranslate"><span class="pre">C</span></code> is 52 years old.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">ages</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
-</span><span data-line="2">    <span class="s1">&#39;Person&#39;</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">),</span>
-</span><span data-line="3">    <span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">117</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
-</span><span data-line="4"><span class="p">)</span>
-</span><span data-line="5"><span class="n">ages</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ages</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+    <span class="s1">&#39;Person&#39;</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="n">make_array</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">117</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">ages</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
@@ -346,17 +602,17 @@ data-aria-dark="Switch to auto color mode">
 </table></div></div>
 </div>
 <section id="apply">
-<h2><code class="docutils literal notranslate"><span class="pre">apply</span></code><a class="headerlink" href="#apply" title="Link to this heading">¶</a></h2>
+<h2><span class="section-number">8.1.1. </span><code class="docutils literal notranslate"><span class="pre">apply</span></code><a class="headerlink" href="#apply" title="Link to this heading">#</a></h2>
 <p>To cut off each of the ages at 100, we will use a new Table method. The <code class="docutils literal notranslate"><span class="pre">apply</span></code> method calls a function on each element of a column, forming a new array of return values. To indicate which function to call, just name it (without quotation marks or parentheses). The name of the column of input values is a string that must still appear within quotation marks.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">ages</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">cut_off_at_100</span><span class="p">,</span> <span class="s1">&#39;Age&#39;</span><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ages</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">cut_off_at_100</span><span class="p">,</span> <span class="s1">&#39;Age&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">array([ 17, 100,  52, 100,   6, 100])
-</span></pre></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 17, 100,  52, 100,   6, 100])
+</pre></div>
 </div>
 </div>
 </div>
@@ -364,10 +620,10 @@ data-aria-dark="Switch to auto color mode">
 <p>This array, which has the same length as the original <code class="docutils literal notranslate"><span class="pre">Age</span></code> column of the <code class="docutils literal notranslate"><span class="pre">ages</span></code> table, can be used as the values in a new column called <code class="docutils literal notranslate"><span class="pre">Cut</span> <span class="pre">Off</span> <span class="pre">Age</span></code> alongside the existing <code class="docutils literal notranslate"><span class="pre">Person</span></code> and <code class="docutils literal notranslate"><span class="pre">Age</span></code> columns.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">ages</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
-</span><span data-line="2">    <span class="s1">&#39;Cut Off Age&#39;</span><span class="p">,</span> <span class="n">ages</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">cut_off_at_100</span><span class="p">,</span> <span class="s1">&#39;Age&#39;</span><span class="p">)</span>
-</span><span data-line="3"><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ages</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+    <span class="s1">&#39;Cut Off Age&#39;</span><span class="p">,</span> <span class="n">ages</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">cut_off_at_100</span><span class="p">,</span> <span class="s1">&#39;Age&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
@@ -401,19 +657,19 @@ data-aria-dark="Switch to auto color mode">
 </div>
 </section>
 <section id="functions-as-values">
-<h2>Functions as Values<a class="headerlink" href="#functions-as-values" title="Link to this heading">¶</a></h2>
+<h2><span class="section-number">8.1.2. </span>Functions as Values<a class="headerlink" href="#functions-as-values" title="Link to this heading">#</a></h2>
 <p>We’ve seen that Python has many kinds of values.  For example, <code class="docutils literal notranslate"><span class="pre">6</span></code> is a number value, <code class="docutils literal notranslate"><span class="pre">&quot;cake&quot;</span></code> is a text value, <code class="docutils literal notranslate"><span class="pre">Table()</span></code> is an empty table, and <code class="docutils literal notranslate"><span class="pre">ages</span></code> is a name for a table value (since we defined it above).</p>
 <p>In Python, every function, including <code class="docutils literal notranslate"><span class="pre">cut_off_at_100</span></code>, is also a value. It helps to think about recipes again. A recipe for cake is a real thing, distinct from cakes or ingredients, and you can give it a name like “Ani’s cake recipe.” When we defined <code class="docutils literal notranslate"><span class="pre">cut_off_at_100</span></code> with a <code class="docutils literal notranslate"><span class="pre">def</span></code> statement, we actually did two separate things: we created a function that cuts off numbers at 100, and we gave it the name <code class="docutils literal notranslate"><span class="pre">cut_off_at_100</span></code>.</p>
 <p>We can refer to any function by writing its name, without the parentheses or arguments necessary to actually call it. We did this when we called <code class="docutils literal notranslate"><span class="pre">apply</span></code> above.  When we write a function’s name by itself as the last line in a cell, Python produces a text representation of the function, just like it would print out a number or a string value.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">cut_off_at_100</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cut_off_at_100</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">&lt;function __main__.cut_off_at_100(x)&gt;
-</span></pre></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;function __main__.cut_off_at_100(x)&gt;
+</pre></div>
 </div>
 </div>
 </div>
@@ -421,36 +677,36 @@ data-aria-dark="Switch to auto color mode">
 <p>Just like we can define new names for other values, we can define new names for functions.  For example, suppose we want to refer to our function as <code class="docutils literal notranslate"><span class="pre">cut_off</span></code> instead of <code class="docutils literal notranslate"><span class="pre">cut_off_at_100</span></code>.  We can just write this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">cut_off</span> <span class="o">=</span> <span class="n">cut_off_at_100</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cut_off</span> <span class="o">=</span> <span class="n">cut_off_at_100</span>
+</pre></div>
 </div>
 </div>
 </div>
 <p>Now <code class="docutils literal notranslate"><span class="pre">cut_off</span></code> is a name for a function.  It’s the same function as <code class="docutils literal notranslate"><span class="pre">cut_off_at_100</span></code>, so the printed value is exactly the same.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">cut_off</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cut_off</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">&lt;function __main__.cut_off_at_100(x)&gt;
-</span></pre></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;function __main__.cut_off_at_100(x)&gt;
+</pre></div>
 </div>
 </div>
 </div>
 <p>Let us see another application of <code class="docutils literal notranslate"><span class="pre">apply</span></code>.</p>
 </section>
 <section id="example-prediction">
-<h2>Example: Prediction<a class="headerlink" href="#example-prediction" title="Link to this heading">¶</a></h2>
+<h2><span class="section-number">8.1.3. </span>Example: Prediction<a class="headerlink" href="#example-prediction" title="Link to this heading">#</a></h2>
 <p>Data science is often used to make predictions about the future. If we are trying to predict an outcome for a particular individual – for example, how she will respond to a treatment, or whether he will buy a product – it is natural to base the prediction on the outcomes of other similar individuals.</p>
 <p>The table below is adapted from a historical data set on the heights of parents and their adult children. Each row corresponds to one adult child. The variables are a numerical code for the family, the heights (in inches) of the father and mother, the number of children in the family, as well as the child’s birth rank (1 = oldest), sex (coded only as “male” or “female”), and height in inches.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Data on heights of parents and their adult children</span>
-</span><span data-line="2"><span class="n">family_heights</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">path_data</span> <span class="o">+</span> <span class="s1">&#39;family_heights.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</span><span data-line="3"><span class="n">family_heights</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Data on heights of parents and their adult children</span>
+<span class="n">family_heights</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">path_data</span> <span class="o">+</span> <span class="s1">&#39;family_heights.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">family_heights</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
@@ -500,13 +756,13 @@ data-aria-dark="Switch to auto color mode">
 <p>The table <code class="docutils literal notranslate"><span class="pre">heights</span></code> consists of just the parent average heights and child heights. The scatter plot of the two variables shows a positive association as we would expect for these variables.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">parent_averages</span> <span class="o">=</span> <span class="p">(</span><span class="n">family_heights</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;father&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">family_heights</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;mother&#39;</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
-</span><span data-line="2"><span class="n">heights</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
-</span><span data-line="3">    <span class="s1">&#39;Parent Average&#39;</span><span class="p">,</span> <span class="n">parent_averages</span><span class="p">,</span>
-</span><span data-line="4">    <span class="s1">&#39;Child&#39;</span><span class="p">,</span> <span class="n">family_heights</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;childHeight&#39;</span><span class="p">)</span>
-</span><span data-line="5"><span class="p">)</span>
-</span><span data-line="6"><span class="n">heights</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parent_averages</span> <span class="o">=</span> <span class="p">(</span><span class="n">family_heights</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;father&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">family_heights</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;mother&#39;</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">heights</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+    <span class="s1">&#39;Parent Average&#39;</span><span class="p">,</span> <span class="n">parent_averages</span><span class="p">,</span>
+    <span class="s1">&#39;Child&#39;</span><span class="p">,</span> <span class="n">family_heights</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;childHeight&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">heights</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
@@ -553,8 +809,8 @@ data-aria-dark="Switch to auto color mode">
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">heights</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="s1">&#39;Parent Average&#39;</span><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heights</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="s1">&#39;Parent Average&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
@@ -568,11 +824,11 @@ data-aria-dark="Switch to auto color mode">
 <p>Ignore the code, and just focus on understanding the mental process of arriving at that gold dot.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">heights</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="s1">&#39;Parent Average&#39;</span><span class="p">)</span>
-</span><span data-line="2"><span class="n">plots</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">67.5</span><span class="p">,</span> <span class="mf">67.5</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">85</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</span><span data-line="3"><span class="n">plots</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">68.5</span><span class="p">,</span> <span class="mf">68.5</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">85</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</span><span data-line="4"><span class="n">plots</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">68</span><span class="p">,</span> <span class="mf">67.62</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gold&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">);</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heights</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="s1">&#39;Parent Average&#39;</span><span class="p">)</span>
+<span class="n">plots</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">67.5</span><span class="p">,</span> <span class="mf">67.5</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">85</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plots</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">68.5</span><span class="p">,</span> <span class="mf">68.5</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">85</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plots</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">68</span><span class="p">,</span> <span class="mf">67.62</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gold&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">);</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
@@ -582,9 +838,9 @@ data-aria-dark="Switch to auto color mode">
 <p>In order to calculate exactly where the gold dot should be, we first need to indentify all the points in the strip. These correspond to the rows where <code class="docutils literal notranslate"><span class="pre">Parent</span> <span class="pre">Average</span></code> is between 67.5 inches and 68.5 inches.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">close_to_68</span> <span class="o">=</span> <span class="n">heights</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;Parent Average&#39;</span><span class="p">,</span> <span class="n">are</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mf">67.5</span><span class="p">,</span> <span class="mf">68.5</span><span class="p">))</span>
-</span><span data-line="2"><span class="n">close_to_68</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">close_to_68</span> <span class="o">=</span> <span class="n">heights</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;Parent Average&#39;</span><span class="p">,</span> <span class="n">are</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mf">67.5</span><span class="p">,</span> <span class="mf">68.5</span><span class="p">))</span>
+<span class="n">close_to_68</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
@@ -632,73 +888,73 @@ data-aria-dark="Switch to auto color mode">
 <p>The predicted height of a child who has a parent average height of 68 inches is the average height of the children in these rows. That’s 67.62 inches.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">close_to_68</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Child&#39;</span><span class="p">))</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">close_to_68</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Child&#39;</span><span class="p">))</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">67.62
-</span></pre></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>67.62
+</pre></div>
 </div>
 </div>
 </div>
 <p>We now have a way to predict the height of a child given any value of the parent average height near those in our dataset. We can define a function <code class="docutils literal notranslate"><span class="pre">predict_child</span></code> that does this. The body of the function consists of the code in the two cells above, apart from choices of names.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="k">def</span><span class="w"> </span><span class="nf">predict_child</span><span class="p">(</span><span class="n">p_avg</span><span class="p">):</span>
-</span><span data-line="2"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict the height of a child whose parents have a parent average height of p_avg.</span>
-</span><span data-line="3"><span class="sd">    </span>
-</span><span data-line="4"><span class="sd">    The prediction is the average height of the children whose parent average height is</span>
-</span><span data-line="5"><span class="sd">    in the range p_avg plus or minus 0.5.</span>
-</span><span data-line="6"><span class="sd">    &quot;&quot;&quot;</span>
-</span><span data-line="7">    
-</span><span data-line="8">    <span class="n">close_points</span> <span class="o">=</span> <span class="n">heights</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;Parent Average&#39;</span><span class="p">,</span> <span class="n">are</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">p_avg</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">p_avg</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">))</span>
-</span><span data-line="9">    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">close_points</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Child&#39;</span><span class="p">))</span>                     
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">predict_child</span><span class="p">(</span><span class="n">p_avg</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict the height of a child whose parents have a parent average height of p_avg.</span>
+<span class="sd">    </span>
+<span class="sd">    The prediction is the average height of the children whose parent average height is</span>
+<span class="sd">    in the range p_avg plus or minus 0.5.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">close_points</span> <span class="o">=</span> <span class="n">heights</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;Parent Average&#39;</span><span class="p">,</span> <span class="n">are</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">p_avg</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">p_avg</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">close_points</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Child&#39;</span><span class="p">))</span>                     
+</pre></div>
 </div>
 </div>
 </div>
 <p>Given a parent average height of 68 inches, the function <code class="docutils literal notranslate"><span class="pre">predict_child</span></code> returns the same prediction (67.62 inches) as we got earlier. The advantage of defining the function is that we can easily change the value of the predictor and get a new prediction.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">predict_child</span><span class="p">(</span><span class="mi">68</span><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predict_child</span><span class="p">(</span><span class="mi">68</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">67.62
-</span></pre></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>67.62
+</pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">predict_child</span><span class="p">(</span><span class="mi">66</span><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predict_child</span><span class="p">(</span><span class="mi">66</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">66.08640776699029
-</span></pre></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>66.08640776699029
+</pre></div>
 </div>
 </div>
 </div>
 <p>How good are these predictions? We can get a sense of this by comparing the predictions with the data that we already have. To do this, we first apply the function <code class="docutils literal notranslate"><span class="pre">predict_child</span></code> to the column of <code class="docutils literal notranslate"><span class="pre">Parent</span> <span class="pre">Average</span></code> heights, and collect the results in a new column labeled <code class="docutils literal notranslate"><span class="pre">Prediction</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Apply predict_child to all the midparent heights</span>
-</span><span data-line="2">
-</span><span data-line="3"><span class="n">heights_with_predictions</span> <span class="o">=</span> <span class="n">heights</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
-</span><span data-line="4">    <span class="s1">&#39;Prediction&#39;</span><span class="p">,</span> <span class="n">heights</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">predict_child</span><span class="p">,</span> <span class="s1">&#39;Parent Average&#39;</span><span class="p">)</span>
-</span><span data-line="5"><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply predict_child to all the midparent heights</span>
+
+<span class="n">heights_with_predictions</span> <span class="o">=</span> <span class="n">heights</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+    <span class="s1">&#39;Prediction&#39;</span><span class="p">,</span> <span class="n">heights</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">predict_child</span><span class="p">,</span> <span class="s1">&#39;Parent Average&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">heights_with_predictions</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heights_with_predictions</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
@@ -746,8 +1002,8 @@ data-aria-dark="Switch to auto color mode">
 <p>To see where the predictions lie relative to the observed data, we can draw overlaid scatter plots with <code class="docutils literal notranslate"><span class="pre">Parent</span> <span class="pre">Average</span></code> as the common horizontal axis.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">heights_with_predictions</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="s1">&#39;Parent Average&#39;</span><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heights_with_predictions</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="s1">&#39;Parent Average&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
@@ -757,13 +1013,13 @@ data-aria-dark="Switch to auto color mode">
 <p>The graph of gold dots is called a <em>graph of averages,</em> because each gold dot is the center of a vertical strip like the one we drew earlier. Each one provides a prediction of a child’s height given the parent average height. For example, the scatter shows that for a parent average height of 65 inches, the predicted height of the child would be just above 65 inches, and indeed <code class="docutils literal notranslate"><span class="pre">predict_child(65)</span></code> evaluates to about 65.84.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">predict_child</span><span class="p">(</span><span class="mi">65</span><span class="p">)</span>
-</span></pre></div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predict_child</span><span class="p">(</span><span class="mi">65</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">65.83829787234043
-</span></pre></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>65.83829787234043
+</pre></div>
 </div>
 </div>
 </div>
@@ -791,61 +1047,107 @@ data-aria-dark="Switch to auto color mode">
     }
     </script>
     <script>kernelName = 'python3'</script>
-        </article><button class="back-to-top" type="button">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
-  </svg>
-  <span>Back to top</span>
-</button><div class="navigation flex print:hidden"><div class="navigation-prev">
-    <a href="../Functions_and_Tables.html">
-      <i class="i-lucide chevron-left"></i>
-      <div class="page-info">
-        <span>Previous</span><div class="title">Functions and Tables</div></div>
-    </a>
-  </div><div class="navigation-next">
-    <a href="../2/Classifying_by_One_Variable.html">
-      <div class="page-info">
-        <span>Next</span>
-        <div class="title">Classifying by One Variable</div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../Functions_and_Tables.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>Functions and Tables</p>
       </div>
-      <i class="i-lucide chevron-right"></i>
     </a>
-  </div></div></div>
-    </div>
-  </main>
+    <a class="right-next"
+       href="../2/Classifying_by_One_Variable.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">8.2. </span>Classifying by One Variable</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
-<footer class="sy-foot">
-  <div class="sy-foot-inner sy-container mx-auto">
-    <div class="sy-foot-reserved md:flex justify-between items-center">
-      <div class="sy-foot-copyright"><p>2023</p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apply">8.1.1. <code class="docutils literal notranslate"><span class="pre">apply</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-as-values">8.1.2. Functions as Values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-prediction">8.1.3. Example: Prediction</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-  <p>
-    Made with
+  <div class="footer-item">
     
-    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+<p class="component-author">
+By Ani Adhikari and John DeNero and David Wagner
+</p>
+
+  </div>
+  
+  <div class="footer-item">
     
-    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
   </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
 </div>
-      <div class="sy-foot-socials"></div>
+          </footer>
+        
+
+      </main>
     </div>
   </div>
-</footer>
-      <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
-      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="../../../_static/copybutton.js?v=f281be69"></script>
-      <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
-      <script>let toggleHintShow = 'Click to show';</script>
-      <script>let toggleHintHide = 'Click to hide';</script>
-      <script>let toggleOpenOnPrint = 'true';</script>
-      <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
-      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
-      <script src="../../../_static/shibuya.js?v=55e26b35"></script>
-      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-      <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
-      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-      <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script></body>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>
