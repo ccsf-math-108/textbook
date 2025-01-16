@@ -4,7 +4,7 @@
 
 This text was originally developed for the UC Berkeley course [Data 8: Foundations of Data Science][data8].
 
-You can [view the _original_ text][ghpages] or [view the the _original_ source][source].
+CCSF instructors have made small modifications to this text with the the permission of John DeNero for CCSF students and staff. You can [view the _original_ text][ghpages] or [view the the _original_ source][source].
 
 [data8]: http://data8.org/
 [ghpages]: https://inferentialthinking.com
@@ -12,5 +12,3 @@ You can [view the _original_ text][ghpages] or [view the the _original_ source][
 
 The contents of this book are licensed for free consumption under the following license:
 [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/).
-
-_CCSF instructors have made small modifications to this text with the the permission of John DeNero for CCSF students and staff._
