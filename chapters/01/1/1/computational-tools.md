@@ -8,22 +8,14 @@ Python has recruited enthusiasts from many professions that use data to draw
 conclusions. By learning the Python language, you will join a
 million-person-strong community of software developers and data scientists.
 
-**Getting Started.** The easiest and recommended way to start writing programs
-in Python is to log into the companion site for this text,
-[datahub.berkeley.edu](https://datahub.berkeley.edu). If you have a \@berkeley.edu
-email address, you already have full access to the programming environment hosted 
-on that site. 
+By default, your instructors will have you write code
+in Python using the Jupyter Notebook platform configured for this course at
+[ccsf.cloudbank.2i2c.cloud](https://ccsf.cloudbank.2i2c.cloud/). 
 
-You are not at all restricted to using this web-based programming environment.
-A Python program can be executed by any computer, regardless of its
-manufacturer or operating system, provided that support for the language is
-installed. If you wish to install the version of Python and its accompanying
-libraries that will match this text, we recommend the [Anaconda][download]
-distribution that packages together the Python 3 language interpreter, IPython
-libraries, and the Jupyter notebook environment.
+You will gain access to the site using your CCSF Google account:
+* Your Google username is your CCSF email that ends with @mail.ccsf.edu
+* Your password can be found in your Student Portal or reset using the Help Desk.
 
-   [download]: http://continuum.io/downloads
-
-This text includes a complete introduction to all of these computational tools.
+MATH 108 includes an introduction to all of these computational tools.
 You will learn to write programs, generate images from data, and work with
 real-world data sets that are published online.
