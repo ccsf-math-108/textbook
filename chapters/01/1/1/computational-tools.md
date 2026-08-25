@@ -13,8 +13,8 @@ in Python using the Jupyter Notebook platform configured for this course at
 [ccsf.cloudbank.2i2c.cloud](https://ccsf.cloudbank.2i2c.cloud/). 
 
 You will gain access to the site using your CCSF Google account:
-* Your Google username is your CCSF email that ends with @mail.ccsf.edu
-* Your password can be found in your Student Portal or reset using the Help Desk.
+* Your Google username is your CCSF email that ends with \@mail.ccsf.edu
+* Your password can be found in your [Student Profile](https://ssb1.ccsf.edu:8104/StudentSelfService/ssb/studentProfile).
 
 MATH 108 includes an introduction to all of these computational tools.
 You will learn to write programs, generate images from data, and work with

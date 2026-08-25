@@ -9,10 +9,10 @@ project:
     - name: John DeNero
     - name: David Wagner
   # Don't show the license icons on every page
-  # license: CC-BY-NC-ND-4.0
+  license: CC-BY-NC-ND-4.0
   exclude:
     - README.md
-  github: data-8/textbook
+  #github: ccsf-math-108/textbook
   toc:
     - file: chapters/intro.md
     - file: chapters/01/what-is-data-science.md
@@ -131,7 +131,7 @@ project:
         - file: chapters/17/3/Rows_of_Tables.ipynb
         - file: chapters/17/4/Implementing_the_Classifier.ipynb
         - file: chapters/17/5/Accuracy_of_the_Classifier.ipynb
-        - file: chapters/17/6/Multiple_Regression.ipynb
+       # - file: chapters/17/6/Multiple_Regression.ipynb
     - file: chapters/18/Updating_Predictions.md
       children:
         - file: chapters/18/1/More_Likely_than_Not_Binary_Classifier.ipynb
@@ -139,12 +139,10 @@ project:
 
 site:
   options:
-    logo: data8logo.png
+    logo: ccsflogo.png
     favicon: favicon.ico
     logo_text: "Computational and Inferential Thinking"
-    analytics_google: UA-148221575-1
+    analytics_google: G-RGWF0KQJRL
     folders: true
     hide_authors: true
   template: book-theme
-  parts:
-    footer: footer.md
