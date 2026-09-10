@@ -1,0 +1,8 @@
+markdown-it-py>=4.0.0
+mdit-py-plugins>=0.6.1
+pygments>=2.20.0
+latex2mathml>=3.81.1
+pyyaml>=6.0.3
+pypdf>=3.17.4
+pillow>=12.2.0
+playwright>=1.56.0

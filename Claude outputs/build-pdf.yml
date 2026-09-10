@@ -1,0 +1,86 @@
+name: Build Textbook PDF
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'chapters/**'
+      - 'images/**'
+      - 'myst.yml'
+      - 'pdf-build/**'
+      - '.github/workflows/build-pdf.yml'
+
+permissions:
+  contents: write   # only used to publish the "latest-pdf" release, on main
+
+concurrency:
+  group: build-pdf
+  cancel-in-progress: false
+
+env:
+  PDF_NAME: Computational-and-Inferential-Thinking-CCSF-Math-108.pdf
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: pdf-build/requirements.txt
+
+      # Same font families used in the print CSS (serif body text, sans
+      # headings/footers) so the PDF looks the same as a local build.
+      - name: Install fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            xfonts-scalable fonts-crosextra-carlito fonts-crosextra-caladea \
+            fonts-dejavu-core fontconfig
+          fc-cache -f
+
+      - name: Install Python dependencies
+        run: pip install -r pdf-build/requirements.txt
+
+      - name: Install headless Chromium
+        run: playwright install --with-deps chromium
+
+      - name: Build PDF (pass 1 — render to learn page numbers)
+        working-directory: pdf-build
+        run: |
+          python3 build_html.py ..
+          python3 make_pdf.py pass1.pdf
+          python3 finish_pdf.py pass1.pdf map
+
+      - name: Build PDF (pass 2 — final, with page numbers + bookmarks)
+        working-directory: pdf-build
+        run: |
+          python3 build_html.py ..
+          python3 make_pdf.py pass2.pdf
+          python3 finish_pdf.py pass2.pdf final "../${{ env.PDF_NAME }}"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: textbook-pdf
+          path: ${{ env.PDF_NAME }}
+          retention-days: 90
+
+      # Keeps a stable download link at the repo's Releases page, updated
+      # every time this runs on main. Skipped on manual runs from other
+      # branches so those don't clobber it.
+      - name: Publish/update "latest" release
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest-pdf
+          name: Textbook PDF (latest)
+          body: >
+            Automatically rebuilt from `${{ github.sha }}` by the
+            Build Textbook PDF workflow.
+          make_latest: true
+          files: ${{ env.PDF_NAME }}
