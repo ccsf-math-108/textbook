@@ -1,22 +1,18 @@
-name: Build Textbook PDF
+name: Preview Textbook PDF
 
+# Manual, on-demand only. The PDF that actually gets published lives at
+# https://ccsf-math-108.github.io/textbook/<PDF_NAME> and is built as part
+# of the "Jupyter Book (via myst) GitHub Pages Deploy" workflow, on every
+# push to main. Use *this* workflow to sanity-check a PDF build — e.g.
+# after editing pdf-build/*.py, or content on a branch — without touching
+# the live site. Run it from the Actions tab ("Run workflow"), pick your
+# branch, then download the "textbook-pdf" artifact from the run.
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'chapters/**'
-      - 'images/**'
-      - 'myst.yml'
-      - 'pdf-build/**'
-      - '.github/workflows/build-pdf.yml'
-
-permissions:
-  contents: write   # only used to publish the "latest-pdf" release, on main
 
 concurrency:
-  group: build-pdf
-  cancel-in-progress: false
+  group: preview-pdf
+  cancel-in-progress: true
 
 env:
   PDF_NAME: Computational-and-Inferential-Thinking-CCSF-Math-108.pdf
@@ -34,7 +30,7 @@ jobs:
           cache-dependency-path: pdf-build/requirements.txt
 
       # Same font families used in the print CSS (serif body text, sans
-      # headings/footers) so the PDF looks the same as a local build.
+      # headings/footers) so the PDF looks the same as the deployed build.
       - name: Install fonts
         run: |
           sudo apt-get update
@@ -68,19 +64,4 @@ jobs:
         with:
           name: textbook-pdf
           path: ${{ env.PDF_NAME }}
-          retention-days: 90
-
-      # Keeps a stable download link at the repo's Releases page, updated
-      # every time this runs on main. Skipped on manual runs from other
-      # branches so those don't clobber it.
-      - name: Publish/update "latest" release
-        if: github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: latest-pdf
-          name: Textbook PDF (latest)
-          body: >
-            Automatically rebuilt from `${{ github.sha }}` by the
-            Build Textbook PDF workflow.
-          make_latest: true
-          files: ${{ env.PDF_NAME }}
+          retention-days: 30
